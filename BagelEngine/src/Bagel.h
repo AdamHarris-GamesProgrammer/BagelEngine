@@ -5,6 +5,7 @@
 
 #include "Bagel/Core.h"
 #include "Bagel/BagelApplication.h"
+#include "Bagel/Log.h"
 
 
 //Entry Point Logic

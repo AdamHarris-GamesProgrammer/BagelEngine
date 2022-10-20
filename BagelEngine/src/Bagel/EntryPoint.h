@@ -4,8 +4,13 @@
 
 extern Bagel::BagelApplication* Bagel::CreateApplication();
 
-int main(int argc, char** argv) {
-	//printf("Boop");
+int main(int argc, char** argv) 
+{
+	Bagel::Log::Init();
+
+	BG_CORE_WARNING("Initalized Log!");
+	BG_INFO("Hello");
+
 	auto app = Bagel::CreateApplication();
 
 	app->Run();
