@@ -1,2 +1,2 @@
-# BagelEngine
+# Bagel Engine
 Bagel Engine
