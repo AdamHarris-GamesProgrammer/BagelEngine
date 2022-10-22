@@ -10,6 +10,11 @@ workspace "BagelEngine"
 
 	outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "BagelEngine/vendor/GLFW/include"
+
+include "BagelEngine/vendor/GLFW"
+
 project "BagelEngine"
 	location "BagelEngine"
 	kind "SharedLib"
@@ -27,7 +32,13 @@ project "BagelEngine"
 	includedirs 
 	{
 		"%{prj.name}/src",
-		"%{prj.name}/vendor/spdlog/include"
+		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.GLFW}"
+	}
+
+	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	pchheader "bgpch.h"
@@ -51,14 +62,17 @@ project "BagelEngine"
 
 	filter "configurations:Debug" 
 		defines "BG_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release" 
 		defines "BG_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist" 
 		defines "BG_DIST"
+		buildoptions "/MD"
 		optimize "On"
 
 	

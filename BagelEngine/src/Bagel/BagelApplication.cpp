@@ -2,12 +2,13 @@
 #include "BagelApplication.h"
 
 #include "Bagel/Events/ApplicationEvent.h"
-#include "Bagel/Log.h"
 
+#include <GLFW/glfw3.h>
 
 namespace Bagel {
 	BagelApplication::BagelApplication()
 	{
+		_pWindow = std::unique_ptr<Window>(Window::Create());
 	}
 
 	BagelApplication::~BagelApplication()
@@ -16,15 +17,11 @@ namespace Bagel {
 
 	void BagelApplication::Run()
 	{
-		WindowResizeEvent e(1280, 720);
-		if (e.IsInCategory(EventCategoryApplication)) {
-			BG_TRACE(e);
+		while (_running) {
+			glClearColor(1, 0, 1, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
+			_pWindow->OnUpdate();
 		}
-		if (e.IsInCategory(EventCategoryInput)) {
-			BG_TRACE(e);
-		}
-
-		while (true);
 	}
 
 }

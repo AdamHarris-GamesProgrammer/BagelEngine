@@ -2,8 +2,7 @@
 
 #include "Bagel/Core.h"
 
-#include <string>
-#include <functional>
+#include "bgpch.h"
 
 namespace Bagel {
 	//Events are currently blocking, meaning that whenever an event occurs the rest of the application is halted until the event is dispatched and handled.

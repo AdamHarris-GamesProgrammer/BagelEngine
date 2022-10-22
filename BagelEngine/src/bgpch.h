@@ -13,6 +13,8 @@
 #include <unordered_map>
 #include <utility>
 
+#include "Bagel/Log.h"
+
 #ifdef BG_PLATFORM_WINDOWS 
 #include <Windows.h>
 #endif

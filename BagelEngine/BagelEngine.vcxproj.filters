@@ -7,6 +7,12 @@
     <Filter Include="Bagel\Events">
       <UniqueIdentifier>{A4F9158C-905C-A530-39E2-DDE6252471B3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Bagel\Platform">
+      <UniqueIdentifier>{14FA9805-00C8-8C0B-E95B-FD31D5C86870}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Bagel\Platform\Windows">
+      <UniqueIdentifier>{4E78B943-3A72-E295-23DF-78A60F784802}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Bagel.h" />
@@ -34,6 +40,12 @@
     <ClInclude Include="src\Bagel\Log.h">
       <Filter>Bagel</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bagel\Platform\Windows\WindowsWindow.h">
+      <Filter>Bagel\Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Window.h">
+      <Filter>Bagel</Filter>
+    </ClInclude>
     <ClInclude Include="src\bgpch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="src\Bagel\Log.cpp">
       <Filter>Bagel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Bagel\Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\bgpch.cpp" />
   </ItemGroup>
