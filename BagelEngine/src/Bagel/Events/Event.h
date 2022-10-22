@@ -78,6 +78,12 @@ namespace Bagel {
 		bool Dispatch(EventFn<T> func) {
 			//If the event type of the methods paramater matches the _event member variables type then lets handle that event
 			if (_event.GetEventType() == T::GetStaticType()) {
+				//*(T*)&_event
+				//Order of operations
+				//&_event gets the memory address of the event (now Event*)
+				//Event* gets casted to (T*)
+				//The now T* gets dereferenced and passed through to the function. Passed in.
+
 				_event._bHandled = func(*(T*)&_event); //Dispatches the event to the appropriate handler
 				return true;
 			}

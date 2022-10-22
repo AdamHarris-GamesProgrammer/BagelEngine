@@ -1,7 +1,9 @@
+#include "bgpch.h"
 #include "BagelApplication.h"
 
 #include "Bagel/Events/ApplicationEvent.h"
 #include "Bagel/Log.h"
+
 
 namespace Bagel {
 	BagelApplication::BagelApplication()

@@ -30,6 +30,9 @@ project "BagelEngine"
 		"%{prj.name}/vendor/spdlog/include"
 	}
 
+	pchheader "bgpch.h"
+	pchsource "BagelEngine/src/bgpch.cpp"
+
 	filter "system:windows"
 		cppdialect "C++17"
 		staticruntime "On"

@@ -2,7 +2,7 @@
 
 #include "Event.h"
 
-#include <sstream>
+#include "bgpch.h"
 
 namespace Bagel {
 	class BG_API WindowResizeEvent :public Event {
