@@ -12,8 +12,10 @@ workspace "BagelEngine"
 
 IncludeDir = {}
 IncludeDir["GLFW"] = "BagelEngine/vendor/GLFW/include"
+IncludeDir["Glad"] = "BagelEngine/vendor/Glad/include"
 
 include "BagelEngine/vendor/GLFW"
+include "BagelEngine/vendor/Glad"
 
 project "BagelEngine"
 	location "BagelEngine"
@@ -33,11 +35,13 @@ project "BagelEngine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{IncludeDir.GLFW}"
+		"%{IncludeDir.GLFW}", 
+		"%{IncludeDir.Glad}"
 	}
 
 	links {
 		"GLFW",
+		"Glad",
 		"opengl32.lib"
 	}
 
@@ -51,6 +55,7 @@ project "BagelEngine"
 		
 		defines {
 			"BG_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE",
 			"BG_BUILD_DLL"
 		}
 
@@ -107,6 +112,7 @@ project "Sandbox"
 		
 		defines {
 			"BG_PLATFORM_WINDOWS",
+			"GLFW_INCLUDE_NONE"
 		}
 
 	filter "configurations:Debug" 

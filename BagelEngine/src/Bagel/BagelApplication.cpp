@@ -1,11 +1,7 @@
 #include "bgpch.h"
 #include "BagelApplication.h"
 
-
-
-#include <GLFW/glfw3.h>
-
-
+#include<glad/glad.h>
 
 namespace Bagel {
 

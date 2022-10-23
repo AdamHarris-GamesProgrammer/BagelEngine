@@ -5,6 +5,9 @@
 #include "Bagel/Events/KeyEvent.h"
 #include "Bagel/Events/MouseEvent.h"
 
+#include <glad/glad.h>
+
+
 namespace Bagel {
 	static bool _sGLFWInitialized = false;
 
@@ -47,6 +50,10 @@ namespace Bagel {
 		_pWindow = glfwCreateWindow((int)props.width, (int)props.height, _data.title.c_str(), nullptr, nullptr);
 
 		glfwMakeContextCurrent(_pWindow);
+
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		BG_CORE_ASSERT(status, "Failed to initialize Glad!");
+
 		glfwSetWindowUserPointer(_pWindow, &_data);
 		SetVSync(true);
 
