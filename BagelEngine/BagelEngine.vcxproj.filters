@@ -37,6 +37,12 @@
     <ClInclude Include="src\Bagel\Events\MouseEvent.h">
       <Filter>Bagel\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bagel\Layer.h">
+      <Filter>Bagel</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\LayerStack.h">
+      <Filter>Bagel</Filter>
+    </ClInclude>
     <ClInclude Include="src\Bagel\Log.h">
       <Filter>Bagel</Filter>
     </ClInclude>
@@ -50,6 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bagel\BagelApplication.cpp">
+      <Filter>Bagel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\Layer.cpp">
+      <Filter>Bagel</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\LayerStack.cpp">
       <Filter>Bagel</Filter>
     </ClCompile>
     <ClCompile Include="src\Bagel\Log.cpp">

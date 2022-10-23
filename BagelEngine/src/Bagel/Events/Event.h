@@ -38,9 +38,9 @@ namespace Bagel {
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override {return category; }
 	//Base class for all events
 	class BG_API Event {
-		friend class EventDispatcher;
-
 	public:
+		bool Handled = false;
+
 		//Virtual methods. Creation handled by the EVENT_CLASS_TYPE and EVENT_CLASS_CATEGORY macros.
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
@@ -56,9 +56,6 @@ namespace Bagel {
 			return GetCategoryFlags() & category; //Returns 0 if not in category, returns anything else if it is in at least that category (may be in other categories as well)
 		}
 
-	protected:
-		//Keeps track of this events handled state. Needs to track if an event has been handled already.
-		bool _bHandled = false;
 	};
 
 	//Dispatches events based on their type
@@ -83,7 +80,7 @@ namespace Bagel {
 				//Event* gets casted to (T*)
 				//The now T* gets dereferenced and passed through to the function. Passed in.
 
-				_event._bHandled = func(*(T*)&_event); //Dispatches the event to the appropriate handler
+				_event.Handled = func(*(T*)&_event); //Dispatches the event to the appropriate handler
 				return true;
 			}
 

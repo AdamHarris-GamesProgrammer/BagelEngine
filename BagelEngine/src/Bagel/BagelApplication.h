@@ -7,6 +7,9 @@
 #include "Bagel/Events/MouseEvent.h"
 
 #include "Window.h"
+#include "Bagel/LayerStack.h"
+#include "Bagel/Events/Event.h"
+#include "Bagel/Events/ApplicationEvent.h"
 
 namespace Bagel {
 	class BG_API BagelApplication
@@ -19,12 +22,17 @@ namespace Bagel {
 
 
 		void OnEvent(Event& event);
+
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
 	private:
 
 		bool OnWindowClosed(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> _pWindow;
 		bool _running = true;
+
+		LayerStack _layerStack;
 	};
 
 	//Defined in client app

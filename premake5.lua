@@ -111,12 +111,15 @@ project "Sandbox"
 
 	filter "configurations:Debug" 
 		defines "BG_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release" 
 		defines "BG_RELEASE"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist" 
 		defines "BG_DIST"
+		buildoptions "/MD"
 		optimize "On"

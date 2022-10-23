@@ -163,6 +163,8 @@
     <ClInclude Include="src\Bagel\Events\Event.h" />
     <ClInclude Include="src\Bagel\Events\KeyEvent.h" />
     <ClInclude Include="src\Bagel\Events\MouseEvent.h" />
+    <ClInclude Include="src\Bagel\Layer.h" />
+    <ClInclude Include="src\Bagel\LayerStack.h" />
     <ClInclude Include="src\Bagel\Log.h" />
     <ClInclude Include="src\Bagel\Platform\Windows\WindowsWindow.h" />
     <ClInclude Include="src\Bagel\Window.h" />
@@ -170,6 +172,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bagel\BagelApplication.cpp" />
+    <ClCompile Include="src\Bagel\Layer.cpp" />
+    <ClCompile Include="src\Bagel\LayerStack.cpp" />
     <ClCompile Include="src\Bagel\Log.cpp" />
     <ClCompile Include="src\Bagel\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\bgpch.cpp">

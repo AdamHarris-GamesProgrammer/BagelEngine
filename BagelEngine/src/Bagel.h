@@ -6,7 +6,7 @@
 #include "Bagel/Core.h"
 #include "Bagel/BagelApplication.h"
 #include "Bagel/Log.h"
-
+#include "Bagel/Layer.h"
 
 //Entry Point Logic
 #include "Bagel/EntryPoint.h"
