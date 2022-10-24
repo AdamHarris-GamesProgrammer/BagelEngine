@@ -5,11 +5,11 @@ public:
 	ExampleLayer() : Layer("Example") {}
 
 	void OnUpdate() override {
-		BG_INFO("ExampleLayer::OnUpdate");
+		//BG_INFO("ExampleLayer::OnUpdate");
 	}
 
 	void OnEvent(Bagel::Event& event) override {
-		BG_TRACE("{0}", event);
+		//BG_TRACE("{0}", event);
 	}
 };
 

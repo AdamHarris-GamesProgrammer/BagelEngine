@@ -2,6 +2,7 @@ workspace "BagelEngine"
 	architecture "x64"
 	startproject "Sandbox"
 
+
 	configurations {
 		"Debug",
 		"Release",
@@ -15,18 +16,22 @@ IncludeDir["GLFW"] = "BagelEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "BagelEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "BagelEngine/vendor/imgui"
 
-include "BagelEngine/vendor/GLFW"
-include "BagelEngine/vendor/Glad"
-include "BagelEngine/vendor/imgui"
+group "Dependancies"
+	include "BagelEngine/vendor/GLFW"
+	include "BagelEngine/vendor/Glad"
+	include "BagelEngine/vendor/imgui"
+
+group ""
 
 project "BagelEngine"
 	location "BagelEngine"
 	kind "SharedLib"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
+	runtime "Release"
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -65,23 +70,26 @@ project "BagelEngine"
 		}
 
 		postbuildcommands {
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
-
+			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox\"")
 		}
+
 
 
 	filter "configurations:Debug" 
 		defines "BG_DEBUG"
+		runtime "Debug"
 		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release" 
 		defines "BG_RELEASE"
+		runtime "Release"
 		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist" 
 		defines "BG_DIST"
+		runtime "Release"
 		buildoptions "/MD"
 		optimize "On"
 
@@ -90,6 +98,7 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
+	staticruntime "off"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
