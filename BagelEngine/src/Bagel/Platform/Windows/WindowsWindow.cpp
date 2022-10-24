@@ -162,8 +162,6 @@ namespace Bagel {
 		_data.vsync = enabled;
 	}
 
-
-
 	void WindowsWindow::Shutdown()
 	{
 		glfwDestroyWindow(_pWindow);

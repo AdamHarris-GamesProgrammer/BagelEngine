@@ -9,6 +9,11 @@
 #include "Bagel/Layer.h"
 #include "Bagel/ImGui/ImGuiLayer.h"
 
+//Input
+#include "Bagel/Input.h"
+#include "Bagel/KeyCodes.h"
+#include "Bagel/MouseButtonCodes.h"
+
 //Entry Point Logic
 #include "Bagel/EntryPoint.h"
 

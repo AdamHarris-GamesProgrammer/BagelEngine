@@ -62,7 +62,7 @@ namespace Bagel {
 
 		ImGuiIO& io = ImGui::GetIO();
 
-		BagelApplication& app = BagelApplication::GetApplication();
+		BagelApplication& app = BagelApplication::Get();
 
 		io.DisplaySize = ImVec2(app.GetWindow().GetWidth(), app.GetWindow().GetHeight());
 

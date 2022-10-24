@@ -36,5 +36,7 @@ namespace Bagel {
 		//Implemented on a per platform basis
 		static Window* Create(const WindowProps& properties = WindowProps());
 
+
+		virtual void* GetNativeWindow() const = 0;
 	};
 }

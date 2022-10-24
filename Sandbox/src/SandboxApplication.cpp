@@ -10,6 +10,13 @@ public:
 
 	void OnEvent(Bagel::Event& event) override {
 		//BG_TRACE("{0}", event);
+
+		if (event.GetEventType() == Bagel::EventType::KeyPressed) {
+			Bagel::KeyPressedEvent& e = (Bagel::KeyPressedEvent&)event;
+			if (e.GetKeyCode() == BG_KEY_TAB) BG_TRACE("Tab key is pressed!");
+
+			BG_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

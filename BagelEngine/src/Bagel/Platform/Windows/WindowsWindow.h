@@ -38,6 +38,9 @@ namespace Bagel {
 		};
 
 		WindowData _data;
+
+		// Inherited via Window
+		inline virtual void* GetNativeWindow() const override { return _pWindow; }
 	};
 }
 

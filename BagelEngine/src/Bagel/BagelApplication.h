@@ -28,7 +28,7 @@ namespace Bagel {
 
 		inline Window& GetWindow() { return *_pWindow; }
 
-		inline static BagelApplication& GetApplication() { return *_instance; }
+		inline static BagelApplication& Get() { return *_instance; }
 	private:
 
 		bool OnWindowClosed(WindowCloseEvent& e);

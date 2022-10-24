@@ -3,10 +3,9 @@
 
 #include<glad/glad.h>
 
+#include "Input.h"
+
 namespace Bagel {
-
-
-
 	BagelApplication* BagelApplication::_instance = nullptr;
 
 	BagelApplication::BagelApplication()
@@ -32,7 +31,12 @@ namespace Bagel {
 				layer->OnUpdate();
 			}
 
+			//auto [x, y] = Input::GetMousePosition();
+			//BG_CORE_TRACE("{0}, {1}", x, y);
+
 			_pWindow->OnUpdate();
+
+
 		}
 	}
 
@@ -48,7 +52,8 @@ namespace Bagel {
 			if (event.Handled) break;
 		}
 
-		BG_TRACE(event.ToString());
+		//TEST CODE
+		//BG_TRACE(event.ToString());
 	}
 
 	void BagelApplication::PushLayer(Layer* layer)
