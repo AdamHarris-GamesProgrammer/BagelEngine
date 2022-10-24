@@ -19,15 +19,17 @@ namespace Bagel {
 	{
 		//Adds the layer to the back of the layer section of the layer stack
 		_layerInsert = _layers.emplace(_layerInsert, layer);
+		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		//Adds overlay to back of the stack
 		_layers.emplace_back(overlay);
+		overlay->OnAttach();
 	}
 
-	
+
 	void LayerStack::PopLayer(Layer* layer)
 	{
 		//Find and erase the layer
@@ -35,6 +37,7 @@ namespace Bagel {
 		if (it != _layers.end()) {
 			_layers.erase(it);
 			_layerInsert--;
+			layer->OnDetach();
 		}
 	}
 
@@ -42,8 +45,10 @@ namespace Bagel {
 	{
 		//Find and erase the overlay
 		auto it = std::find(_layers.begin(), _layers.end(), overlay);
-		if (it != _layers.end())
+		if (it != _layers.end()) {
 			_layers.erase(it);
+			overlay->OnDetach();
+		}
 	}
 
 }

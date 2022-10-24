@@ -25,6 +25,10 @@ namespace Bagel {
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
+
+		inline Window& GetWindow() { return *_pWindow; }
+
+		inline static BagelApplication& GetApplication() { return *_instance; }
 	private:
 
 		bool OnWindowClosed(WindowCloseEvent& e);
@@ -33,6 +37,8 @@ namespace Bagel {
 		bool _running = true;
 
 		LayerStack _layerStack;
+
+		static BagelApplication* _instance;
 	};
 
 	//Defined in client app

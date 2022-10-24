@@ -17,6 +17,7 @@ class SandboxApplication : public Bagel::BagelApplication {
 public:
 	SandboxApplication() {
 		PushLayer(new ExampleLayer());
+		PushOverlay(new Bagel::ImGuiLayer());
 	}
 
 	~SandboxApplication() {

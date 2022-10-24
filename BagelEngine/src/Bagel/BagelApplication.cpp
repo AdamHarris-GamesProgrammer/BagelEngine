@@ -5,12 +5,17 @@
 
 namespace Bagel {
 
-#define BIND_EVENT_FN(x) std::bind(&BagelApplication::x, this, std::placeholders::_1)
+
+
+	BagelApplication* BagelApplication::_instance = nullptr;
 
 	BagelApplication::BagelApplication()
 	{
+		BG_ASSERT(!_instance, "Application already exists!");
+		_instance = this;
+
 		_pWindow = std::unique_ptr<Window>(Window::Create());
-		_pWindow->SetEventCallback(BIND_EVENT_FN(OnEvent));
+		_pWindow->SetEventCallback(BG_BIND_EVENT_FN(BagelApplication::OnEvent));
 	}
 
 	BagelApplication::~BagelApplication()
@@ -35,7 +40,7 @@ namespace Bagel {
 	{
 		EventDispatcher dispatcher(event);
 
-		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(OnWindowClosed));
+		dispatcher.Dispatch<WindowCloseEvent>(BG_BIND_EVENT_FN(BagelApplication::OnWindowClosed));
 
 		//Goes backwards through the layer stack, allows overlays to handle events before a layer can
 		for (auto it = _layerStack.end(); it != _layerStack.begin();) {

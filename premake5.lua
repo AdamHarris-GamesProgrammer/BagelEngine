@@ -13,9 +13,11 @@ workspace "BagelEngine"
 IncludeDir = {}
 IncludeDir["GLFW"] = "BagelEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "BagelEngine/vendor/Glad/include"
+IncludeDir["ImGui"] = "BagelEngine/vendor/imgui"
 
 include "BagelEngine/vendor/GLFW"
 include "BagelEngine/vendor/Glad"
+include "BagelEngine/vendor/imgui"
 
 project "BagelEngine"
 	location "BagelEngine"
@@ -36,13 +38,15 @@ project "BagelEngine"
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}", 
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links {
 		"GLFW",
 		"Glad",
-		"opengl32.lib"
+		"opengl32.lib",
+		"ImGui"
 	}
 
 	pchheader "bgpch.h"
@@ -56,7 +60,8 @@ project "BagelEngine"
 		defines {
 			"BG_PLATFORM_WINDOWS",
 			"GLFW_INCLUDE_NONE",
-			"BG_BUILD_DLL"
+			"BG_BUILD_DLL",
+			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
 		}
 
 		postbuildcommands {
