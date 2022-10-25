@@ -44,6 +44,3 @@ namespace Bagel {
 	//Defined in client app
 	BagelApplication* CreateApplication();
 }
-
-
-

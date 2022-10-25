@@ -15,6 +15,7 @@ IncludeDir = {}
 IncludeDir["GLFW"] = "BagelEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "BagelEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "BagelEngine/vendor/imgui"
+IncludeDir["glm"] = "BagelEngine/vendor/glm"
 
 group "Dependancies"
 	include "BagelEngine/vendor/GLFW"
@@ -35,7 +36,9 @@ project "BagelEngine"
 	files
 	{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/glm/glm/**.hpp",
+		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
 
 	includedirs 
@@ -44,7 +47,8 @@ project "BagelEngine"
 		"%{prj.name}/vendor/spdlog/include",
 		"%{IncludeDir.GLFW}", 
 		"%{IncludeDir.Glad}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
@@ -112,7 +116,8 @@ project "Sandbox"
 	includedirs 
 	{
 		"BagelEngine/vendor/spdlog/include",
-		"BagelEngine/src"
+		"BagelEngine/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links {
