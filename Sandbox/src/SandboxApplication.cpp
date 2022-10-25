@@ -1,4 +1,5 @@
 #include <Bagel.h>
+#include <imgui/imgui.h>
 
 class ExampleLayer : public Bagel::Layer {
 public:
@@ -6,6 +7,7 @@ public:
 
 	void OnUpdate() override {
 		//BG_INFO("ExampleLayer::OnUpdate");
+
 	}
 
 	void OnEvent(Bagel::Event& event) override {
@@ -18,13 +20,18 @@ public:
 			BG_TRACE("{0}", (char)e.GetKeyCode());
 		}
 	}
+
+	virtual void OnImGuiRender() override {
+		//ImGui::Begin("Hello World");
+		//ImGui::Text("Testing");
+		//ImGui::End(); 
+	}
 };
 
 class SandboxApplication : public Bagel::BagelApplication {
 public:
 	SandboxApplication() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Bagel::ImGuiLayer());
 	}
 
 	~SandboxApplication() {

@@ -15,6 +15,9 @@ namespace Bagel {
 
 		_pWindow = std::unique_ptr<Window>(Window::Create());
 		_pWindow->SetEventCallback(BG_BIND_EVENT_FN(BagelApplication::OnEvent));
+
+		_pImGuiLayer = new ImGuiLayer();
+		PushOverlay(_pImGuiLayer);
 	}
 
 	BagelApplication::~BagelApplication()
@@ -36,7 +39,10 @@ namespace Bagel {
 
 			_pWindow->OnUpdate();
 
-
+			_pImGuiLayer->Begin();
+			for (Layer* layer : _layerStack)
+				layer->OnImGuiRender();
+			_pImGuiLayer->End();
 		}
 	}
 

@@ -10,6 +10,7 @@
 #include "Bagel/LayerStack.h"
 #include "Bagel/Events/Event.h"
 #include "Bagel/Events/ApplicationEvent.h"
+#include "ImGui/ImGuiLayer.h"
 
 namespace Bagel {
 	class BG_API BagelApplication
@@ -37,6 +38,8 @@ namespace Bagel {
 		bool _running = true;
 
 		LayerStack _layerStack;
+
+		ImGuiLayer* _pImGuiLayer;
 
 		static BagelApplication* _instance;
 	};

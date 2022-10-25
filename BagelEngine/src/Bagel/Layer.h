@@ -18,6 +18,8 @@ namespace Bagel {
 		//Called per frame
 		virtual void OnUpdate(){}
 
+		virtual void OnImGuiRender() {}
+
 		//Called for each event
 		virtual void OnEvent(Event& e) {}
 

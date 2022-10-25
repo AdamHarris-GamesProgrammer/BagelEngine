@@ -32,7 +32,10 @@ project "BagelEngine"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-	runtime "Release"
+
+	pchheader "bgpch.h"
+	pchsource "BagelEngine/src/bgpch.cpp"
+	
 	files
 	{
 		"%{prj.name}/src/**.h",
@@ -54,47 +57,37 @@ project "BagelEngine"
 	links {
 		"GLFW",
 		"Glad",
-		"opengl32.lib",
-		"ImGui"
+		"ImGui",
+		"opengl32.lib"
 	}
-
-	pchheader "bgpch.h"
-	pchsource "BagelEngine/src/bgpch.cpp"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		
 		defines {
 			"BG_PLATFORM_WINDOWS",
-			"GLFW_INCLUDE_NONE",
 			"BG_BUILD_DLL",
-			"IMGUI_IMPL_OPENGL_LOADER_CUSTOM"
+			"GLFW_INCLUDE_NONE"
 		}
 
 		postbuildcommands {
 			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\"")
 		}
 
-
-
 	filter "configurations:Debug" 
 		defines "BG_DEBUG"
 		runtime "Debug"
-		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release" 
 		defines "BG_RELEASE"
 		runtime "Release"
-		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist" 
 		defines "BG_DIST"
 		runtime "Release"
-		buildoptions "/MD"
 		optimize "On"
 
 	
@@ -117,6 +110,7 @@ project "Sandbox"
 	{
 		"BagelEngine/vendor/spdlog/include",
 		"BagelEngine/src",
+		"BagelEngine/vendor",
 		"%{IncludeDir.glm}"
 	}
 
@@ -126,25 +120,23 @@ project "Sandbox"
 
 	filter "system:windows"
 		cppdialect "C++17"
-		staticruntime "On"
 		systemversion "latest"
 		
 		defines {
-			"BG_PLATFORM_WINDOWS",
-			"GLFW_INCLUDE_NONE"
+			"BG_PLATFORM_WINDOWS"
 		}
 
 	filter "configurations:Debug" 
 		defines "BG_DEBUG"
-		buildoptions "/MDd"
+		runtime "Debug"
 		symbols "On"
 
 	filter "configurations:Release" 
 		defines "BG_RELEASE"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"
 
 	filter "configurations:Dist" 
 		defines "BG_DIST"
-		buildoptions "/MD"
+		runtime "Release"
 		optimize "On"

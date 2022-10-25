@@ -16,9 +16,6 @@
     <Filter Include="src\Bagel\Platform">
       <UniqueIdentifier>{4B1A7D63-37FE-3DB9-A05E-380C8C61283B}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Bagel\Platform\OpenGL">
-      <UniqueIdentifier>{1FE121BE-8BA3-5548-D453-E4D440552E26}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Bagel\Platform\Windows">
       <UniqueIdentifier>{85DF79DA-71EF-25AB-DAA8-8AC9C6D71444}</UniqueIdentifier>
     </Filter>
@@ -89,9 +86,6 @@
     </ClInclude>
     <ClInclude Include="src\Bagel\MouseButtonCodes.h">
       <Filter>src\Bagel</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\Platform\OpenGL\ImGuiOpenGLRenderer.h">
-      <Filter>src\Bagel\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Bagel\Platform\Windows\WindowsInput.h">
       <Filter>src\Bagel\Platform\Windows</Filter>
@@ -1358,6 +1352,9 @@
     <ClCompile Include="src\Bagel\BagelApplication.cpp">
       <Filter>src\Bagel</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bagel\ImGui\ImGuiBuild.cpp">
+      <Filter>src\Bagel\ImGui</Filter>
+    </ClCompile>
     <ClCompile Include="src\Bagel\ImGui\ImGuiLayer.cpp">
       <Filter>src\Bagel\ImGui</Filter>
     </ClCompile>
@@ -1369,9 +1366,6 @@
     </ClCompile>
     <ClCompile Include="src\Bagel\Log.cpp">
       <Filter>src\Bagel</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bagel\Platform\OpenGL\ImGuiOpenGLRenderer.cpp">
-      <Filter>src\Bagel\Platform\OpenGL</Filter>
     </ClCompile>
     <ClCompile Include="src\Bagel\Platform\Windows\WindowsInput.cpp">
       <Filter>src\Bagel\Platform\Windows</Filter>

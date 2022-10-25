@@ -4,7 +4,7 @@
 namespace Bagel {
 	LayerStack::LayerStack()
 	{
-		_layerInsert = _layers.begin();
+		
 	}
 
 	LayerStack::~LayerStack()
@@ -18,7 +18,8 @@ namespace Bagel {
 	void LayerStack::PushLayer(Layer* layer)
 	{
 		//Adds the layer to the back of the layer section of the layer stack
-		_layerInsert = _layers.emplace(_layerInsert, layer);
+		_layers.emplace(_layers.begin() + _layerInsertIndex , layer);
+		_layerInsertIndex++;
 		layer->OnAttach();
 	}
 
@@ -36,7 +37,7 @@ namespace Bagel {
 		auto it = std::find(_layers.begin(), _layers.end(), layer);
 		if (it != _layers.end()) {
 			_layers.erase(it);
-			_layerInsert--;
+			_layerInsertIndex--;
 			layer->OnDetach();
 		}
 	}
