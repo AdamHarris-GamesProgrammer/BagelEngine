@@ -37,12 +37,13 @@ namespace Bagel {
 			//auto [x, y] = Input::GetMousePosition();
 			//BG_CORE_TRACE("{0}, {1}", x, y);
 
-			_pWindow->OnUpdate();
 
 			_pImGuiLayer->Begin();
 			for (Layer* layer : _layerStack)
 				layer->OnImGuiRender();
 			_pImGuiLayer->End();
+
+			_pWindow->OnUpdate();
 		}
 	}
 

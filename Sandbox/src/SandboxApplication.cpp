@@ -22,9 +22,9 @@ public:
 	}
 
 	virtual void OnImGuiRender() override {
-		//ImGui::Begin("Hello World");
-		//ImGui::Text("Testing");
-		//ImGui::End(); 
+		ImGui::Begin("Hello World");
+		ImGui::Text("Testing");
+		ImGui::End(); 
 	}
 };
 

@@ -1,11 +1,15 @@
 #pragma once
 
 #ifdef BG_PLATFORM_WINDOWS
+#if BG_DYNAMIC_LINK
 	#ifdef BG_BUILD_DLL
 		#define BG_API __declspec(dllexport)
 	#else
 		#define BG_API __declspec(dllimport)
 	#endif
+#else
+#define BG_API 
+#endif
 #else
 	#error Bagel only supports windows!
 #endif
