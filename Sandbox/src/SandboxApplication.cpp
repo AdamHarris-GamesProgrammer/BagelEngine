@@ -7,7 +7,6 @@ public:
 
 	void OnUpdate() override {
 		//BG_INFO("ExampleLayer::OnUpdate");
-
 	}
 
 	void OnEvent(Bagel::Event& event) override {

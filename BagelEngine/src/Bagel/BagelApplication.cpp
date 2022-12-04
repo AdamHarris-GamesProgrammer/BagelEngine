@@ -34,10 +34,6 @@ namespace Bagel {
 				layer->OnUpdate();
 			}
 
-			//auto [x, y] = Input::GetMousePosition();
-			//BG_CORE_TRACE("{0}, {1}", x, y);
-
-
 			_pImGuiLayer->Begin();
 			for (Layer* layer : _layerStack)
 				layer->OnImGuiRender();
@@ -58,9 +54,6 @@ namespace Bagel {
 			(*--it)->OnEvent(event);
 			if (event.Handled) break;
 		}
-
-		//TEST CODE
-		//BG_TRACE(event.ToString());
 	}
 
 	void BagelApplication::PushLayer(Layer* layer)

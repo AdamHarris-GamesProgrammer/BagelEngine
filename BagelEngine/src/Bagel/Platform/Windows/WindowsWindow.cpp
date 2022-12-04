@@ -5,8 +5,9 @@
 #include "Bagel/Events/KeyEvent.h"
 #include "Bagel/Events/MouseEvent.h"
 
-#include <glad/glad.h>
+#include "Bagel/Platform/OpenGL/OpenGlContext.h"
 
+#include <GLFW/glfw3.h>
 
 namespace Bagel {
 	static bool _sGLFWInitialized = false;
@@ -36,11 +37,11 @@ namespace Bagel {
 		_data.height = props.height;
 
 		BG_CORE_INFO("Creating Window {0} ({1}, {2})", props.title, props.width, props.height);
+		
 
 		if (!_sGLFWInitialized) {
 			int success = glfwInit();
 			BG_CORE_ASSERT(success, "Could not initialize GLFW!");
-
 
 			glfwSetErrorCallback(GLFWErrorCallback);
 
@@ -48,11 +49,9 @@ namespace Bagel {
 		}
 
 		_pWindow = glfwCreateWindow((int)props.width, (int)props.height, _data.title.c_str(), nullptr, nullptr);
+		_pContext = new OpenGLContext(_pWindow);
+		_pContext->Init();
 
-		glfwMakeContextCurrent(_pWindow);
-
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		BG_CORE_ASSERT(status, "Failed to initialize Glad!");
 
 		glfwSetWindowUserPointer(_pWindow, &_data);
 		SetVSync(true);
@@ -141,13 +140,12 @@ namespace Bagel {
 			data.eventCallback(e);
 
 			});
-
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
 		glfwPollEvents();
-		glfwSwapBuffers(_pWindow);
+		_pContext->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)

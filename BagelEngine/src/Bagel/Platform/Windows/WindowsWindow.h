@@ -2,8 +2,9 @@
 
 #include "Bagel/Window.h"
 
+#include "Bagel/Renderer/GraphicsContext.h"
 
-#include <GLFW/glfw3.h>
+struct GLFWwindow;
 
 namespace Bagel {
 	class WindowsWindow : public Window
@@ -29,10 +30,12 @@ namespace Bagel {
 	private:
 		GLFWwindow* _pWindow;
 
+		GraphicsContext* _pContext;
+
 		struct WindowData {
 			std::string title;
-			unsigned int width, height;
-			bool vsync;
+			unsigned int width = 0, height = 0;
+			bool vsync = false;
 
 			EventCallbackFn eventCallback;
 		};
@@ -43,5 +46,3 @@ namespace Bagel {
 		inline virtual void* GetNativeWindow() const override { return _pWindow; }
 	};
 }
-
-
