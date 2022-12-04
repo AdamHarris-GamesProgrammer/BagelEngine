@@ -42,6 +42,8 @@ namespace Bagel {
 		ImGuiLayer* _pImGuiLayer;
 
 		static BagelApplication* _instance;
+
+		unsigned int _VAO, _VBO, _IBO;
 	};
 
 	//Defined in client app
