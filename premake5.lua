@@ -17,6 +17,10 @@ IncludeDir["Glad"] = "BagelEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "BagelEngine/vendor/imgui"
 IncludeDir["glm"] = "BagelEngine/vendor/glm"
 
+
+
+
+
 group "Dependancies"
 	include "BagelEngine/vendor/GLFW"
 	include "BagelEngine/vendor/Glad"
