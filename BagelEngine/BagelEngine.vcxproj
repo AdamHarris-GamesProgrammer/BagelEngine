@@ -143,6 +143,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Bagel.h" />
     <ClInclude Include="src\Bagel\BagelApplication.h" />
@@ -161,7 +162,10 @@
     <ClInclude Include="src\Bagel\MouseButtonCodes.h" />
     <ClInclude Include="src\Bagel\Platform\Windows\WindowsInput.h" />
     <ClInclude Include="src\Bagel\Platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\Bagel\Renderer\Buffer.h" />
     <ClInclude Include="src\Bagel\Renderer\GraphicsContext.h" />
+    <ClInclude Include="src\Bagel\Renderer\Renderer.h" />
+    <ClInclude Include="src\Bagel\Renderer\Shader.h" />
     <ClInclude Include="src\Bagel\Window.h" />
     <ClInclude Include="src\bgpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
@@ -582,6 +586,7 @@
     <ClInclude Include="vendor\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Bagel\BagelApplication.cpp" />
     <ClCompile Include="src\Bagel\ImGui\ImGuiBuild.cpp" />
@@ -591,6 +596,9 @@
     <ClCompile Include="src\Bagel\Log.cpp" />
     <ClCompile Include="src\Bagel\Platform\Windows\WindowsInput.cpp" />
     <ClCompile Include="src\Bagel\Platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\Bagel\Renderer\Buffer.cpp" />
+    <ClCompile Include="src\Bagel\Renderer\Renderer.cpp" />
+    <ClCompile Include="src\Bagel\Renderer\Shader.cpp" />
     <ClCompile Include="src\bgpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

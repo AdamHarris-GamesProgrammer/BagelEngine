@@ -5,6 +5,9 @@
 
 #include "Input.h"
 
+#include "Bagel/Renderer/Shader.h"
+#include "Bagel/Renderer/Buffer.h"
+
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
 
@@ -19,39 +22,70 @@ namespace Bagel {
 		_pImGuiLayer = new ImGuiLayer();
 		PushOverlay(_pImGuiLayer);
 
+		/*Abstraction Tasks
+			- Vertex Array
+			- Shader creation and usage
+		*/
+
 		glGenVertexArrays(1, &_VAO);
 		glBindVertexArray(_VAO);
 
-		glGenBuffers(1, &_VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, _VAO);
-
-		//Anti clock wise by default
+		//Anti clock wise by default //Fullscreen Rect
 		float vertices[3 * 4] = {
-			-0.5f, 0.0f, 0.0f,
-			0.5f, 0.0f, 0.0f,
-			0.0f, 0.5f, 0.0f,
-			0.0f, -0.5f, 0.0f
+			-1.0f, -1.0f, 0.0f, //BL
+			1.0f, -1.0f, 0.0f, //BR
+			1.0f, 1.0f, 0.0f, //TR
+			-1.0f, 1.0f, 0.0f //TL
 		};
-
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		//float vertices[3 * 4] = { //Rhombus Demo
+		//	-0.5f, 0.0f, 0.0f, //Left
+		//	0.0f, -0.5f, 0.0f, //Bottom
+		//	0.5f, 0.0f, 0.0f, //Right
+		//	0.0f, 0.5f, 0.0f //Top
+		//};
+		_pVBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
-		
-
-		glGenBuffers(1, &_IBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _IBO);
 
 		unsigned int indices[6] = {
 			0, 1, 2,
-			0, 3, 1
+			0, 2, 3
 		};
+		_pIBO.reset(IndexBuffer::Create(indices, 6));
 
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+		std::string vertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			out vec3 v_Position;
+
+			void main() {
+				v_Position = a_Position;
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string fragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			in vec3 v_Position;
+
+			void main() {
+				color = vec4(v_Position * 0.5 + 0.5,1.0);
+			}
+		)";
+
+		_pShader = std::make_unique<Shader>(vertexSrc, fragmentSrc);
 	}
 
 	BagelApplication::~BagelApplication()
 	{
+		delete _pImGuiLayer;
+		_pImGuiLayer = nullptr;
 	}
 
 	void BagelApplication::Run()
@@ -60,9 +94,10 @@ namespace Bagel {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			_pShader->Bind();
 			glBindVertexArray(_VAO);
 
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, _pIBO->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

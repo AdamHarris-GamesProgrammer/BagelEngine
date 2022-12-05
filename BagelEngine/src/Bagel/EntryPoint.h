@@ -9,13 +9,12 @@ int main(int argc, char** argv)
 	Bagel::Log::Init();
 
 	BG_CORE_WARNING("Initalized Log!");
-	BG_INFO("Hello");
+	BG_WARNING("Initialized App");
 
 	auto app = Bagel::CreateApplication();
 
 	app->Run();
 	delete app;
-
 }
 #else
 

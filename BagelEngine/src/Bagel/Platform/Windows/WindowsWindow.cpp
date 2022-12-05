@@ -165,5 +165,3 @@ namespace Bagel {
 		glfwDestroyWindow(_pWindow);
 	}
 }
-
-

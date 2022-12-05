@@ -31,6 +31,7 @@ namespace Bagel {
 
 		inline static BagelApplication& Get() { return *_instance; }
 	private:
+		static BagelApplication* _instance;
 
 		bool OnWindowClosed(WindowCloseEvent& e);
 
@@ -41,9 +42,11 @@ namespace Bagel {
 
 		ImGuiLayer* _pImGuiLayer;
 
-		static BagelApplication* _instance;
 
-		unsigned int _VAO, _VBO, _IBO;
+		unsigned int _VAO;
+		std::unique_ptr<class VertexBuffer> _pVBO;
+		std::unique_ptr<class IndexBuffer> _pIBO;
+		std::unique_ptr<class Shader> _pShader;
 	};
 
 	//Defined in client app

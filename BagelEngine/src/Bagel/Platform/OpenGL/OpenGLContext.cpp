@@ -15,6 +15,10 @@ namespace Bagel {
 		glfwMakeContextCurrent(_pWindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BG_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+		BG_CORE_INFO("  Vendor: {0}", glGetString(GL_VENDOR));
+		BG_CORE_INFO("  Renderer: {0}", glGetString(GL_RENDERER));
+		BG_CORE_INFO("  Version: {0}", glGetString(GL_VERSION));
 	}
 
 	void OpenGLContext::SwapBuffers()
