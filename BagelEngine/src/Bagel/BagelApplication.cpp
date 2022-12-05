@@ -43,6 +43,7 @@ namespace Bagel {
 		//	0.5f, 0.0f, 0.0f, //Right
 		//	0.0f, 0.5f, 0.0f //Top
 		//};
+
 		_pVBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
 		glEnableVertexAttribArray(0);
@@ -79,7 +80,7 @@ namespace Bagel {
 			}
 		)";
 
-		_pShader = std::make_unique<Shader>(vertexSrc, fragmentSrc);
+		_pShader.reset(Shader::Create(vertexSrc, fragmentSrc));
 	}
 
 	BagelApplication::~BagelApplication()
@@ -140,5 +141,4 @@ namespace Bagel {
 		_running = false;
 		return true;
 	}
-
 }
