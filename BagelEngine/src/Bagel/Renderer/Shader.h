@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-
 namespace Bagel {
 	class Shader {
 	public:

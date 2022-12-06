@@ -11,6 +11,27 @@
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
 
+	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
+		switch (type) {
+		case ShaderDataType::None:		return 0;
+		case ShaderDataType::Float:		return GL_FLOAT;
+		case ShaderDataType::Float2:	return GL_FLOAT;
+		case ShaderDataType::Float3:	return GL_FLOAT;
+		case ShaderDataType::Float4:	return GL_FLOAT;
+		case ShaderDataType::Int:		return GL_INT;
+		case ShaderDataType::Int2:		return GL_INT;
+		case ShaderDataType::Int3:		return GL_INT;
+		case ShaderDataType::Int4:		return GL_INT;
+		case ShaderDataType::Mat3:		return GL_FLOAT;
+		case ShaderDataType::Mat4:		return GL_FLOAT;
+		case ShaderDataType::Bool:		return GL_BOOL;
+		}
+
+		BG_CORE_ASSERT(false, "Unknown ShaderDataType!");
+
+		return 0;
+	}
+
 	BagelApplication::BagelApplication()
 	{
 		BG_ASSERT(!_instance, "Application already exists!");
@@ -31,11 +52,11 @@ namespace Bagel {
 		glBindVertexArray(_VAO);
 
 		//Anti clock wise by default //Fullscreen Rect
-		float vertices[3 * 4] = {
-			-1.0f, -1.0f, 0.0f, //BL
-			1.0f, -1.0f, 0.0f, //BR
-			1.0f, 1.0f, 0.0f, //TR
-			-1.0f, 1.0f, 0.0f //TL
+		float vertices[7 * 4] = {
+			-1.0f, -1.0f, 0.0f, 0.8f, 0.2f, 0.2f, 1.0f, //BL
+			1.0f, -1.0f, 0.0f, 0.2f, 0.8f, 0.2f, 1.0f, //BR
+			1.0f, 1.0f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f, //TR
+			-1.0f, 1.0f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f //TL
 		};
 		//float vertices[3 * 4] = { //Rhombus Demo
 		//	-0.5f, 0.0f, 0.0f, //Left
@@ -46,8 +67,26 @@ namespace Bagel {
 
 		_pVBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" }
+		};
+
+		_pVBO->SetLayout(layout);
+
+
+		uint32_t index = 0;
+		for (auto& elem : layout) {
+			glEnableVertexAttribArray(index);
+
+			glVertexAttribPointer(index, elem.GetComponentCount(), 
+				ShaderDataTypeToOpenGLBaseType(elem.Type),
+				elem.Normalized ? GL_TRUE : GL_FALSE,
+				layout.GetStride(),
+				(const void*)elem.Offset);
+
+			index++;
+		}
 
 		unsigned int indices[6] = {
 			0, 1, 2,
@@ -59,11 +98,14 @@ namespace Bagel {
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
+			layout(location = 1) in vec4 a_Color;
 
 			out vec3 v_Position;
+			out vec4 v_Color;
 
 			void main() {
 				v_Position = a_Position;
+				v_Color = a_Color;
 				gl_Position = vec4(a_Position, 1.0);
 			}
 		)";
@@ -74,9 +116,11 @@ namespace Bagel {
 			layout(location = 0) out vec4 color;
 
 			in vec3 v_Position;
+			in vec4 v_Color;
 
 			void main() {
 				color = vec4(v_Position * 0.5 + 0.5,1.0);
+				color = v_Color;
 			}
 		)";
 
@@ -85,8 +129,6 @@ namespace Bagel {
 
 	BagelApplication::~BagelApplication()
 	{
-		delete _pImGuiLayer;
-		_pImGuiLayer = nullptr;
 	}
 
 	void BagelApplication::Run()

@@ -26,6 +26,16 @@ namespace Bagel {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
+	void OpenGLVertexBuffer::SetLayout(const BufferLayout& layout)
+	{
+		_layout = layout;
+	}
+
+	const BufferLayout& OpenGLVertexBuffer::GetLayout() const
+	{
+		return _layout;
+	}
+
 	OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* indices, uint32_t count)
 		: _count(count)
 	{

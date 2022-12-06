@@ -10,9 +10,14 @@ namespace Bagel {
 		// Inherited via VertexBuffer
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
+		
+		virtual void SetLayout(const BufferLayout& layout) override;
+		virtual const BufferLayout& GetLayout() const override;
 
 	private:
 		uint32_t _rendererID = 0;
+		BufferLayout _layout;
+
 	};
 
 	class OpenGLIndexBuffer : public IndexBuffer {
