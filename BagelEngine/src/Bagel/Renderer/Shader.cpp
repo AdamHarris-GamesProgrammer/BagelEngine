@@ -10,8 +10,8 @@ namespace Bagel {
 	Shader* Shader::Create(const std::string& vertexSrc, const std::string& fragmentSrc)
 	{
 		switch (Renderer::GetAPI()) {
-			case RendererAPI::None:		BG_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
-			case RendererAPI::OpenGL:	return new OpenGLShader(vertexSrc, fragmentSrc);
+			case RendererAPI::API::None:		BG_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+			case RendererAPI::API::OpenGL:	return new OpenGLShader(vertexSrc, fragmentSrc);
 		}
 
 		BG_CORE_ASSERT(false, "Unknown RendererAPI Selected!");

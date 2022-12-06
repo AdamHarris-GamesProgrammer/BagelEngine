@@ -1,19 +1,17 @@
 #pragma once
 
+#include "RenderCommand.h"
+
 namespace Bagel {
-	//Used for controlling what RendererAPI we are currently using. NOTE: Will be expanded in future
-	enum class RendererAPI {
-		None = 0,
-		OpenGL = 1,
-		Direct3D = 2
-	};
 
 	class Renderer {
 	public:
-		inline static RendererAPI GetAPI() { return _sRendererAPI; }
+		static void BeginScene(); //TODO Scene Params
+		static void EndScene();
 
-	private:
-		static RendererAPI _sRendererAPI;
+		static void Submit(const std::shared_ptr<VertexArray>& vertexArray);
+
+		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
 	};
 
 }

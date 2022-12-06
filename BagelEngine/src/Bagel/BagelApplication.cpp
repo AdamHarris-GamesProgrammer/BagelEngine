@@ -1,13 +1,13 @@
 #include "bgpch.h"
 #include "BagelApplication.h"
 
-#include<glad/glad.h>
-
 #include "Input.h"
 
 #include "Bagel/Renderer/Shader.h"
 #include "Bagel/Renderer/Buffer.h"
 #include "Bagel/Renderer/VertexArray.h"
+
+#include "Bagel/Renderer/Renderer.h"
 
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
@@ -121,7 +121,6 @@ namespace Bagel {
 		pSquareVertexBuffer->SetLayout(squareLayout);
 		_pSquareVAO->AddVertexBuffer(pSquareVertexBuffer);
 
-
 		std::shared_ptr<IndexBuffer> pSquareIndexBuffer;
 		pSquareIndexBuffer.reset(IndexBuffer::Create(squareIndices, 6));
 		_pSquareVAO->SetIndexBuffer(pSquareIndexBuffer);
@@ -134,17 +133,18 @@ namespace Bagel {
 	void BagelApplication::Run()
 	{
 		while (_running) {
-			glClearColor(0.1f, 0.1f, 0.1f, 1);
-			glClear(GL_COLOR_BUFFER_BIT);
+			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
+			RenderCommand::Clear();
 
-			_pTriangleVAO->Bind();
+			Renderer::BeginScene();
+
 			_pShader->Bind();
-			glDrawElements(GL_TRIANGLES, _pTriangleVAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(_pTriangleVAO);
 
-			_pSquareVAO->Bind();
 			_pBlueShader->Bind();
-			glDrawElements(GL_TRIANGLES, _pSquareVAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			Renderer::Submit(_pSquareVAO);
 
+			Renderer::EndScene();
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

@@ -42,8 +42,8 @@ namespace Bagel {
 
 		ImGuiLayer* _pImGuiLayer;
 
-		std::unique_ptr<class VertexArray> _pTriangleVAO;
-		std::unique_ptr<class VertexArray> _pSquareVAO;
+		std::shared_ptr<class VertexArray> _pTriangleVAO;
+		std::shared_ptr<class VertexArray> _pSquareVAO;
 
 		std::unique_ptr<class Shader> _pShader;
 		std::unique_ptr<class Shader> _pBlueShader;
