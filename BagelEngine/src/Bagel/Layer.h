@@ -7,7 +7,7 @@ namespace Bagel {
 	class BG_API Layer {
 	public:
 		Layer(const std::string& name = "Layer");
-		virtual ~Layer();
+		virtual ~Layer() = default;
 
 		//Called on attachment to the layer stack
 		virtual void OnAttach(){}

@@ -21,7 +21,6 @@ namespace Bagel {
 
 		void Run();
 
-
 		void OnEvent(Event& event);
 
 		void PushLayer(Layer* layer);
@@ -38,13 +37,16 @@ namespace Bagel {
 		std::unique_ptr<Window> _pWindow;
 		bool _running = true;
 
+		
 		LayerStack _layerStack;
 
 		ImGuiLayer* _pImGuiLayer;
 
+		std::unique_ptr<class VertexArray> _pTriangleVAO;
+		std::unique_ptr<class VertexArray> _pSquareVAO;
 
-		std::unique_ptr<class VertexArray> _pVAO;
 		std::unique_ptr<class Shader> _pShader;
+		std::unique_ptr<class Shader> _pBlueShader;
 	};
 
 	//Defined in client app

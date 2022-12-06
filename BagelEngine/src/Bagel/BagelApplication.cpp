@@ -23,49 +23,15 @@ namespace Bagel {
 		_pImGuiLayer = new ImGuiLayer();
 		PushOverlay(_pImGuiLayer);
 
-		_pVAO.reset(VertexArray::Create());
-
-		//Anti clock wise by default //Fullscreen Rect
-		float vertices[4 * 7] = {
-			-1.0f, -1.0f, 0.0f, 0.8f, 0.2f, 0.2f, 1.0f, //BL
-			1.0f, -1.0f, 0.0f, 0.2f, 0.8f, 0.2f, 1.0f, //BR
-			1.0f, 1.0f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f, //TR
-			-1.0f, 1.0f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f //TL
-		};
-
-		std::shared_ptr<VertexBuffer> pVertexBuffer;
-		pVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
-
-		{
-			BufferLayout layout = {
-				{ ShaderDataType::Float3, "a_Position" },
-				{ ShaderDataType::Float4, "a_Color" }
-			};
-			pVertexBuffer->SetLayout(layout);
-		}
-
-		_pVAO->AddVertexBuffer(pVertexBuffer);
-
-		unsigned int indices[6] = {
-			0, 1, 2,
-			0, 2, 3
-		};
-
-		std::shared_ptr<IndexBuffer> pIndexBuffer;
-		pIndexBuffer.reset(IndexBuffer::Create(indices, 6));
-		_pVAO->SetIndexBuffer(pIndexBuffer);
-
 		std::string vertexSrc = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
-			out vec3 v_Position;
 			out vec4 v_Color;
 
 			void main() {
-				v_Position = a_Position;
 				v_Color = a_Color;
 				gl_Position = vec4(a_Position, 1.0);
 			}
@@ -76,16 +42,89 @@ namespace Bagel {
 			
 			layout(location = 0) out vec4 color;
 
-			in vec3 v_Position;
 			in vec4 v_Color;
 
 			void main() {
-				color = vec4(v_Position * 0.5 + 0.5,1.0);
 				color = v_Color;
 			}
 		)";
 
+		std::string blueVertexSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) in vec3 a_Position;
+
+			void main() {
+				gl_Position = vec4(a_Position, 1.0);
+			}
+		)";
+
+		std::string blueFragmentSrc = R"(
+			#version 330 core
+			
+			layout(location = 0) out vec4 color;
+
+			void main() {
+				color = vec4(0.2, 0.2,0.8,1.0);
+			}
+		)";
+
 		_pShader.reset(Shader::Create(vertexSrc, fragmentSrc));
+		_pBlueShader.reset(Shader::Create(blueVertexSrc, blueFragmentSrc));
+
+		//Anti clock wise by default 
+		float triangleVertices[3 * 7] = {
+			-0.5f, 0.0f, 0.0f, 0.8f, 0.2f, 0.2f, 1.0f, //Left
+			-0.2f, 0.0f, 0.0f, 0.2f, 0.8f, 0.2f, 1.0f, //Right
+			-0.35f, 0.3f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f //Top
+		};
+
+		unsigned int triangleIndices[3] = {
+			0, 1, 2
+		};
+
+		float squareVertices[4 * 3] = {
+			0.2f, 0.0f, 0.0f,
+			0.5f, 0.0f, 0.0f,
+			0.5f, 0.3f, 0.0f,
+			0.2f, 0.3f, 0.0f
+		};
+
+		uint32_t squareIndices[6] = {
+			0,1,2,
+			3,0,2
+		};
+
+		_pTriangleVAO.reset(VertexArray::Create());
+
+		std::shared_ptr<VertexBuffer> pVertexBuffer;
+		pVertexBuffer.reset(VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
+		BufferLayout layout = {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float4, "a_Color" }
+		};
+		pVertexBuffer->SetLayout(layout);
+		_pTriangleVAO->AddVertexBuffer(pVertexBuffer);
+
+		std::shared_ptr<IndexBuffer> pIndexBuffer;
+		pIndexBuffer.reset(IndexBuffer::Create(triangleIndices, 3));
+		_pTriangleVAO->SetIndexBuffer(pIndexBuffer);
+
+
+		_pSquareVAO.reset(VertexArray::Create());
+
+		std::shared_ptr<VertexBuffer> pSquareVertexBuffer;
+		pSquareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		BufferLayout squareLayout = {
+			{ShaderDataType::Float3, "a_Position"}
+		};
+		pSquareVertexBuffer->SetLayout(squareLayout);
+		_pSquareVAO->AddVertexBuffer(pSquareVertexBuffer);
+
+
+		std::shared_ptr<IndexBuffer> pSquareIndexBuffer;
+		pSquareIndexBuffer.reset(IndexBuffer::Create(squareIndices, 6));
+		_pSquareVAO->SetIndexBuffer(pSquareIndexBuffer);
 	}
 
 	BagelApplication::~BagelApplication()
@@ -98,10 +137,14 @@ namespace Bagel {
 			glClearColor(0.1f, 0.1f, 0.1f, 1);
 			glClear(GL_COLOR_BUFFER_BIT);
 
+			_pTriangleVAO->Bind();
 			_pShader->Bind();
-			_pVAO->Bind();
+			glDrawElements(GL_TRIANGLES, _pTriangleVAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
-			glDrawElements(GL_TRIANGLES, _pVAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+			_pSquareVAO->Bind();
+			_pBlueShader->Bind();
+			glDrawElements(GL_TRIANGLES, _pSquareVAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

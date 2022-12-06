@@ -6,8 +6,4 @@ namespace Bagel {
 		: _debugName(name)
 	{
 	}
-
-	Layer::~Layer() {
-
-	}
 }

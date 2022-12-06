@@ -10,6 +10,8 @@ namespace Bagel {
 	class BG_API LayerStack {
 	public:
 		LayerStack();
+
+		//The Layer Stack takes ownership of all layers pushed onto it. It will delete all layers in destructor
 		~LayerStack();
 
 		//Pushes a layer into the layer stack at the last layer but before the overlays

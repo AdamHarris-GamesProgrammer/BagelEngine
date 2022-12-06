@@ -4,6 +4,7 @@
 #include<glad/glad.h>
 
 namespace Bagel {
+	//Helper function for converting between a  ShaderDataType to a GLenum
 	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
 		switch (type) {
 		case ShaderDataType::None:		return 0;
@@ -27,13 +28,17 @@ namespace Bagel {
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		//Creates a vertex array
 		glGenVertexArrays(1, &_rendererID);
-		glBindVertexArray(_rendererID);
 	}
 
 	OpenGLVertexArray::~OpenGLVertexArray()
 	{
+		//Deletes the vertex array
 		glDeleteVertexArrays(1, &_rendererID);
+
+		//Holding shared_ptrs to the vertex buffer and index buffer, as this class is destroyed that
+		//reference count is decreased and they will automatically be destroyed
 	}
 
 	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
@@ -43,6 +48,7 @@ namespace Bagel {
 		glBindVertexArray(_rendererID);
 		vertexBuffer->Bind();
 
+		//Cycles through each element in the vertex buffer and setup this vertex array's layout
 		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (auto& elem : layout) {
@@ -59,6 +65,9 @@ namespace Bagel {
 
 		_pVertexBuffers.emplace_back(vertexBuffer);
 
+		//Ensures this vertex array is unbound once this verted buffer has been added.
+		//Avoids potential issues with creating a new VertexBuffer and having it accidentally bound to this vertex array
+		glBindVertexArray(0);
 	}
 
 	inline void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
@@ -66,6 +75,9 @@ namespace Bagel {
 		indexBuffer->Bind();
 
 		_pIndexBuffer = indexBuffer;
+
+		//Avoids potential issues with other buffers being assigned to this vertex array after this method call
+		glBindVertexArray(0);
 	}
 
 	void OpenGLVertexArray::Bind() const

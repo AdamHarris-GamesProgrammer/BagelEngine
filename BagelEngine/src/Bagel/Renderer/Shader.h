@@ -1,6 +1,7 @@
 #pragma once
 
 namespace Bagel {
+	//Abstract class for representing a Shader across different APIs
 	class Shader {
 	public:
 		virtual ~Shader() = default;
