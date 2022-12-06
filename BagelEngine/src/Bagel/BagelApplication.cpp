@@ -7,30 +7,10 @@
 
 #include "Bagel/Renderer/Shader.h"
 #include "Bagel/Renderer/Buffer.h"
+#include "Bagel/Renderer/VertexArray.h"
 
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
-
-	static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
-		switch (type) {
-		case ShaderDataType::None:		return 0;
-		case ShaderDataType::Float:		return GL_FLOAT;
-		case ShaderDataType::Float2:	return GL_FLOAT;
-		case ShaderDataType::Float3:	return GL_FLOAT;
-		case ShaderDataType::Float4:	return GL_FLOAT;
-		case ShaderDataType::Int:		return GL_INT;
-		case ShaderDataType::Int2:		return GL_INT;
-		case ShaderDataType::Int3:		return GL_INT;
-		case ShaderDataType::Int4:		return GL_INT;
-		case ShaderDataType::Mat3:		return GL_FLOAT;
-		case ShaderDataType::Mat4:		return GL_FLOAT;
-		case ShaderDataType::Bool:		return GL_BOOL;
-		}
-
-		BG_CORE_ASSERT(false, "Unknown ShaderDataType!");
-
-		return 0;
-	}
 
 	BagelApplication::BagelApplication()
 	{
@@ -43,56 +23,37 @@ namespace Bagel {
 		_pImGuiLayer = new ImGuiLayer();
 		PushOverlay(_pImGuiLayer);
 
-		/*Abstraction Tasks
-			- Vertex Array
-			- Shader creation and usage
-		*/
-
-		glGenVertexArrays(1, &_VAO);
-		glBindVertexArray(_VAO);
+		_pVAO.reset(VertexArray::Create());
 
 		//Anti clock wise by default //Fullscreen Rect
-		float vertices[7 * 4] = {
+		float vertices[4 * 7] = {
 			-1.0f, -1.0f, 0.0f, 0.8f, 0.2f, 0.2f, 1.0f, //BL
 			1.0f, -1.0f, 0.0f, 0.2f, 0.8f, 0.2f, 1.0f, //BR
 			1.0f, 1.0f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f, //TR
 			-1.0f, 1.0f, 0.0f, 0.8f, 0.8f, 0.8f, 1.0f //TL
 		};
-		//float vertices[3 * 4] = { //Rhombus Demo
-		//	-0.5f, 0.0f, 0.0f, //Left
-		//	0.0f, -0.5f, 0.0f, //Bottom
-		//	0.5f, 0.0f, 0.0f, //Right
-		//	0.0f, 0.5f, 0.0f //Top
-		//};
 
-		_pVBO.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+		std::shared_ptr<VertexBuffer> pVertexBuffer;
+		pVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-		BufferLayout layout = {
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float4, "a_Color" }
-		};
-
-		_pVBO->SetLayout(layout);
-
-
-		uint32_t index = 0;
-		for (auto& elem : layout) {
-			glEnableVertexAttribArray(index);
-
-			glVertexAttribPointer(index, elem.GetComponentCount(), 
-				ShaderDataTypeToOpenGLBaseType(elem.Type),
-				elem.Normalized ? GL_TRUE : GL_FALSE,
-				layout.GetStride(),
-				(const void*)elem.Offset);
-
-			index++;
+		{
+			BufferLayout layout = {
+				{ ShaderDataType::Float3, "a_Position" },
+				{ ShaderDataType::Float4, "a_Color" }
+			};
+			pVertexBuffer->SetLayout(layout);
 		}
+
+		_pVAO->AddVertexBuffer(pVertexBuffer);
 
 		unsigned int indices[6] = {
 			0, 1, 2,
 			0, 2, 3
 		};
-		_pIBO.reset(IndexBuffer::Create(indices, 6));
+
+		std::shared_ptr<IndexBuffer> pIndexBuffer;
+		pIndexBuffer.reset(IndexBuffer::Create(indices, 6));
+		_pVAO->SetIndexBuffer(pIndexBuffer);
 
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -138,9 +99,9 @@ namespace Bagel {
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			_pShader->Bind();
-			glBindVertexArray(_VAO);
+			_pVAO->Bind();
 
-			glDrawElements(GL_TRIANGLES, _pIBO->GetCount(), GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, _pVAO->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();

@@ -1354,6 +1354,8 @@
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Bagel\Renderer\Renderer.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="src\Bagel\Renderer\VertexArray.h" />
+    <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLVertexArray.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bagel\BagelApplication.cpp">
@@ -1389,5 +1391,7 @@
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Bagel\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="src\Bagel\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLVertexArray.cpp" />
   </ItemGroup>
 </Project>

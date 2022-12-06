@@ -43,9 +43,7 @@ namespace Bagel {
 		ImGuiLayer* _pImGuiLayer;
 
 
-		unsigned int _VAO;
-		std::unique_ptr<class VertexBuffer> _pVBO;
-		std::unique_ptr<class IndexBuffer> _pIBO;
+		std::unique_ptr<class VertexArray> _pVAO;
 		std::unique_ptr<class Shader> _pShader;
 	};
 
