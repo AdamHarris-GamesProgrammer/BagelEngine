@@ -1,8 +1,6 @@
 #pragma once
 #include "Bagel/Input.h"
 
-
-
 namespace Bagel {
 	class WindowsInput : public Input {
 	protected:
@@ -14,6 +12,5 @@ namespace Bagel {
 		virtual float GetMouseXImpl() override;
 		virtual float GetMouseYImpl() override;
 		virtual std::pair<float, float> GetMousePositionImpl() override;
-
 	};
 }

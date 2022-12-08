@@ -613,6 +613,7 @@
     <ClCompile Include="src\Bagel\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Bagel\Renderer\Shader.cpp" />
     <ClCompile Include="src\Bagel\Renderer\VertexArray.cpp" />
+    <ClCompile Include="src\Bagel\Window.cpp" />
     <ClCompile Include="src\bgpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

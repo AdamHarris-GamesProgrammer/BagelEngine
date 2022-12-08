@@ -4,6 +4,7 @@
 
 #include "Bagel/Core.h"
 #include "Bagel/Events/Event.h"
+#include "Bagel/Renderer/RendererAPI.h"
 
 namespace Bagel {
 	struct WindowProps {

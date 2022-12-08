@@ -1401,5 +1401,6 @@
     <ClCompile Include="src\Bagel\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLRendererAPI.cpp" />
     <ClCompile Include="src\Bagel\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Bagel\Window.cpp" />
   </ItemGroup>
 </Project>

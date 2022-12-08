@@ -9,15 +9,15 @@
 
 #include <GLFW/glfw3.h>
 
+//TODO: Change WindowsWindow to use DirectX rather than OpenGL
+//Maybe change it to DirectXWindow instead of WindowsWindow
+//Not sure?
+
 namespace Bagel {
 	static bool _sGLFWInitialized = false;
 
 	static void GLFWErrorCallback(int error, const char* description) {
 		BG_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
-	}
-
-	Window* Window::Create(const WindowProps& props) {
-		return new WindowsWindow(props);
 	}
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
