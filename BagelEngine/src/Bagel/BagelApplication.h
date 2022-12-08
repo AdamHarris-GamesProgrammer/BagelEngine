@@ -43,14 +43,6 @@ namespace Bagel {
 		LayerStack _layerStack;
 
 		ImGuiLayer* _pImGuiLayer;
-
-		std::shared_ptr<class VertexArray> _pTriangleVAO;
-		std::shared_ptr<class VertexArray> _pSquareVAO;
-
-		std::shared_ptr<class Shader> _pShader;
-		std::shared_ptr<class Shader> _pBlueShader;
-
-		OrthographicCamera _orthographicCamera;
 	};
 
 	//Defined in client app

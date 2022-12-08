@@ -2,7 +2,6 @@
 
 
 //For use by Bagl Apps only
-
 #include "Bagel/Core.h"
 #include "Bagel/BagelApplication.h"
 #include "Bagel/Log.h"
@@ -16,5 +15,18 @@
 
 //Entry Point Logic
 #include "Bagel/EntryPoint.h"
+
+//Renderer
+#include "Bagel/Renderer/Renderer.h"
+#include "Bagel/Renderer/RenderCommand.h"
+
+//Render Objects
+#include "Bagel/Renderer/VertexArray.h"
+#include "Bagel/Renderer/Buffer.h"
+#include "Bagel/Renderer/Shader.h"
+
+//Renderer Primitives
+#include "Bagel/Renderer/OrthographicCamera.h"
+
 
 #include <stdio.h>

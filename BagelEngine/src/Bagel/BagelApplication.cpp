@@ -13,7 +13,6 @@ namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
 
 	BagelApplication::BagelApplication()
-		: _orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		BG_ASSERT(!_instance, "Application already exists!");
 		_instance = this;
@@ -23,112 +22,6 @@ namespace Bagel {
 
 		_pImGuiLayer = new ImGuiLayer();
 		PushOverlay(_pImGuiLayer);
-
-		std::string vertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec4 a_Color;
-
-			uniform mat4 u_ViewProjection;
-
-			out vec4 v_Color;
-
-			void main() {
-				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string fragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			in vec4 v_Color;
-
-			void main() {
-				color = v_Color;
-			}
-		)";
-
-		std::string blueVertexSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-
-			uniform mat4 u_ViewProjection;
-
-			void main() {
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string blueFragmentSrc = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			void main() {
-				color = vec4(0.2, 0.2,0.8,1.0);
-			}
-		)";
-
-		_pShader.reset(Shader::Create(vertexSrc, fragmentSrc));
-		_pBlueShader.reset(Shader::Create(blueVertexSrc, blueFragmentSrc));
-
-		//Anti clock wise by default 
-		float triangleVertices[3 * 7] = {
-			-0.5f, 0.0f, 0.0f, 0.8f, 0.2f, 0.2f, 1.0f,	//Left
-			-0.2f, 0.0f, 0.0f, 0.2f, 0.8f, 0.2f, 1.0f,	//Right
-			-0.35f, 0.3f, 0.0f, 0.2f, 0.2f, 0.8f, 1.0f	//Top
-		};
-
-		unsigned int triangleIndices[3] = {
-			0, 1, 2
-		};
-
-		float squareVertices[4 * 3] = {
-			0.2f, 0.0f, 0.0f,	//Bottom Left
-			0.5f, 0.0f, 0.0f,	//Bottom Right
-			0.5f, 0.3f, 0.0f,	//Top Right
-			0.2f, 0.3f, 0.0f	//Top Left
-		};
-
-		uint32_t squareIndices[6] = {
-			0,1,2,
-			3,0,2
-		};
-
-		_pTriangleVAO.reset(VertexArray::Create());
-
-		std::shared_ptr<VertexBuffer> pVertexBuffer;
-		pVertexBuffer.reset(VertexBuffer::Create(triangleVertices, sizeof(triangleVertices)));
-		BufferLayout layout = {
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float4, "a_Color" }
-		};
-		pVertexBuffer->SetLayout(layout);
-		_pTriangleVAO->AddVertexBuffer(pVertexBuffer);
-
-		std::shared_ptr<IndexBuffer> pIndexBuffer;
-		pIndexBuffer.reset(IndexBuffer::Create(triangleIndices, 3));
-		_pTriangleVAO->SetIndexBuffer(pIndexBuffer);
-
-
-		_pSquareVAO.reset(VertexArray::Create());
-
-		std::shared_ptr<VertexBuffer> pSquareVertexBuffer;
-		pSquareVertexBuffer.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
-		BufferLayout squareLayout = {
-			{ShaderDataType::Float3, "a_Position"}
-		};
-		pSquareVertexBuffer->SetLayout(squareLayout);
-		_pSquareVAO->AddVertexBuffer(pSquareVertexBuffer);
-
-		std::shared_ptr<IndexBuffer> pSquareIndexBuffer;
-		pSquareIndexBuffer.reset(IndexBuffer::Create(squareIndices, 6));
-		_pSquareVAO->SetIndexBuffer(pSquareIndexBuffer);
 	}
 
 	BagelApplication::~BagelApplication()
@@ -138,19 +31,6 @@ namespace Bagel {
 	void BagelApplication::Run()
 	{
 		while (_running) {
-			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
-			RenderCommand::Clear();
-
-			_orthographicCamera.SetPosition(glm::vec3(0.5f, 0.0f, 0.0f));
-			_orthographicCamera.SetRotation(45.0f);
-
-			Renderer::BeginScene(_orthographicCamera);
-
-			Renderer::Submit(_pShader, _pTriangleVAO);
-			Renderer::Submit(_pBlueShader, _pSquareVAO);
-
-			Renderer::EndScene();
-
 			for (Layer* layer : _layerStack) {
 				layer->OnUpdate();
 			}
