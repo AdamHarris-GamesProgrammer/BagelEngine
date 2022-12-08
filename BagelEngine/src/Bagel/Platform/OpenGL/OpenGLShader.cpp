@@ -3,6 +3,10 @@
 
 #include <glad/glad.h>
 
+#include <glm/gtc/type_ptr.hpp>
+
+#include "Bagel/Core.h"
+
 namespace Bagel {
     OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
     {
@@ -129,4 +133,11 @@ namespace Bagel {
     {
 		glUseProgram(0);
     }
+
+	void OpenGLShader::UploadUniformMat4(const std::string& uniformName, const glm::mat4& input)
+	{
+		GLint uniformLoc = glGetUniformLocation(_rendererID, uniformName.c_str());
+		BG_CORE_ASSERT(uniformLoc == 0, "Shader does not possess this uniform");
+		glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(input));
+	}
 }

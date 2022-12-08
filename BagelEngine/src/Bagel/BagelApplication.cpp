@@ -13,6 +13,7 @@ namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
 
 	BagelApplication::BagelApplication()
+		: _orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f)
 	{
 		BG_ASSERT(!_instance, "Application already exists!");
 		_instance = this;
@@ -29,11 +30,13 @@ namespace Bagel {
 			layout(location = 0) in vec3 a_Position;
 			layout(location = 1) in vec4 a_Color;
 
+			uniform mat4 u_ViewProjection;
+
 			out vec4 v_Color;
 
 			void main() {
 				v_Color = a_Color;
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -54,8 +57,10 @@ namespace Bagel {
 			
 			layout(location = 0) in vec3 a_Position;
 
+			uniform mat4 u_ViewProjection;
+
 			void main() {
-				gl_Position = vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -136,13 +141,13 @@ namespace Bagel {
 			RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1));
 			RenderCommand::Clear();
 
-			Renderer::BeginScene();
+			_orthographicCamera.SetPosition(glm::vec3(0.5f, 0.0f, 0.0f));
+			_orthographicCamera.SetRotation(45.0f);
 
-			_pShader->Bind();
-			Renderer::Submit(_pTriangleVAO);
+			Renderer::BeginScene(_orthographicCamera);
 
-			_pBlueShader->Bind();
-			Renderer::Submit(_pSquareVAO);
+			Renderer::Submit(_pShader, _pTriangleVAO);
+			Renderer::Submit(_pBlueShader, _pSquareVAO);
 
 			Renderer::EndScene();
 

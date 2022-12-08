@@ -12,6 +12,8 @@
 #include "Bagel/Events/ApplicationEvent.h"
 #include "ImGui/ImGuiLayer.h"
 
+#include "Bagel/Renderer/OrthographicCamera.h"
+
 namespace Bagel {
 	class BG_API BagelApplication
 	{
@@ -45,8 +47,10 @@ namespace Bagel {
 		std::shared_ptr<class VertexArray> _pTriangleVAO;
 		std::shared_ptr<class VertexArray> _pSquareVAO;
 
-		std::unique_ptr<class Shader> _pShader;
-		std::unique_ptr<class Shader> _pBlueShader;
+		std::shared_ptr<class Shader> _pShader;
+		std::shared_ptr<class Shader> _pBlueShader;
+
+		OrthographicCamera _orthographicCamera;
 	};
 
 	//Defined in client app
