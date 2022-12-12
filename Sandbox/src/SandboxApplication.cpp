@@ -1,10 +1,11 @@
 #include <Bagel.h>
 #include <imgui/imgui.h>
+#include <glm/gtx/transform.hpp>
 
 class ExampleLayer : public Bagel::Layer {
 public:
 	ExampleLayer() : Layer("Example"),
-		_orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f), _cameraPosition(0.0f)
+		_orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f), _cameraPosition(0.0f), _squarePosition(0.0f)
 	{
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -13,12 +14,13 @@ public:
 			layout(location = 1) in vec4 a_Color;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Model;
 
 			out vec4 v_Color;
 
 			void main() {
 				v_Color = a_Color;
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Model * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -40,9 +42,10 @@ public:
 			layout(location = 0) in vec3 a_Position;
 
 			uniform mat4 u_ViewProjection;
+			uniform mat4 u_Model;
 
 			void main() {
-				gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+				gl_Position = u_ViewProjection * u_Model * vec4(a_Position, 1.0);
 			}
 		)";
 
@@ -137,6 +140,13 @@ public:
 			_cameraRotation -= _cameraRotationSpeed * dt;
 		}
 
+		if (Bagel::Input::IsKeyPress(BG_KEY_T)) {
+			_squarePosition.x += _cameraMoveSpeed * dt;
+		}
+		else if (Bagel::Input::IsKeyPress(BG_KEY_R)) {
+			_squarePosition.x -= _cameraMoveSpeed * dt;
+		}
+
 		_orthographicCamera.SetPosition(_cameraPosition);
 		_orthographicCamera.SetRotation(_cameraRotation);
 
@@ -146,7 +156,19 @@ public:
 		Bagel::Renderer::BeginScene(_orthographicCamera);
 
 		Bagel::Renderer::Submit(_pShader, _pTriangleVAO);
-		Bagel::Renderer::Submit(_pBlueShader, _pSquareVAO);
+
+		glm::mat4 transform = glm::mat4(1.0f);
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), 5.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		for (float y = 0.0f; y < 5.0f; y += 0.25f) {
+			for (float x = 0.0f; x < 5.0f; x += 0.25f) {
+
+				glm::vec3 pos = glm::vec3(x, y, 0.0f);
+				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * rotation * scale;
+				Bagel::Renderer::Submit(_pBlueShader, _pSquareVAO, transform);
+			}
+		}
 
 		Bagel::Renderer::EndScene();
 	}
@@ -158,7 +180,6 @@ public:
 	}
 
 	bool OnKeyPressedEvent(Bagel::KeyPressedEvent& event) {
-
 		return false;
 	}
 
@@ -178,6 +199,8 @@ private:
 
 	float _cameraMoveSpeed = 0.25f;
 	float _cameraRotationSpeed = 10.0f;
+
+	glm::vec3 _squarePosition;
 };
 
 class SandboxApplication : public Bagel::BagelApplication {
