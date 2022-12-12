@@ -1,13 +1,6 @@
 #include "bgpch.h"
 #include "BagelApplication.h"
-
-#include "Input.h"
-
-#include "Bagel/Renderer/Shader.h"
-#include "Bagel/Renderer/Buffer.h"
-#include "Bagel/Renderer/VertexArray.h"
-
-#include "Bagel/Renderer/Renderer.h"
+#include <GLFW/glfw3.h>
 
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
@@ -31,8 +24,12 @@ namespace Bagel {
 	void BagelApplication::Run()
 	{
 		while (_running) {
+			float time = (float)glfwGetTime();
+			Timestep timestep = time - _lastFrameTime;
+			_lastFrameTime = time;
+
 			for (Layer* layer : _layerStack) {
-				layer->OnUpdate();
+				layer->OnUpdate(timestep);
 			}
 
 			_pImGuiLayer->Begin();

@@ -28,5 +28,6 @@
 //Renderer Primitives
 #include "Bagel/Renderer/OrthographicCamera.h"
 
+#include "Bagel/Core/TimeStep.h"
 
 #include <stdio.h>

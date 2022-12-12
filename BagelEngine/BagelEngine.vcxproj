@@ -143,6 +143,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Bagel\Core\TimeStep.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Bagel.h" />

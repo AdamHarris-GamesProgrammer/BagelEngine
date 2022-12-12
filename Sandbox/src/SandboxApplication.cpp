@@ -113,26 +113,28 @@ public:
 		_pSquareVAO->SetIndexBuffer(pSquareIndexBuffer);
 	}
 
-	void OnUpdate() override {
+	void OnUpdate(Bagel::Timestep timestep) override {
+		float dt = timestep;
+
 		if (Bagel::Input::IsKeyPress(BG_KEY_A)) {
-			_cameraPosition.x -= _cameraMoveSpeed;
+			_cameraPosition.x -= _cameraMoveSpeed * dt;
 		}
 		else if (Bagel::Input::IsKeyPress(BG_KEY_D)) {
-			_cameraPosition.x += _cameraMoveSpeed;
+			_cameraPosition.x += _cameraMoveSpeed * dt;
 		}
 
 		if (Bagel::Input::IsKeyPress(BG_KEY_W)) {
-			_cameraPosition.y += _cameraMoveSpeed;
+			_cameraPosition.y += _cameraMoveSpeed * dt;
 		}
 		else if (Bagel::Input::IsKeyPress(BG_KEY_S)) {
-			_cameraPosition.y -= _cameraMoveSpeed;
+			_cameraPosition.y -= _cameraMoveSpeed * dt;
 		}
 
 		if (Bagel::Input::IsKeyPress(BG_KEY_Q)) {
-			_cameraRotation += _cameraRotationSpeed;
+			_cameraRotation += _cameraRotationSpeed * dt;
 		}
 		else if (Bagel::Input::IsKeyPress(BG_KEY_E)) {
-			_cameraRotation -= _cameraRotationSpeed;
+			_cameraRotation -= _cameraRotationSpeed * dt;
 		}
 
 		_orthographicCamera.SetPosition(_cameraPosition);
@@ -174,8 +176,8 @@ private:
 	glm::vec3 _cameraPosition;
 	float _cameraRotation = 0.0f;
 
-	float _cameraMoveSpeed = 0.1f;
-	float _cameraRotationSpeed = 0.05f;
+	float _cameraMoveSpeed = 0.25f;
+	float _cameraRotationSpeed = 10.0f;
 };
 
 class SandboxApplication : public Bagel::BagelApplication {

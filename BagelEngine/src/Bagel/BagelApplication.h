@@ -11,8 +11,7 @@
 #include "Bagel/Events/Event.h"
 #include "Bagel/Events/ApplicationEvent.h"
 #include "ImGui/ImGuiLayer.h"
-
-#include "Bagel/Renderer/OrthographicCamera.h"
+#include "Core/TimeStep.h"
 
 namespace Bagel {
 	class BG_API BagelApplication
@@ -43,6 +42,8 @@ namespace Bagel {
 		LayerStack _layerStack;
 
 		ImGuiLayer* _pImGuiLayer;
+
+		float _lastFrameTime = 0.0f;
 	};
 
 	//Defined in client app

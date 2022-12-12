@@ -2,6 +2,7 @@
 
 #include "Bagel/Core.h"
 #include "Bagel/Events/Event.h"
+#include "Bagel/Core/TimeStep.h"
 
 namespace Bagel {
 	class BG_API Layer {
@@ -16,7 +17,7 @@ namespace Bagel {
 		virtual void OnDetach(){}
 
 		//Called per frame
-		virtual void OnUpdate(){}
+		virtual void OnUpdate(Timestep ts){}
 
 		virtual void OnImGuiRender() {}
 
