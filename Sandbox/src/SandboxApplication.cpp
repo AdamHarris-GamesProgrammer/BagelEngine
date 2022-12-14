@@ -2,10 +2,14 @@
 #include <imgui/imgui.h>
 #include <glm/gtx/transform.hpp>
 
+#include <glm/gtc/type_ptr.hpp>
+
+
 class ExampleLayer : public Bagel::Layer {
 public:
 	ExampleLayer() : Layer("Example"),
-		_orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f), _cameraPosition(0.0f), _squarePosition(0.0f)
+		_orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f), _cameraPosition(0.0f),
+		_aColor(0.8f,0.2f,0.2f,1.0f), _bColor(0.2f,0.2f,0.8f,1.0f)
 	{
 		std::string vertexSrc = R"(
 			#version 330 core
@@ -144,13 +148,6 @@ public:
 			_cameraRotation -= _cameraRotationSpeed * dt;
 		}
 
-		if (Bagel::Input::IsKeyPress(BG_KEY_T)) {
-			_squarePosition.x += _cameraMoveSpeed * dt;
-		}
-		else if (Bagel::Input::IsKeyPress(BG_KEY_R)) {
-			_squarePosition.x -= _cameraMoveSpeed * dt;
-		}
-
 		_orthographicCamera.SetPosition(_cameraPosition);
 		_orthographicCamera.SetRotation(_cameraRotation);
 
@@ -165,32 +162,18 @@ public:
 		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f));
 		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 
-		glm::vec4 redColor = glm::vec4(0.8f, 0.2f, 0.2f, 1.0f);
-		glm::vec4 blueColor = glm::vec4(0.2f, 0.2f, 0.8f, 1.0f);
-
-		bool bIsBlue = false;
-
-		/* MaterialAPI Ref
-			Bagel::Material* mat = new Bagel::Material(pflatColorShader)
-				- Get the uniforms for this shader
-				- Figure out the size of this buffer
-			mat->Set("u_Color", Bagel::Color::Red)
-			
-			
-			_pSquare->SetMaterial(mat)
-		*/
-
+		bool bIsAColor = false;
 		for (float y = 0.0f; y < 5.0f; y += 0.25f) {
 			for (float x = 0.0f; x < 5.0f; x += 0.25f) {
 
 				glm::vec3 pos = glm::vec3(x, y, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * rotation * scale;
 
-				const glm::vec4& colorToUpload = bIsBlue ? blueColor : redColor;
+				const glm::vec4& colorToUpload = bIsAColor ? _aColor : _bColor;
 
 				Bagel::Renderer::Submit(_pFlatColorShader, _pSquareVAO, transform, colorToUpload);
 
-				bIsBlue = !bIsBlue;
+				bIsAColor = !bIsAColor;
 			}
 		}
 
@@ -208,6 +191,12 @@ public:
 	}
 
 	virtual void OnImGuiRender() override {
+		ImGui::Begin("Color Settings");
+
+		ImGui::ColorEdit3("Color A", glm::value_ptr(_aColor));
+		ImGui::ColorEdit3("Color B", glm::value_ptr(_bColor));
+
+		ImGui::End();
 	}
 
 private:
@@ -224,7 +213,8 @@ private:
 	float _cameraMoveSpeed = 0.25f;
 	float _cameraRotationSpeed = 10.0f;
 
-	glm::vec3 _squarePosition;
+	glm::vec4 _aColor;
+	glm::vec4 _bColor;
 };
 
 class SandboxApplication : public Bagel::BagelApplication {

@@ -12,7 +12,7 @@ namespace Bagel {
     {
 		// Read our shaders into the appropriate buffers
 
-	// Create an empty vertex shader handle
+		// Create an empty vertex shader handle
 		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
 		// Send the vertex shader source code to GL
@@ -140,9 +140,31 @@ namespace Bagel {
 		//BG_CORE_ASSERT(uniformLoc != 0, "Shader does not possess this uniform");
 		glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(input));
 	}
-	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& color)
+	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input)
 	{
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		glUniform4fv(location, 1, glm::value_ptr(color));
+		glUniform4fv(location, 1, glm::value_ptr(input));
+	}
+	void OpenGLShader::UploadUniformFloat(const std::string& uniformName, const float& input)
+	{
+		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
+		glUniform1fv(location, 1, &input);
+	}
+
+	void OpenGLShader::UploadUniformFloat2(const std::string& uniformName, const glm::vec2& input)
+	{
+		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
+		glUniform2fv(location, 1, glm::value_ptr(input));
+	}
+	void OpenGLShader::UploadUniformFloat3(const std::string& uniformName, const glm::vec3& input)
+	{
+		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
+		glUniform3fv(location, 1, glm::value_ptr(input));
+	}
+
+	void OpenGLShader::UploadUniformInt(const std::string& uniformName, const int& input)
+	{
+		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
+		glUniform1i(location, input);
 	}
 }
