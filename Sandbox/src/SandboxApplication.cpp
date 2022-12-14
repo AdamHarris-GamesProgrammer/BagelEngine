@@ -31,12 +31,14 @@ public:
 
 			in vec4 v_Color;
 
+			uniform vec4 u_Color;
+
 			void main() {
 				color = v_Color;
 			}
 		)";
 
-		std::string blueVertexSrc = R"(
+		std::string flatColorShaderVert = R"(
 			#version 330 core
 			
 			layout(location = 0) in vec3 a_Position;
@@ -49,18 +51,20 @@ public:
 			}
 		)";
 
-		std::string blueFragmentSrc = R"(
+		std::string flatColorShaderFrag = R"(
 			#version 330 core
 			
 			layout(location = 0) out vec4 color;
 
+			uniform vec4 u_Color;
+
 			void main() {
-				color = vec4(0.2, 0.2,0.8,1.0);
+				color = u_Color;
 			}
 		)";
 
 		_pShader.reset(Bagel::Shader::Create(vertexSrc, fragmentSrc));
-		_pBlueShader.reset(Bagel::Shader::Create(blueVertexSrc, blueFragmentSrc));
+		_pFlatColorShader.reset(Bagel::Shader::Create(flatColorShaderVert, flatColorShaderFrag));
 
 		//Anti clock wise by default 
 		float triangleVertices[3 * 7] = {
@@ -158,15 +162,35 @@ public:
 		Bagel::Renderer::Submit(_pShader, _pTriangleVAO);
 
 		glm::mat4 transform = glm::mat4(1.0f);
-		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
-		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), 5.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+		glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(0.8f));
+		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
+
+		glm::vec4 redColor = glm::vec4(0.8f, 0.2f, 0.2f, 1.0f);
+		glm::vec4 blueColor = glm::vec4(0.2f, 0.2f, 0.8f, 1.0f);
+
+		bool bIsBlue = false;
+
+		/* MaterialAPI Ref
+			Bagel::Material* mat = new Bagel::Material(pflatColorShader)
+				- Get the uniforms for this shader
+				- Figure out the size of this buffer
+			mat->Set("u_Color", Bagel::Color::Red)
+			
+			
+			_pSquare->SetMaterial(mat)
+		*/
 
 		for (float y = 0.0f; y < 5.0f; y += 0.25f) {
 			for (float x = 0.0f; x < 5.0f; x += 0.25f) {
 
 				glm::vec3 pos = glm::vec3(x, y, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * rotation * scale;
-				Bagel::Renderer::Submit(_pBlueShader, _pSquareVAO, transform);
+
+				const glm::vec4& colorToUpload = bIsBlue ? blueColor : redColor;
+
+				Bagel::Renderer::Submit(_pFlatColorShader, _pSquareVAO, transform, colorToUpload);
+
+				bIsBlue = !bIsBlue;
 			}
 		}
 
@@ -191,7 +215,7 @@ private:
 	std::shared_ptr<Bagel::VertexArray> _pSquareVAO;
 
 	std::shared_ptr<Bagel::Shader> _pShader;
-	std::shared_ptr<Bagel::Shader> _pBlueShader;
+	std::shared_ptr<Bagel::Shader> _pFlatColorShader;
 
 	Bagel::OrthographicCamera _orthographicCamera;
 	glm::vec3 _cameraPosition;

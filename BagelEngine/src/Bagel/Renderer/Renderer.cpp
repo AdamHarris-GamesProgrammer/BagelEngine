@@ -13,11 +13,13 @@ namespace Bagel {
 	{
 	}
 
-	void Renderer::Submit(const std::shared_ptr<class Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray, const glm::mat4& transform)
+	void Renderer::Submit(const std::shared_ptr<class Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray,
+		const glm::mat4& transform, const glm::vec4& color)
 	{
 		shader->Bind();
 		shader->UploadUniformMat4("u_ViewProjection", _sSceneData->ViewProjection);
 		shader->UploadUniformMat4("u_Model", transform);
+		shader->UploadUniformFloat4("u_Color", color);
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}

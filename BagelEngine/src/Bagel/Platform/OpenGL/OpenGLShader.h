@@ -16,6 +16,9 @@ namespace Bagel {
 
 	private:
 		uint32_t _rendererID;
+
+		// Inherited via Shader
+		virtual void UploadUniformFloat4(const std::string& uniformName, const glm::vec4& color) override;
 	};
 }
 

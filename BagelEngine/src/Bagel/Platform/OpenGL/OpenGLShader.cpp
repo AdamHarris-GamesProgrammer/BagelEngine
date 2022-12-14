@@ -140,4 +140,9 @@ namespace Bagel {
 		//BG_CORE_ASSERT(uniformLoc != 0, "Shader does not possess this uniform");
 		glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(input));
 	}
+	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& color)
+	{
+		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
+		glUniform4fv(location, 1, glm::value_ptr(color));
+	}
 }
