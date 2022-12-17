@@ -11,14 +11,14 @@ namespace Bagel {
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
-		virtual void AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) override;
-		virtual void SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) override;
+		virtual void AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) override;
+		virtual void SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) override;
 
 		//Getters
-		virtual const std::vector<std::shared_ptr<VertexBuffer>>& GetVertexBuffers() const override {
+		virtual const std::vector<Ref<VertexBuffer>>& GetVertexBuffers() const override {
 			return _pVertexBuffers;
 		}
-		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const override {
+		virtual const Ref<IndexBuffer>& GetIndexBuffer() const override {
 			return _pIndexBuffer;
 		}
 
@@ -27,9 +27,9 @@ namespace Bagel {
 		uint32_t _rendererID = 0;
 
 		//A Vertex Array can hold multiple vertex buffers
-		std::vector<std::shared_ptr<VertexBuffer>> _pVertexBuffers;
+		std::vector<Ref<VertexBuffer>> _pVertexBuffers;
 
 		//A vertex array can only hold one index array
-		std::shared_ptr<IndexBuffer> _pIndexBuffer;
+		Ref<IndexBuffer> _pIndexBuffer;
 	};
 }

@@ -41,7 +41,7 @@ namespace Bagel {
 		//reference count is decreased and they will automatically be destroyed
 	}
 
-	void OpenGLVertexArray::AddVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer)
+	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
 		BG_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
@@ -70,7 +70,7 @@ namespace Bagel {
 		glBindVertexArray(0);
 	}
 
-	inline void OpenGLVertexArray::SetIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) {
+	inline void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer) {
 		glBindVertexArray(_rendererID);
 		indexBuffer->Bind();
 

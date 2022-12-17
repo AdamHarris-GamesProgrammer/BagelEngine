@@ -16,8 +16,6 @@ namespace Bagel {
 	private:
 		static std::shared_ptr<spdlog::logger> _sCoreLogger;
 		static std::shared_ptr<spdlog::logger> _sClientLogger;
-
-
 	};
 }
 

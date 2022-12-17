@@ -200,11 +200,10 @@ public:
 	}
 
 private:
-	std::shared_ptr<Bagel::VertexArray> _pTriangleVAO;
-	std::shared_ptr<Bagel::VertexArray> _pSquareVAO;
-
-	std::shared_ptr<Bagel::Shader> _pShader;
-	std::shared_ptr<Bagel::Shader> _pFlatColorShader;
+	Bagel::Ref<Bagel::VertexArray> _pTriangleVAO;
+	Bagel::Ref<Bagel::VertexArray> _pSquareVAO;
+	Bagel::Ref<Bagel::Shader> _pShader;
+	Bagel::Ref<Bagel::Shader> _pFlatColorShader;
 
 	Bagel::OrthographicCamera _orthographicCamera;
 	glm::vec3 _cameraPosition;
@@ -226,7 +225,6 @@ public:
 	~SandboxApplication() {
 
 	}
-
 };
 
 Bagel::BagelApplication* Bagel::CreateApplication() {
