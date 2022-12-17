@@ -9,91 +9,101 @@
 
 #include "OpenGLError.h"
 
+#include <fstream>
+
 namespace Bagel {
-    OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
-    {
-		// Read our shaders into the appropriate buffers
+	static GLenum ShaderTypeFromString(const std::string& type) {
+		if (type == "vertex")
+			return GL_VERTEX_SHADER;
+		if (type == "fragment" || type == "pixel")
+			return GL_FRAGMENT_SHADER;
 
-		// Create an empty vertex shader handle
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+		BG_CORE_ASSERT(false, "Unknown shader type!");
 
-		// Send the vertex shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		const GLchar* source = (const GLchar*)vertexSrc.c_str();
-		GLCall(glShaderSource(vertexShader, 1, &source, 0));
+		return 0;
+	}
 
-		// Compile the vertex shader
-		GLCall(glCompileShader(vertexShader));
+	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	{
+		std::unordered_map<GLenum, std::string> sources;
+		sources[GL_VERTEX_SHADER] = vertexSrc;
+		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
 
-		GLint isCompiled = 0;
-		GLCall(glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled));
-		if (isCompiled == GL_FALSE) //Failed compilation
-		{
-			//Find out how long the error log is
-			GLint maxLength = 0;
-			GLCall(glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength));
+		Compile(sources);
+	}
 
-			// The maxLength includes the NULL character
-			//Fills the infoLog vector with the shader error
-			std::vector<GLchar> infoLog(maxLength);
-			GLCall(glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]));
+	OpenGLShader::OpenGLShader(const std::string& shaderSrc)
+	{
+		std::string shaderCode = ReadFile(shaderSrc);
 
+		std::unordered_map<GLenum, std::string> shaders = PreProcess(shaderCode);
 
+		Compile(shaders);
+	}
 
-			// We don't need the shader anymore.
-			GLCall(glDeleteShader(vertexShader));
+	OpenGLShader::~OpenGLShader()
+	{
+		GLCall(glDeleteProgram(_rendererID));
+	}
 
-			BG_CORE_ERROR("{0}", infoLog.data());
-			BG_CORE_ASSERT(false, "Vertex Shader Compilation Failure");
+	void OpenGLShader::Bind() const
+	{
+		GLCall(glUseProgram(_rendererID));
+	}
 
-			return;
-		}
+	void OpenGLShader::Unbind() const
+	{
+		GLCall(glUseProgram(0));
+	}
 
-		// Create an empty fragment shader handle
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string> shaders)
+	{
+		std::vector<GLuint> shaderIDs;
 
-		// Send the fragment shader source code to GL
-		// Note that std::string's .c_str is NULL character terminated.
-		source = (const GLchar*)fragmentSrc.c_str();
-		GLCall(glShaderSource(fragmentShader, 1, &source, 0));
-
-		// Compile the fragment shader
-		GLCall(glCompileShader(fragmentShader));
-
-		GLCall(glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled));
-		if (isCompiled == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			GLCall(glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength));
-
-			// The maxLength includes the NULL character
-			std::vector<GLchar> infoLog(maxLength);
-			GLCall(glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]));
-
-			// We don't need the shader anymore.
-			GLCall(glDeleteShader(fragmentShader));
-			// Either of them. Don't leak shaders.
-			GLCall(glDeleteShader(vertexShader));
-
-			BG_CORE_ERROR("{0}", infoLog.data());
-			BG_CORE_ASSERT(false, "Fragment Shader Compilation Failure");
-
-			return;
-		}
-
-		// Vertex and fragment shaders are successfully compiled.
-		// Now time to link them together into a program.
-		// Get a program object.
 		_rendererID = glCreateProgram();
 
-		// Attach our shaders to our program
-		GLCall(glAttachShader(_rendererID, vertexShader));
-		GLCall(glAttachShader(_rendererID, fragmentShader));
+		for (auto& kv : shaders) {
+			GLenum type = kv.first;
+			std::string& src = kv.second;
+
+
+			GLuint shaderID = glCreateShader(type);
+
+			const GLchar* source = (const GLchar*)src.c_str();
+			GLCall(glShaderSource(shaderID, 1, &source, 0));
+
+			// Compile the vertex shader
+			GLCall(glCompileShader(shaderID));
+
+			GLint isCompiled = 0;
+			GLCall(glGetShaderiv(shaderID, GL_COMPILE_STATUS, &isCompiled));
+			if (isCompiled == GL_FALSE) //Failed compilation
+			{
+				//Find out how long the error log is
+				GLint maxLength = 0;
+				GLCall(glGetShaderiv(shaderID, GL_INFO_LOG_LENGTH, &maxLength));
+
+				// The maxLength includes the NULL character
+				//Fills the infoLog vector with the shader error
+				std::vector<GLchar> infoLog(maxLength);
+				GLCall(glGetShaderInfoLog(shaderID, maxLength, &maxLength, &infoLog[0]));
+
+				// We don't need the shader anymore.
+				GLCall(glDeleteShader(shaderID));
+
+				BG_CORE_ERROR("{0}", infoLog.data());
+				BG_CORE_ASSERT(false, "Vertex Shader Compilation Failure");
+
+				return;
+			}
+
+			GLCall(glAttachShader(_rendererID, shaderID));
+			shaderIDs.emplace_back(shaderID);
+		}
 
 		// Link our program
 		GLCall(glLinkProgram(_rendererID));
 
-		// Note the different functions here: glGetProgram* instead of glGetShader*.
 		GLint isLinked = 0;
 		GLCall(glGetProgramiv(_rendererID, GL_LINK_STATUS, (int*)&isLinked));
 		if (isLinked == GL_FALSE)
@@ -107,34 +117,74 @@ namespace Bagel {
 
 			// We don't need the program anymore.
 			GLCall(glDeleteProgram(_rendererID));
+
 			// Don't leak shaders either.
-			GLCall(glDeleteShader(vertexShader));
-			GLCall(glDeleteShader(fragmentShader));
+			for (auto& id : shaderIDs) {
+				GLCall(glDeleteShader(id));
+			}
 
 			BG_CORE_ERROR("{0}", infoLog.data());
 			BG_CORE_ASSERT(false, "Shader Link Failure");
 			return;
+
 		}
 
-		// Always detach shaders after a successful link.
-		GLCall(glDetachShader(_rendererID, vertexShader));
-		GLCall(glDetachShader(_rendererID, fragmentShader));
-    }
+		for (auto& id : shaderIDs) {
+			GLCall(glDetachShader(_rendererID, id));
+		}
+	}
 
-    OpenGLShader::~OpenGLShader()
-    {
-		GLCall(glDeleteProgram(_rendererID));
-    }
+	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
+	{
+		std::unordered_map<GLenum, std::string> shaderSources;
 
-    void OpenGLShader::Bind() const
-    {
-		GLCall(glUseProgram(_rendererID));
-    }
+		const char* typeToken = "#type";
 
-    void OpenGLShader::Unbind() const
-    {
-		GLCall(glUseProgram(0));
-    }
+		size_t typeTokeLength = strlen(typeToken);
+		size_t pos = source.find(typeToken, 0);
+		while (pos != std::string::npos) {
+			size_t eol = source.find_first_of("\r\n", pos);
+			BG_CORE_ASSERT(eol != std::string::npos, "Syntax Error");
+
+			size_t begin = pos + typeTokeLength + 1;
+			std::string type = source.substr(begin, eol - begin);
+
+			BG_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
+
+			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+			pos = source.find(typeToken, nextLinePos);
+
+			shaderSources[ShaderTypeFromString(type)] = source.substr(nextLinePos,
+				pos - (nextLinePos == std::string::npos ? source.size() - 1 : nextLinePos));
+		}
+
+		return shaderSources;
+	}
+
+	std::string OpenGLShader::ReadFile(const std::string& filepath)
+	{
+		std::ifstream file(filepath, std::ios::in, std::ios::binary);
+
+		std::string result;
+
+		if (file) {
+			file.seekg(0, std::ios::end);
+			size_t size = file.tellg();
+
+			result.resize(size);
+
+			file.seekg(0, std::ios::beg);
+			file.read(&result[0], size);
+
+			file.close();
+
+		}
+		else {
+			BG_CORE_ERROR("Shader file {0} does not exist", filepath);
+		}
+
+		return result;
+	}
 
 	void OpenGLShader::UploadUniformMat4(const std::string& uniformName, const glm::mat4& input)
 	{
@@ -142,11 +192,7 @@ namespace Bagel {
 		//BG_CORE_ASSERT(uniformLoc != 0, "Shader does not possess this uniform");
 		GLCall(glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(input)));
 	}
-	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input)
-	{
-		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		GLCall(glUniform4fv(location, 1, glm::value_ptr(input)));
-	}
+
 	void OpenGLShader::UploadUniformFloat(const std::string& uniformName, const float& input)
 	{
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
@@ -162,6 +208,12 @@ namespace Bagel {
 	{
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
 		GLCall(glUniform3fv(location, 1, glm::value_ptr(input)));
+	}
+
+	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input)
+	{
+		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
+		GLCall(glUniform4fv(location, 1, glm::value_ptr(input)));
 	}
 
 	void OpenGLShader::UploadUniformInt(const std::string& uniformName, const int& input)

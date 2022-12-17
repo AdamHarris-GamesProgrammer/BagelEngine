@@ -14,6 +14,7 @@ namespace Bagel {
 		
 		//Handles creating a platform specific shader
 		static Ref<Shader> Create(const std::string& vertexSrc, const std::string& fragmentSrc);
+		static Ref<Shader> Create(const std::string& shaderSrc);
 
 		//UNIFORMS
 		virtual void UploadUniformMat4(const std::string& uniformName, const glm::mat4& input) = 0;

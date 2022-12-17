@@ -11,68 +11,11 @@ public:
 		_orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f), _cameraPosition(0.0f),
 		_aColor(0.8f,0.2f,0.2f,1.0f), _bColor(0.2f,0.2f,0.8f,1.0f)
 	{
-		std::string flatColorShaderVert = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
+		_pFlatColorShader = Bagel::Shader::Create("Assets/Shaders/FlatColorShader.glsl");
+		_pTexturedShader = Bagel::Shader::Create("Assets/Shaders/TextureShader.glsl");
 
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Model;
-
-			void main() {
-				gl_Position = u_ViewProjection * u_Model * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string flatColorShaderFrag = R"(
-			#version 330 core
-			
-			layout(location = 0) out vec4 color;
-
-			uniform vec4 u_Color;
-
-			void main() {
-				color = u_Color;
-			}
-		)";
-
-		std::string textureShaderVert = R"(
-			#version 330 core
-			
-			layout(location = 0) in vec3 a_Position;
-			layout(location = 1) in vec2 a_TextureCoordinate;
-
-			uniform mat4 u_ViewProjection;
-			uniform mat4 u_Model;
-			
-			out vec2 v_TexCoord;
-	
-			void main() {
-				v_TexCoord = a_TextureCoordinate;
-				gl_Position = u_ViewProjection * u_Model * vec4(a_Position, 1.0);
-			}
-		)";
-
-		std::string textureShaderFrag = R"(
-			#version 330 core
-			
-			in vec2 v_TexCoord;
-
-			layout(location = 0) out vec4 color;
-
-			uniform sampler2D u_Texture;
-
-			void main() {
-				color = vec4(v_TexCoord, 0.0, 1.0);
-				color = texture(u_Texture, v_TexCoord);
-			}
-		)";
-
-		_pFlatColorShader = Bagel::Shader::Create(flatColorShaderVert, flatColorShaderFrag);
-		_pTexturedShader = Bagel::Shader::Create(textureShaderVert, textureShaderFrag);
-
-		_pCrateTexture = Bagel::Texture2D::Create("Textures/CrateTexture.jpg");
-		_pBlendTexture = Bagel::Texture2D::Create("Textures/BlendTest.png");
+		_pCrateTexture = Bagel::Texture2D::Create("Assets/Textures/CrateTexture.jpg");
+		_pBlendTexture = Bagel::Texture2D::Create("Assets/Textures/BlendTest.png");
 
 		//Vertex Pos (X, Y, Z). Texture coordinate (U, V)
 		float squareVertices[4 * 5] = {

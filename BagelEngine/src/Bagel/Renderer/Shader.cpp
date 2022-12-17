@@ -18,4 +18,15 @@ namespace Bagel {
 
 		return nullptr;
 	}
+	Ref<Shader> Shader::Create(const std::string& shaderSrc)
+	{
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::None:		BG_CORE_ASSERT(false, "RendererAPI::None is currently not supported!");
+		case RendererAPI::API::OpenGL:		return std::make_shared<OpenGLShader>(shaderSrc);
+		}
+
+		BG_CORE_ASSERT(false, "Unknown RendererAPI Selected!");
+
+		return nullptr;
+	}
 }
