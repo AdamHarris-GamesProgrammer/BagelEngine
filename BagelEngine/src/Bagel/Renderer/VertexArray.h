@@ -23,6 +23,6 @@ namespace Bagel {
 		virtual const std::shared_ptr<IndexBuffer>& GetIndexBuffer() const = 0;
 
 		//Handles creation of a VertexArray based on the desired API
-		static VertexArray* Create();
+		static Ref<VertexArray> Create();
 	};
 }

@@ -68,13 +68,11 @@ public:
 			}
 		)";
 
-		_pFlatColorShader.reset(Bagel::Shader::Create(flatColorShaderVert, flatColorShaderFrag));
-		_pTexturedShader.reset(Bagel::Shader::Create(textureShaderVert, textureShaderFrag));
+		_pFlatColorShader = Bagel::Shader::Create(flatColorShaderVert, flatColorShaderFrag);
+		_pTexturedShader = Bagel::Shader::Create(textureShaderVert, textureShaderFrag);
 
 		_pCrateTexture = Bagel::Texture2D::Create("Textures/CrateTexture.jpg");
 		_pBlendTexture = Bagel::Texture2D::Create("Textures/BlendTest.png");
-
-
 
 		//Vertex Pos (X, Y, Z). Texture coordinate (U, V)
 		float squareVertices[4 * 5] = {
@@ -89,12 +87,11 @@ public:
 			3,0,2
 		};
 
-		_pTexturedSquareVAO.reset(Bagel::VertexArray::Create());
-
-		_pSquareVAO.reset(Bagel::VertexArray::Create());
+		_pTexturedSquareVAO = Bagel::VertexArray::Create();
+		_pSquareVAO = Bagel::VertexArray::Create();
 
 		std::shared_ptr<Bagel::VertexBuffer> pSquareVertexBuffer;
-		pSquareVertexBuffer.reset(Bagel::VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+		pSquareVertexBuffer = Bagel::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
 		Bagel::BufferLayout squareLayout = {
 			{Bagel::ShaderDataType::Float3, "a_Position"},
 			{Bagel::ShaderDataType::Float2, "a_TextureCoordinate"}
@@ -103,7 +100,7 @@ public:
 		_pSquareVAO->AddVertexBuffer(pSquareVertexBuffer);
 
 		std::shared_ptr<Bagel::IndexBuffer> pSquareIndexBuffer;
-		pSquareIndexBuffer.reset(Bagel::IndexBuffer::Create(squareIndices, 6));
+		pSquareIndexBuffer = Bagel::IndexBuffer::Create(squareIndices, 6);
 		_pSquareVAO->SetIndexBuffer(pSquareIndexBuffer);
 	}
 
