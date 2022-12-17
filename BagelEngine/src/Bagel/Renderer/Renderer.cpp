@@ -4,6 +4,11 @@
 namespace Bagel {
 	Renderer::SceneData* Renderer::_sSceneData = new Renderer::SceneData;
 
+	void Renderer::Init()
+	{
+		RenderCommand::Init();
+	}
+
 	void Renderer::BeginScene(const OrthographicCamera& camera)
 	{
 		_sSceneData->ViewProjection = camera.ViewProj();

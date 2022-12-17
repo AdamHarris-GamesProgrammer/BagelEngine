@@ -6,6 +6,13 @@
 #include "OpenGLError.h"
 
 namespace Bagel {
+	void OpenGLRendererAPI::Init()
+	{
+		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
+		GLCall(glEnable(GL_BLEND));
+	}
+
+
 	void OpenGLRendererAPI::SetClearColor(const glm::vec4& color)
 	{
 		GLCall(glClearColor(color.r, color.g, color.b, color.a));

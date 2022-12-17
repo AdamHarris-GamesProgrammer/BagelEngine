@@ -2,6 +2,8 @@
 #include "BagelApplication.h"
 #include <GLFW/glfw3.h>
 
+#include "Renderer/Renderer.h"
+
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;
 
@@ -12,6 +14,8 @@ namespace Bagel {
 
 		_pWindow = std::unique_ptr<Window>(Window::Create());
 		_pWindow->SetEventCallback(BG_BIND_EVENT_FN(BagelApplication::OnEvent));
+
+		Renderer::Init();
 
 		_pImGuiLayer = new ImGuiLayer();
 		PushOverlay(_pImGuiLayer);

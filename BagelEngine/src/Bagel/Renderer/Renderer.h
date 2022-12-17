@@ -9,6 +9,8 @@ namespace Bagel {
 
 	class Renderer {
 	public:
+		static void Init();
+
 		static void BeginScene(const OrthographicCamera& camera); //TODO Scene Params
 		static void EndScene();
 

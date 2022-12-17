@@ -72,6 +72,7 @@ public:
 		_pTexturedShader.reset(Bagel::Shader::Create(textureShaderVert, textureShaderFrag));
 
 		_pCrateTexture = Bagel::Texture2D::Create("Textures/CrateTexture.jpg");
+		_pBlendTexture = Bagel::Texture2D::Create("Textures/BlendTest.png");
 
 
 
@@ -160,7 +161,9 @@ public:
 		_pTexturedShader->Bind();
 		_pTexturedShader->UploadUniformInt("u_Texture", 0);
 		_pCrateTexture->Bind(0);
+		Bagel::Renderer::Submit(_pTexturedShader, _pSquareVAO);
 
+		_pBlendTexture->Bind(0);
 		Bagel::Renderer::Submit(_pTexturedShader, _pSquareVAO);
 
 		Bagel::Renderer::EndScene();
@@ -190,6 +193,7 @@ private:
 	Bagel::Ref<Bagel::VertexArray> _pSquareVAO;
 	Bagel::Ref<Bagel::Shader> _pFlatColorShader, _pTexturedShader;
 	Bagel::Ref<Bagel::Texture2D> _pCrateTexture;
+	Bagel::Ref<Bagel::Texture2D> _pBlendTexture;
 
 	Bagel::OrthographicCamera _orthographicCamera;
 	glm::vec3 _cameraPosition;

@@ -20,13 +20,28 @@ namespace Bagel {
 		_width = width;
 		_height = height;
 
+		GLenum dataFormat = 0;
+		GLenum internalFormat = 0;
+
+		if (channels == 4) {
+			internalFormat = GL_RGBA8;
+			dataFormat = GL_RGBA;
+		}
+		else if (channels == 3) {
+			internalFormat = GL_RGB8;
+			dataFormat = GL_RGB;
+		}
+
+		BG_CORE_ASSERT(internalFormat && dataFormat, "Trying to load unsupported format!");
+
 		GLCall(glCreateTextures(GL_TEXTURE_2D, 1, &_rendererID));
-		GLCall(glTextureStorage2D(_rendererID, 1, GL_RGB8, _width, _height));
+			
+		GLCall(glTextureStorage2D(_rendererID, 1, internalFormat, _width, _height));
 
 		GLCall(glTextureParameteri(_rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
 		GLCall(glTextureParameteri(_rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
-		GLCall(glTextureSubImage2D(_rendererID, 0, 0, 0, _width, _height, GL_RGB, GL_UNSIGNED_BYTE, data));
+		GLCall(glTextureSubImage2D(_rendererID, 0, 0, 0, _width, _height, dataFormat, GL_UNSIGNED_BYTE, data));
 
 		//Deallocate memory assocaited with the image
 		stbi_image_free(data);

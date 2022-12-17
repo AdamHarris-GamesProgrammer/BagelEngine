@@ -9,6 +9,10 @@ namespace Bagel {
 			_sRendererAPI->DrawIndexed(vertexArray);
 		}
 
+		inline static void Init() {
+			_sRendererAPI->Init();
+		}
+
 		inline static void SetClearColor(const glm::vec4& color) {
 			_sRendererAPI->SetClearColor(color);
 		}
