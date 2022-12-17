@@ -48,10 +48,14 @@ namespace Bagel {
 			_sGLFWInitialized = true;
 		}
 
+		//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+		//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
+
 		_pWindow = glfwCreateWindow((int)props.width, (int)props.height, _data.title.c_str(), nullptr, nullptr);
 		_pContext = new OpenGLContext(_pWindow);
 		_pContext->Init();
 
+		
 
 		glfwSetWindowUserPointer(_pWindow, &_data);
 		SetVSync(true);

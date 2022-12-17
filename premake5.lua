@@ -16,7 +16,7 @@ IncludeDir["GLFW"] = "BagelEngine/vendor/GLFW/include"
 IncludeDir["Glad"] = "BagelEngine/vendor/Glad/include"
 IncludeDir["ImGui"] = "BagelEngine/vendor/imgui"
 IncludeDir["glm"] = "BagelEngine/vendor/glm"
-
+IncludeDir["stb_image"] = "BagelEngine/vendor/stb_image"
 
 
 
@@ -45,6 +45,8 @@ project "BagelEngine"
 	{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/vendor/stb_image/**.h",
+		"%{prj.name}/vendor/stb_image/**.cpp",
 		"%{prj.name}/vendor/glm/glm/**.hpp",
 		"%{prj.name}/vendor/glm/glm/**.inl"
 	}
@@ -57,6 +59,7 @@ project "BagelEngine"
 	{
 		"%{prj.name}/src",
 		"%{prj.name}/vendor/spdlog/include",
+		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.GLFW}", 
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.ImGui}",

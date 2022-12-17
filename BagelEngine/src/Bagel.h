@@ -24,6 +24,7 @@
 #include "Bagel/Renderer/VertexArray.h"
 #include "Bagel/Renderer/Buffer.h"
 #include "Bagel/Renderer/Shader.h"
+#include "Bagel/Renderer/Texture.h"
 
 //Renderer Primitives
 #include "Bagel/Renderer/OrthographicCamera.h"
@@ -31,3 +32,5 @@
 #include "Bagel/Core/TimeStep.h"
 
 #include <stdio.h>
+
+
