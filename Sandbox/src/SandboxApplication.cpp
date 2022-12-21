@@ -4,6 +4,8 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Bagel/Renderer/Shader.h"
+
 
 class ExampleLayer : public Bagel::Layer {
 public:
@@ -11,8 +13,9 @@ public:
 		_orthographicCamera(-1.6f, 1.6f, -0.9f, 0.9f), _cameraPosition(0.0f),
 		_aColor(0.8f,0.2f,0.2f,1.0f), _bColor(0.2f,0.2f,0.8f,1.0f)
 	{
-		_pFlatColorShader = Bagel::Shader::Create("Assets/Shaders/FlatColorShader.glsl");
-		_pTexturedShader = Bagel::Shader::Create("Assets/Shaders/TextureShader.glsl");
+
+		_pFlatColorShader = _shaderLibrary.Load("Assets/Shaders/FlatColorShader.glsl");
+		_shaderLibrary.Load("Assets/Shaders/TextureShader.glsl");
 
 		_pCrateTexture = Bagel::Texture2D::Create("Assets/Textures/CrateTexture.jpg");
 		_pBlendTexture = Bagel::Texture2D::Create("Assets/Textures/BlendTest.png");
@@ -98,13 +101,15 @@ public:
 			}
 		}
 
-		_pTexturedShader->Bind();
-		_pTexturedShader->UploadUniformInt("u_Texture", 0);
+		auto textureShader = _shaderLibrary.Get("TextureShader");
+
+		textureShader->Bind();
+		textureShader->UploadUniformInt("u_Texture", 0);
 		_pCrateTexture->Bind(0);
-		Bagel::Renderer::Submit(_pTexturedShader, _pSquareVAO);
+		Bagel::Renderer::Submit(textureShader, _pSquareVAO);
 
 		_pBlendTexture->Bind(0);
-		Bagel::Renderer::Submit(_pTexturedShader, _pSquareVAO);
+		Bagel::Renderer::Submit(textureShader, _pSquareVAO);
 
 		Bagel::Renderer::EndScene();
 	}
@@ -131,14 +136,17 @@ public:
 private:
 	Bagel::Ref<Bagel::VertexArray> _pTexturedSquareVAO;
 	Bagel::Ref<Bagel::VertexArray> _pSquareVAO;
-	Bagel::Ref<Bagel::Shader> _pFlatColorShader, _pTexturedShader;
+	Bagel::Ref<Bagel::Shader> _pFlatColorShader;
 	Bagel::Ref<Bagel::Texture2D> _pCrateTexture;
 	Bagel::Ref<Bagel::Texture2D> _pBlendTexture;
 
 	Bagel::OrthographicCamera _orthographicCamera;
+	
+	Bagel::ShaderLibrary _shaderLibrary;
+
 	glm::vec3 _cameraPosition;
 	float _cameraRotation = 0.0f;
-
+	
 	float _cameraMoveSpeed = 0.25f;
 	float _cameraRotationSpeed = 10.0f;
 

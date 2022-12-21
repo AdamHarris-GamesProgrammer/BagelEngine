@@ -46,7 +46,6 @@ static bool GLLogCall(const char* function, const char* file, int line) {
 
 		BG_CORE_ERROR("[OpenGL Error]: ({0}) {1} {2}: {3}", errorString, function, file, line);
 
-		//std::cout << "[OpenGL Error]: (" << errorString << ") " << function << " " << file << ":" << line << std::endl;
 		return false;
 	}
 	return true;

@@ -4,6 +4,8 @@
 #include <string>
 #include <unordered_set>
 
+#include <stdlib.h>
+
 #include <functional>
 #include <iostream>
 #include <sstream>

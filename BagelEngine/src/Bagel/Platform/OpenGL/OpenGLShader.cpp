@@ -10,6 +10,7 @@
 #include "OpenGLError.h"
 
 #include <fstream>
+#include <filesystem>
 
 namespace Bagel {
 	static GLenum ShaderTypeFromString(const std::string& type) {
@@ -23,7 +24,8 @@ namespace Bagel {
 		return 0;
 	}
 
-	OpenGLShader::OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc)
+	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+		: _name(name)
 	{
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -39,6 +41,10 @@ namespace Bagel {
 		std::unordered_map<GLenum, std::string> shaders = PreProcess(shaderCode);
 
 		Compile(shaders);
+
+		std::filesystem::path path = shaderSrc;
+
+		_name = path.stem().string();
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -58,14 +64,16 @@ namespace Bagel {
 
 	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string> shaders)
 	{
-		std::vector<GLuint> shaderIDs;
+		BG_CORE_ASSERT(shaders.size() <= 2, "Only two shaders are supported at this point in time");
+		
+		int glShaderIndex = 0;
+		std::array<GLenum, 2> glShaderIDs;
 
 		_rendererID = glCreateProgram();
 
 		for (auto& kv : shaders) {
 			GLenum type = kv.first;
 			std::string& src = kv.second;
-
 
 			GLuint shaderID = glCreateShader(type);
 
@@ -98,7 +106,8 @@ namespace Bagel {
 			}
 
 			GLCall(glAttachShader(_rendererID, shaderID));
-			shaderIDs.emplace_back(shaderID);
+
+			glShaderIDs[glShaderIndex++] = shaderID;
 		}
 
 		// Link our program
@@ -119,7 +128,7 @@ namespace Bagel {
 			GLCall(glDeleteProgram(_rendererID));
 
 			// Don't leak shaders either.
-			for (auto& id : shaderIDs) {
+			for (auto& id : glShaderIDs) {
 				GLCall(glDeleteShader(id));
 			}
 
@@ -129,7 +138,7 @@ namespace Bagel {
 
 		}
 
-		for (auto& id : shaderIDs) {
+		for (auto& id : glShaderIDs) {
 			GLCall(glDetachShader(_rendererID, id));
 		}
 	}
@@ -198,7 +207,6 @@ namespace Bagel {
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
 		GLCall(glUniform1fv(location, 1, &input));
 	}
-
 	void OpenGLShader::UploadUniformFloat2(const std::string& uniformName, const glm::vec2& input)
 	{
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
@@ -209,7 +217,6 @@ namespace Bagel {
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
 		GLCall(glUniform3fv(location, 1, glm::value_ptr(input)));
 	}
-
 	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input)
 	{
 		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());

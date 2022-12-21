@@ -8,7 +8,7 @@
 namespace Bagel {
 	class OpenGLShader : public Shader {
 	public:
-		OpenGLShader(const std::string& vertexSrc, const std::string& fragmentSrc);
+		OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		OpenGLShader(const std::string& shaderSrc);
 
 		virtual ~OpenGLShader();
@@ -16,6 +16,9 @@ namespace Bagel {
 		virtual void Bind() const override;
 		virtual void Unbind() const override;
 
+		virtual const std::string& GetName() const override {
+			return _name;
+		}
 
 		virtual void UploadUniformFloat(const std::string& uniformName, const float& input) override;
 		virtual void UploadUniformFloat2(const std::string& uniformName, const glm::vec2& input) override;
@@ -33,7 +36,7 @@ namespace Bagel {
 
 	private:
 		uint32_t _rendererID;
-
+		std::string _name;
 	};
 }
 
