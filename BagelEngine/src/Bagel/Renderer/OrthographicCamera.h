@@ -13,6 +13,8 @@ namespace Bagel {
 		float GetRotation() const { return _rotation; }
 		void SetRotation(float rotation) { _rotation = rotation; RecalculateViewMatrix(); }
 
+		void SetProjection(float left, float right, float bottom, float top);
+
 		const glm::mat4& ViewProj() const { return _viewProjMat; }
 		const glm::mat4& Proj() const { return _projMat; }
 		const glm::mat4& View() const { return _viewMat; }

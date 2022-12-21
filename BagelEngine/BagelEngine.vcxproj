@@ -159,6 +159,7 @@
     <ClInclude Include="src\Bagel\LayerStack.h" />
     <ClInclude Include="src\Bagel\Log.h" />
     <ClInclude Include="src\Bagel\MouseButtonCodes.h" />
+    <ClInclude Include="src\Bagel\OrthographicCameraController.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLError.h" />
@@ -604,6 +605,7 @@
     <ClCompile Include="src\Bagel\Layer.cpp" />
     <ClCompile Include="src\Bagel\LayerStack.cpp" />
     <ClCompile Include="src\Bagel\Log.cpp" />
+    <ClCompile Include="src\Bagel\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLRendererAPI.cpp" />

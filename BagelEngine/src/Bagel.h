@@ -1,7 +1,7 @@
 #pragma once
 
 
-//For use by Bagl Apps only
+//For use by Bagel Apps only
 #include "Bagel/Core.h"
 #include "Bagel/BagelApplication.h"
 #include "Bagel/Log.h"
@@ -28,9 +28,12 @@
 
 //Renderer Primitives
 #include "Bagel/Renderer/OrthographicCamera.h"
+#include "Bagel/OrthographicCameraController.h"
 
+//Core Objects
 #include "Bagel/Core/TimeStep.h"
 
+//Misc
 #include <stdio.h>
 
 

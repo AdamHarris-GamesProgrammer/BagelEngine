@@ -1411,6 +1411,7 @@
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLError.h" />
+    <ClInclude Include="src\Bagel\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bagel\BagelApplication.cpp">
@@ -1488,5 +1489,6 @@
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bagel\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>
