@@ -30,8 +30,11 @@ namespace Bagel {
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
-
 		Compile(sources);
+
+		//TODO: come up with a much better system for dealing with seperate shaders
+		std::string fullSrc = vertexSrc + "\n" + fragmentSrc;
+		_uniforms = FindUniforms(fullSrc);
 	}
 
 	OpenGLShader::OpenGLShader(const std::string& shaderSrc)
@@ -43,8 +46,9 @@ namespace Bagel {
 		Compile(shaders);
 
 		std::filesystem::path path = shaderSrc;
-
 		_name = path.stem().string();
+
+		_uniforms = FindUniforms(shaderCode);
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -149,13 +153,13 @@ namespace Bagel {
 
 		const char* typeToken = "#type";
 
-		size_t typeTokeLength = strlen(typeToken);
+		size_t typeTokenLength = strlen(typeToken);
 		size_t pos = source.find(typeToken, 0);
 		while (pos != std::string::npos) {
 			size_t eol = source.find_first_of("\r\n", pos);
 			BG_CORE_ASSERT(eol != std::string::npos, "Syntax Error");
 
-			size_t begin = pos + typeTokeLength + 1;
+			size_t begin = pos + typeTokenLength + 1;
 			std::string type = source.substr(begin, eol - begin);
 
 			BG_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type specified");
@@ -169,6 +173,60 @@ namespace Bagel {
 
 		return shaderSources;
 	}
+
+	std::unordered_map<std::string, UniformData> OpenGLShader::FindUniforms(const std::string& source) {
+		Bind();
+
+		std::unordered_map<std::string, UniformData> uniformMap;
+
+		const char* typeToken = "uniform";
+
+		size_t typeTokenLength = strlen(typeToken);
+		size_t pos = source.find(typeToken, 0);
+
+		BG_CORE_INFO("Searching Shader {0} for uniforms", _name);
+
+		while (pos != std::string::npos) {
+			size_t eol = source.find_first_of(";\r\n", pos);
+			BG_CORE_ASSERT(eol != std::string::npos, "Syntax Error");
+
+			size_t begin = pos + typeTokenLength + 1;
+			std::string uniform = source.substr(begin, eol - begin);
+			BG_CORE_INFO("Uniform Found: {0}", uniform);
+
+			size_t spacePos = source.find(" ", begin);
+			std::string uniformName = source.substr(spacePos + 1, eol - spacePos - 1);
+			BG_CORE_INFO("\tName: {0}", uniformName);
+
+			std::string uniformType = source.substr(begin, spacePos - begin);
+			BG_CORE_INFO("\tType: {0}", uniformType);
+
+			UniformData data;
+			data.type = StringToDataType(uniformType);
+			data.location = glGetUniformLocation(_rendererID, uniformName.c_str());
+
+			uniformMap[uniformName] = data;
+
+			size_t nextLinePos = source.find_first_not_of("\r\n", eol);
+			pos = source.find(typeToken, nextLinePos);
+		}
+
+
+		return uniformMap;
+	}
+
+	UniformData OpenGLShader::GetUniform(const std::string& name) {
+		if (!DoesUniformExist(name)) {
+			BG_CORE_ASSERT(false, "Attempting to get non-existent uniform");
+		}
+
+		return _uniforms[name];
+	}
+
+	bool OpenGLShader::DoesUniformExist(const std::string& uniformName) const {
+		return _uniforms.find(uniformName) != _uniforms.end();
+	}
+
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
@@ -186,7 +244,6 @@ namespace Bagel {
 			file.read(&result[0], size);
 
 			file.close();
-
 		}
 		else {
 			BG_CORE_ERROR("Shader file {0} does not exist", filepath);
@@ -197,35 +254,56 @@ namespace Bagel {
 
 	void OpenGLShader::UploadUniformMat4(const std::string& uniformName, const glm::mat4& input)
 	{
-		GLint uniformLoc = glGetUniformLocation(_rendererID, uniformName.c_str());
-		//BG_CORE_ASSERT(uniformLoc != 0, "Shader does not possess this uniform");
-		GLCall(glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(input)));
-	}
+		UniformData data = GetUniform(uniformName);
+		if (data.type != ShaderDataType::Mat4) {
+			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
+		}
 
+		GLCall(glUniformMatrix4fv(data.location, 1, GL_FALSE, glm::value_ptr(input)));
+	}
 	void OpenGLShader::UploadUniformFloat(const std::string& uniformName, const float& input)
 	{
-		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		GLCall(glUniform1fv(location, 1, &input));
+		UniformData data = GetUniform(uniformName);
+		if (data.type != ShaderDataType::Float) {
+			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
+		}
+
+		GLCall(glUniform1fv(data.location, 1, &input));
 	}
 	void OpenGLShader::UploadUniformFloat2(const std::string& uniformName, const glm::vec2& input)
 	{
-		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		GLCall(glUniform2fv(location, 1, glm::value_ptr(input)));
+		UniformData data = GetUniform(uniformName);
+		if (data.type != ShaderDataType::Float2) {
+			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
+		}
+
+		GLCall(glUniform2fv(data.location, 1, glm::value_ptr(input)));
 	}
 	void OpenGLShader::UploadUniformFloat3(const std::string& uniformName, const glm::vec3& input)
 	{
-		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		GLCall(glUniform3fv(location, 1, glm::value_ptr(input)));
+		UniformData data = GetUniform(uniformName);
+		if (data.type != ShaderDataType::Float3) {
+			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
+		}
+
+		GLCall(glUniform3fv(data.location, 1, glm::value_ptr(input)));
 	}
 	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input)
 	{
-		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		GLCall(glUniform4fv(location, 1, glm::value_ptr(input)));
-	}
+		UniformData data = GetUniform(uniformName);
+		if (data.type != ShaderDataType::Float4) {
+			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
+		}
 
+		GLCall(glUniform4fv(data.location, 1, glm::value_ptr(input)));
+	}
 	void OpenGLShader::UploadUniformInt(const std::string& uniformName, const int& input)
 	{
-		GLint location = glGetUniformLocation(_rendererID, uniformName.c_str());
-		GLCall(glUniform1i(location, input));
+		UniformData data = GetUniform(uniformName);
+		if (data.type != ShaderDataType::Int) {
+			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
+		}
+
+		GLCall(glUniform1i(data.location, input));
 	}
 }

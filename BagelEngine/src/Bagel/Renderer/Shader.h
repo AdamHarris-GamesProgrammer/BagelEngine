@@ -30,7 +30,6 @@ namespace Bagel {
 		virtual void UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input) = 0;
 
 		virtual void UploadUniformInt(const std::string& uniformName, const int& input) = 0;
-
 	};
 
 

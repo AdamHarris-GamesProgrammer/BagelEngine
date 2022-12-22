@@ -33,6 +33,25 @@ namespace Bagel {
 		return 0;
 	}
 
+	static ShaderDataType StringToDataType(const std::string& typeName) {
+		if (typeName == "float") return ShaderDataType::Float;
+		else if (typeName == "vec2") return ShaderDataType::Float2;
+		else if (typeName == "vec3") return ShaderDataType::Float3;
+		else if (typeName == "vec4") return ShaderDataType::Float4;
+		else if (typeName == "int") return ShaderDataType::Int;
+		else if (typeName == "ivec2") return ShaderDataType::Int2;
+		else if (typeName == "ivec3") return ShaderDataType::Int3;
+		else if (typeName == "ivec4") return ShaderDataType::Int4;
+		else if (typeName == "mat3") return ShaderDataType::Mat3;
+		else if (typeName == "mat4") return ShaderDataType::Mat4;
+		else if (typeName == "bool") return ShaderDataType::Bool;
+		else if (typeName == "sampler2D") return ShaderDataType::Int;
+
+		BG_CORE_ASSERT(false, "Unknown Type!");
+
+		return ShaderDataType::None;
+	}
+
 	struct BufferElement {
 		std::string Name;
 		ShaderDataType Type;

@@ -24,7 +24,6 @@ namespace Bagel {
 		shader->Bind();
 		shader->UploadUniformMat4("u_ViewProjection", _sSceneData->ViewProjection);
 		shader->UploadUniformMat4("u_Model", transform);
-		shader->UploadUniformFloat4("u_Color", color);
 		vertexArray->Bind();
 		RenderCommand::DrawIndexed(vertexArray);
 	}

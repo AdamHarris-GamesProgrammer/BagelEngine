@@ -61,6 +61,7 @@ public:
 		glm::mat4 rotation = glm::rotate(glm::mat4(1.0f), 0.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 
 		const auto& flatColor = _shaderLibrary.Get("FlatColorShader");
+		flatColor->Bind();
 
 		bool bIsAColor = false;
 		for (float y = 0.0f; y < 2.0f; y += 0.1f) {
@@ -70,6 +71,8 @@ public:
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * rotation * scale;
 
 				const glm::vec4& colorToUpload = bIsAColor ? _aColor : _bColor;
+
+				flatColor->UploadUniformFloat4("u_Color", colorToUpload);
 
 				Bagel::Renderer::Submit(flatColor, _pSquareVAO, transform, colorToUpload);
 
