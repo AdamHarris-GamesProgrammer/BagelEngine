@@ -11,8 +11,9 @@
 namespace Bagel {
 	struct Renderer2DData {
 		Ref<Bagel::VertexArray> QuadVertexArray;
-		Ref<Bagel::Shader> FlatColorShader;
 		Ref<Bagel::Shader> TextureShader;
+
+		Ref<Bagel::Texture2D> WhiteTexture;
 	};
 
 	static Renderer2DData* _sData;
@@ -20,7 +21,6 @@ namespace Bagel {
 	void Renderer2D::Init()
 	{
 		_sData = new Renderer2DData();
-		_sData->FlatColorShader = Shader::Create("Assets/Shaders/FlatColorShader.glsl");
 		_sData->TextureShader = Shader::Create("Assets/Shaders/TextureShader.glsl");
 
 		_sData->QuadVertexArray = VertexArray::Create();
@@ -52,6 +52,11 @@ namespace Bagel {
 		Ref<IndexBuffer> pSquareIndexBuffer;
 		pSquareIndexBuffer = IndexBuffer::Create(squareIndices, 6);
 		_sData->QuadVertexArray->SetIndexBuffer(pSquareIndexBuffer);
+
+		_sData->WhiteTexture = Texture2D::Create(1,1);
+
+		uint32_t whiteTexData = 0xffffffff;
+		_sData->WhiteTexture->SetData(&whiteTexData, sizeof(whiteTexData));
 	}
 
 	void Renderer2D::Shutdown()
@@ -61,13 +66,9 @@ namespace Bagel {
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		_sData->FlatColorShader->Bind();
-		_sData->FlatColorShader->UploadUniformMat4("u_ViewProjection", camera.ViewProj());
-
 		_sData->TextureShader->Bind();
 		_sData->TextureShader->UploadUniformMat4("u_ViewProjection", camera.ViewProj());
 		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
-		
 	}
 	
 	void Renderer2D::EndScene()
@@ -78,19 +79,18 @@ namespace Bagel {
 	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotation, const glm::vec4& color)
 	{
 		DrawQuad({ pos.x, pos.y, 0.0f }, size, rotation, color);
-		
 	}
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const glm::vec4& color)
 	{
-		_sData->FlatColorShader->Bind();
-		_sData->FlatColorShader->UploadUniformFloat4("u_Color", color);
+		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
+		_sData->WhiteTexture->Bind(0);
 
 		glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), pos) * 
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
 
-		_sData->FlatColorShader->UploadUniformMat4("u_Model", modelMat);
+		_sData->TextureShader->UploadUniformMat4("u_Model", modelMat);
 
 		_sData->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
@@ -103,17 +103,15 @@ namespace Bagel {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
 	{
-		_sData->TextureShader->Bind();
 		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
+		texture->Bind(0);
+		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
 
 		glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), pos) *
 			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
 			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
 
 		_sData->TextureShader->UploadUniformMat4("u_Model", modelMat);
-
-		texture->Bind(0);
-		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
 
 		_sData->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
