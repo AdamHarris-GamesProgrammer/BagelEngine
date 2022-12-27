@@ -2,7 +2,7 @@
 #include "BagelApplication.h"
 #include <GLFW/glfw3.h>
 
-#include "Renderer/Renderer.h"
+#include "Bagel/Renderer/Renderer.h"
 
 namespace Bagel {
 	BagelApplication* BagelApplication::_instance = nullptr;

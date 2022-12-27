@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Bagel/Layer.h"
+#include "Bagel/Core/Layer.h"
 
 #include "Bagel/Events/ApplicationEvent.h"
 #include "Bagel/Events/KeyEvent.h"

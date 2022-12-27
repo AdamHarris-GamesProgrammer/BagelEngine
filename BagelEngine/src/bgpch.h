@@ -15,7 +15,7 @@
 #include <unordered_map>
 #include <utility>
 
-#include "Bagel/Log.h"
+#include "Bagel/Core/Log.h"
 
 #ifdef BG_PLATFORM_WINDOWS 
 #include <Windows.h>

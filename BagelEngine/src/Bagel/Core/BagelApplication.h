@@ -1,17 +1,17 @@
 #pragma once
-#include "Core.h"
-#include "Events/Event.h"
+#include "Bagel/Core/Core.h"
+#include "Bagel/Events/Event.h"
 
 #include "Bagel/Events/ApplicationEvent.h"
 #include "Bagel/Events/KeyEvent.h"
 #include "Bagel/Events/MouseEvent.h"
 
 #include "Window.h"
-#include "Bagel/LayerStack.h"
+#include "Bagel/Core/LayerStack.h"
 #include "Bagel/Events/Event.h"
 #include "Bagel/Events/ApplicationEvent.h"
-#include "ImGui/ImGuiLayer.h"
-#include "Core/TimeStep.h"
+#include "Bagel/ImGui/ImGuiLayer.h"
+#include "Bagel/Core/TimeStep.h"
 
 namespace Bagel {
 	class BG_API BagelApplication

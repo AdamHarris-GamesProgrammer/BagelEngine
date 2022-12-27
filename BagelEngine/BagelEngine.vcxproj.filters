@@ -57,17 +57,38 @@
     <ClInclude Include="src\Bagel.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bagel\BagelApplication.h">
-      <Filter>src\Bagel</Filter>
+    <ClInclude Include="src\Bagel\Core\BagelApplication.h">
+      <Filter>src\Bagel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bagel\Core.h">
-      <Filter>src\Bagel</Filter>
+    <ClInclude Include="src\Bagel\Core\Core.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\EntryPoint.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\Input.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\KeyCodes.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\Layer.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\LayerStack.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\Log.h">
+      <Filter>src\Bagel\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Core\MouseButtonCodes.h">
+      <Filter>src\Bagel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Bagel\Core\TimeStep.h">
       <Filter>src\Bagel\Core</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bagel\EntryPoint.h">
-      <Filter>src\Bagel</Filter>
+    <ClInclude Include="src\Bagel\Core\Window.h">
+      <Filter>src\Bagel\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\Bagel\Events\ApplicationEvent.h">
       <Filter>src\Bagel\Events</Filter>
@@ -84,28 +105,13 @@
     <ClInclude Include="src\Bagel\ImGui\ImGuiLayer.h">
       <Filter>src\Bagel\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bagel\Input.h">
-      <Filter>src\Bagel</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\KeyCodes.h">
-      <Filter>src\Bagel</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\Layer.h">
-      <Filter>src\Bagel</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\LayerStack.h">
-      <Filter>src\Bagel</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\Log.h">
-      <Filter>src\Bagel</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\MouseButtonCodes.h">
-      <Filter>src\Bagel</Filter>
-    </ClInclude>
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h">
       <Filter>src\Bagel\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLContext.h">
+      <Filter>src\Bagel\Platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLError.h">
       <Filter>src\Bagel\Platform\OpenGL</Filter>
     </ClInclude>
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLRendererAPI.h">
@@ -135,6 +141,9 @@
     <ClInclude Include="src\Bagel\Renderer\OrthographicCamera.h">
       <Filter>src\Bagel\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="src\Bagel\Renderer\OrthographicCameraController.h">
+      <Filter>src\Bagel\Renderer</Filter>
+    </ClInclude>
     <ClInclude Include="src\Bagel\Renderer\RenderCommand.h">
       <Filter>src\Bagel\Renderer</Filter>
     </ClInclude>
@@ -152,9 +161,6 @@
     </ClInclude>
     <ClInclude Include="src\Bagel\Renderer\VertexArray.h">
       <Filter>src\Bagel\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Bagel\Window.h">
-      <Filter>src\Bagel</Filter>
     </ClInclude>
     <ClInclude Include="src\bgpch.h">
       <Filter>src</Filter>
@@ -1410,27 +1416,28 @@
     <ClInclude Include="vendor\stb_image\stb_image.h">
       <Filter>vendor\stb_image</Filter>
     </ClInclude>
-    <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLError.h" />
-    <ClInclude Include="src\Bagel\OrthographicCameraController.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Bagel\BagelApplication.cpp">
-      <Filter>src\Bagel</Filter>
+    <ClCompile Include="src\Bagel\Core\BagelApplication.cpp">
+      <Filter>src\Bagel\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\Core\Layer.cpp">
+      <Filter>src\Bagel\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\Core\LayerStack.cpp">
+      <Filter>src\Bagel\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\Core\Log.cpp">
+      <Filter>src\Bagel\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bagel\Core\Window.cpp">
+      <Filter>src\Bagel\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\Bagel\ImGui\ImGuiBuild.cpp">
       <Filter>src\Bagel\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\Bagel\ImGui\ImGuiLayer.cpp">
       <Filter>src\Bagel\ImGui</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bagel\Layer.cpp">
-      <Filter>src\Bagel</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bagel\LayerStack.cpp">
-      <Filter>src\Bagel</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Bagel\Log.cpp">
-      <Filter>src\Bagel</Filter>
     </ClCompile>
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.cpp">
       <Filter>src\Bagel\Platform\OpenGL</Filter>
@@ -1462,6 +1469,9 @@
     <ClCompile Include="src\Bagel\Renderer\OrthographicCamera.cpp">
       <Filter>src\Bagel\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Bagel\Renderer\OrthographicCameraController.cpp">
+      <Filter>src\Bagel\Renderer</Filter>
+    </ClCompile>
     <ClCompile Include="src\Bagel\Renderer\RenderCommand.cpp">
       <Filter>src\Bagel\Renderer</Filter>
     </ClCompile>
@@ -1480,15 +1490,11 @@
     <ClCompile Include="src\Bagel\Renderer\VertexArray.cpp">
       <Filter>src\Bagel\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bagel\Window.cpp">
-      <Filter>src\Bagel</Filter>
-    </ClCompile>
     <ClCompile Include="src\bgpch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="vendor\stb_image\stb_image.cpp">
       <Filter>vendor\stb_image</Filter>
     </ClCompile>
-    <ClCompile Include="src\Bagel\OrthographicCameraController.cpp" />
   </ItemGroup>
 </Project>

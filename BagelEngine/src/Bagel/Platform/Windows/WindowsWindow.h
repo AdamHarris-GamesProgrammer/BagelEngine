@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Bagel/Window.h"
+#include "Bagel/Core/Window.h"
 
 #include "Bagel/Renderer/GraphicsContext.h"
 

@@ -1,7 +1,7 @@
 #include "bgpch.h"
 #include "Texture.h"
 
-#include "Bagel/Core.h"
+#include "Bagel/Core/Core.h"
 
 #include <string>
 

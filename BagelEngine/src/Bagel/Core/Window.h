@@ -2,7 +2,7 @@
 
 #include "bgpch.h"
 
-#include "Bagel/Core.h"
+#include "Bagel/Core/Core.h"
 #include "Bagel/Events/Event.h"
 #include "Bagel/Renderer/RendererAPI.h"
 

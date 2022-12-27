@@ -3,7 +3,7 @@
 #include <glm/glm.hpp>
 #include <unordered_map>
 
-#include "Bagel/Core.h"
+#include "Bagel/Core/Core.h"
 
 namespace Bagel {
 	//Abstract class for representing a Shader across different APIs

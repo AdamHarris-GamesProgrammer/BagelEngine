@@ -1,8 +1,8 @@
 #include "bgpch.h"
 #include "OrthographicCameraController.h"
 
-#include "Bagel/KeyCodes.h"
-#include "Bagel/Input.h"
+#include "Bagel/Core/KeyCodes.h"
+#include "Bagel/Core/Input.h"
 
 namespace Bagel {
 	OrthographicCameraController::OrthographicCameraController(float aspectratio, bool rotation)

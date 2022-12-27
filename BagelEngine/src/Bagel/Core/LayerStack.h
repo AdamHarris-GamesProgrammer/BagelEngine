@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Bagel/Core.h"
+#include "Bagel/Core/Core.h"
 #include "Layer.h"
 
 #include "bgpch.h"

@@ -1,5 +1,5 @@
 #pragma once
-#include "Bagel/Input.h"
+#include "Bagel/Core/Input.h"
 
 namespace Bagel {
 	class WindowsInput : public Input {

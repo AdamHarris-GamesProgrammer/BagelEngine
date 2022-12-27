@@ -144,22 +144,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\Bagel.h" />
-    <ClInclude Include="src\Bagel\BagelApplication.h" />
-    <ClInclude Include="src\Bagel\Core.h" />
+    <ClInclude Include="src\Bagel\Core\BagelApplication.h" />
+    <ClInclude Include="src\Bagel\Core\Core.h" />
+    <ClInclude Include="src\Bagel\Core\EntryPoint.h" />
+    <ClInclude Include="src\Bagel\Core\Input.h" />
+    <ClInclude Include="src\Bagel\Core\KeyCodes.h" />
+    <ClInclude Include="src\Bagel\Core\Layer.h" />
+    <ClInclude Include="src\Bagel\Core\LayerStack.h" />
+    <ClInclude Include="src\Bagel\Core\Log.h" />
+    <ClInclude Include="src\Bagel\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Bagel\Core\TimeStep.h" />
-    <ClInclude Include="src\Bagel\EntryPoint.h" />
+    <ClInclude Include="src\Bagel\Core\Window.h" />
     <ClInclude Include="src\Bagel\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Bagel\Events\Event.h" />
     <ClInclude Include="src\Bagel\Events\KeyEvent.h" />
     <ClInclude Include="src\Bagel\Events\MouseEvent.h" />
     <ClInclude Include="src\Bagel\ImGui\ImGuiLayer.h" />
-    <ClInclude Include="src\Bagel\Input.h" />
-    <ClInclude Include="src\Bagel\KeyCodes.h" />
-    <ClInclude Include="src\Bagel\Layer.h" />
-    <ClInclude Include="src\Bagel\LayerStack.h" />
-    <ClInclude Include="src\Bagel\Log.h" />
-    <ClInclude Include="src\Bagel\MouseButtonCodes.h" />
-    <ClInclude Include="src\Bagel\OrthographicCameraController.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLError.h" />
@@ -172,13 +172,13 @@
     <ClInclude Include="src\Bagel\Renderer\Buffer.h" />
     <ClInclude Include="src\Bagel\Renderer\GraphicsContext.h" />
     <ClInclude Include="src\Bagel\Renderer\OrthographicCamera.h" />
+    <ClInclude Include="src\Bagel\Renderer\OrthographicCameraController.h" />
     <ClInclude Include="src\Bagel\Renderer\RenderCommand.h" />
     <ClInclude Include="src\Bagel\Renderer\Renderer.h" />
     <ClInclude Include="src\Bagel\Renderer\RendererAPI.h" />
     <ClInclude Include="src\Bagel\Renderer\Shader.h" />
     <ClInclude Include="src\Bagel\Renderer\Texture.h" />
     <ClInclude Include="src\Bagel\Renderer\VertexArray.h" />
-    <ClInclude Include="src\Bagel\Window.h" />
     <ClInclude Include="src\bgpch.h" />
     <ClInclude Include="vendor\glm\glm\common.hpp" />
     <ClInclude Include="vendor\glm\glm\detail\_features.hpp" />
@@ -599,13 +599,13 @@
     <ClInclude Include="vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Bagel\BagelApplication.cpp" />
+    <ClCompile Include="src\Bagel\Core\BagelApplication.cpp" />
+    <ClCompile Include="src\Bagel\Core\Layer.cpp" />
+    <ClCompile Include="src\Bagel\Core\LayerStack.cpp" />
+    <ClCompile Include="src\Bagel\Core\Log.cpp" />
+    <ClCompile Include="src\Bagel\Core\Window.cpp" />
     <ClCompile Include="src\Bagel\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\Bagel\ImGui\ImGuiLayer.cpp" />
-    <ClCompile Include="src\Bagel\Layer.cpp" />
-    <ClCompile Include="src\Bagel\LayerStack.cpp" />
-    <ClCompile Include="src\Bagel\Log.cpp" />
-    <ClCompile Include="src\Bagel\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="src\Bagel\Platform\OpenGL\OpenGLRendererAPI.cpp" />
@@ -616,13 +616,13 @@
     <ClCompile Include="src\Bagel\Platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="src\Bagel\Renderer\Buffer.cpp" />
     <ClCompile Include="src\Bagel\Renderer\OrthographicCamera.cpp" />
+    <ClCompile Include="src\Bagel\Renderer\OrthographicCameraController.cpp" />
     <ClCompile Include="src\Bagel\Renderer\RenderCommand.cpp" />
     <ClCompile Include="src\Bagel\Renderer\Renderer.cpp" />
     <ClCompile Include="src\Bagel\Renderer\RendererAPI.cpp" />
     <ClCompile Include="src\Bagel\Renderer\Shader.cpp" />
     <ClCompile Include="src\Bagel\Renderer\Texture.cpp" />
     <ClCompile Include="src\Bagel\Renderer\VertexArray.cpp" />
-    <ClCompile Include="src\Bagel\Window.cpp" />
     <ClCompile Include="src\bgpch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

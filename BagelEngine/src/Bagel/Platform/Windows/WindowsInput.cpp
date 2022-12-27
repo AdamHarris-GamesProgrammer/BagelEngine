@@ -1,7 +1,7 @@
 #include "bgpch.h"
 #include "WindowsInput.h"
 
-#include "Bagel/BagelApplication.h"
+#include "Bagel/Core/BagelApplication.h"
 #include <GLFW/glfw3.h>
 
 namespace Bagel {

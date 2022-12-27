@@ -8,7 +8,7 @@
 #include <string>
 #include <iostream>
 
-#include "Bagel/Core.h"
+#include "Bagel/Core/Core.h"
 
 #define ASSERT(x) if(!(x)) __debugbreak();
 

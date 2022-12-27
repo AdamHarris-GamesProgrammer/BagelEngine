@@ -2,20 +2,20 @@
 
 
 //For use by Bagel Apps only
-#include "Bagel/Core.h"
-#include "Bagel/BagelApplication.h"
-#include "Bagel/Log.h"
-#include "Bagel/Layer.h"
+#include "Bagel/Core/Core.h"
+#include "Bagel/Core/BagelApplication.h"
+#include "Bagel/Core/Log.h"
+#include "Bagel/Core/Layer.h"
 #include "Bagel/ImGui/ImGuiLayer.h"
 #include "Bagel/Events/Event.h"
 
 //Input
-#include "Bagel/Input.h"
-#include "Bagel/KeyCodes.h"
-#include "Bagel/MouseButtonCodes.h"
+#include "Bagel/Core/Input.h"
+#include "Bagel/Core/KeyCodes.h"
+#include "Bagel/Core/MouseButtonCodes.h"
 
 //Entry Point Logic
-#include "Bagel/EntryPoint.h"
+#include "Bagel/Core/EntryPoint.h"
 
 //Renderer
 #include "Bagel/Renderer/Renderer.h"
@@ -29,7 +29,7 @@
 
 //Renderer Primitives
 #include "Bagel/Renderer/OrthographicCamera.h"
-#include "Bagel/OrthographicCameraController.h"
+#include "Bagel/Renderer/OrthographicCameraController.h"
 
 //Core Objects
 #include "Bagel/Core/TimeStep.h"

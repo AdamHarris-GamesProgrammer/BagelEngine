@@ -5,7 +5,7 @@
 
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Bagel/Core.h"
+#include "Bagel/Core/Core.h"
 
 #include "OpenGLError.h"
 
