@@ -19,9 +19,7 @@ public:
 
 private:
 	//Temp
-	Bagel::Ref<Bagel::VertexArray> _pSquareVAO;
 	Bagel::Ref<Bagel::Texture2D> _pCrateTexture;
-	Bagel::Ref<Bagel::Shader> _shader;
 
 	glm::vec4 _color;
 

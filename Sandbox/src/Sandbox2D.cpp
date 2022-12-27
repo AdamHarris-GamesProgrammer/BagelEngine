@@ -10,37 +10,8 @@ Sandbox2D::Sandbox2D(const std::string& name)
 
 void Sandbox2D::OnAttach()
 {
-	_shader = Bagel::Shader::Create("Assets/Shaders/TextureShader.glsl");
 	_pCrateTexture = Bagel::Texture2D::Create("Assets/Textures/CrateTexture.jpg");
-
-	//Vertex Pos (X, Y, Z). Texture coordinate (U, V)
-	float squareVertices[4 * 5] = {
-		0.2f, 0.0f, 0.0f, 0.0f, 0.0f,	//Bottom Left
-		0.5f, 0.0f, 0.0f, 1.0f, 0.0f,	//Bottom Right
-		0.5f, 0.3f, 0.0f, 1.0f, 1.0f,	//Top Right
-		0.2f, 0.3f, 0.0f, 0.0f, 1.0f	//Top Left
-	};
-
-	uint32_t squareIndices[6] = {
-		0,1,2,
-		3,0,2
-	};
-
-	_pSquareVAO = Bagel::VertexArray::Create();
-
-	Bagel::Ref<Bagel::VertexBuffer> pSquareVertexBuffer;
-	pSquareVertexBuffer = Bagel::VertexBuffer::Create(squareVertices, sizeof(squareVertices));
-	Bagel::BufferLayout squareLayout = {
-		{Bagel::ShaderDataType::Float3, "a_Position"},
-		{Bagel::ShaderDataType::Float2, "a_TextureCoordinate"}
-	};
-	pSquareVertexBuffer->SetLayout(squareLayout);
-	_pSquareVAO->AddVertexBuffer(pSquareVertexBuffer);
-
-	Bagel::Ref<Bagel::IndexBuffer> pSquareIndexBuffer;
-	pSquareIndexBuffer = Bagel::IndexBuffer::Create(squareIndices, 6);
-	_pSquareVAO->SetIndexBuffer(pSquareIndexBuffer);
-}
+	}
 
 void Sandbox2D::OnDetach()
 {
@@ -53,21 +24,19 @@ void Sandbox2D::OnUpdate(Bagel::Timestep timestep)
 	Bagel::RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 	Bagel::RenderCommand::Clear();
 
-	Bagel::Renderer::BeginScene(_cameraController.GetCamera());
-
-	_shader->Bind();
-	_shader->UploadUniformInt("u_Texture", 0);
-	_shader->UploadUniformFloat4("u_Color", _color);
+	Bagel::Renderer2D::BeginScene(_cameraController.GetCamera());
 
 	_pCrateTexture->Bind(0);
 
-	Bagel::Renderer::Submit(_shader, _pSquareVAO);
+	Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f));
+	Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f, 0.5f), glm::vec2(0.5f), 90.0f, glm::vec4(0.8f, 0.2f, 0.2f, 1.0f));
 
-	Bagel::Renderer::EndScene();
+	Bagel::Renderer2D::EndScene();
 }
 
 void Sandbox2D::OnEvent(Bagel::Event& event)
 {
+
 }
 
 void Sandbox2D::OnImGuiRender()

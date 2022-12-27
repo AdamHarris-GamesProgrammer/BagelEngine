@@ -18,6 +18,8 @@
 #include "Bagel/Renderer/Renderer.h"
 #include "Bagel/Renderer/RenderCommand.h"
 
+#include "Bagel/Renderer/Renderer2D.h"
+
 //Render Objects
 #include "Bagel/Renderer/VertexArray.h"
 #include "Bagel/Renderer/Buffer.h"
