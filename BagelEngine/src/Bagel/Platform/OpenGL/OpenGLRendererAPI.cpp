@@ -10,6 +10,8 @@ namespace Bagel {
 	{
 		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 		GLCall(glEnable(GL_BLEND));
+
+		GLCall(glEnable(GL_DEPTH_TEST));
 	}
 
 

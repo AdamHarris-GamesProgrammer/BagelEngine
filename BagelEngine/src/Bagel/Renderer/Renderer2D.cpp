@@ -12,6 +12,7 @@ namespace Bagel {
 	struct Renderer2DData {
 		Ref<Bagel::VertexArray> QuadVertexArray;
 		Ref<Bagel::Shader> FlatColorShader;
+		Ref<Bagel::Shader> TextureShader;
 	};
 
 	static Renderer2DData* _sData;
@@ -19,7 +20,8 @@ namespace Bagel {
 	void Renderer2D::Init()
 	{
 		_sData = new Renderer2DData();
-		_sData->FlatColorShader = Shader::Create("Assets/Shaders/TextureShader.glsl");
+		_sData->FlatColorShader = Shader::Create("Assets/Shaders/FlatColorShader.glsl");
+		_sData->TextureShader = Shader::Create("Assets/Shaders/TextureShader.glsl");
 
 		_sData->QuadVertexArray = VertexArray::Create();
 		
@@ -61,7 +63,10 @@ namespace Bagel {
 	{
 		_sData->FlatColorShader->Bind();
 		_sData->FlatColorShader->UploadUniformMat4("u_ViewProjection", camera.ViewProj());
-		_sData->FlatColorShader->UploadUniformInt("u_Texture", 0);
+
+		_sData->TextureShader->Bind();
+		_sData->TextureShader->UploadUniformMat4("u_ViewProjection", camera.ViewProj());
+		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
 		
 	}
 	
@@ -89,5 +94,30 @@ namespace Bagel {
 
 		_sData->QuadVertexArray->Bind();
 		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
+	{
+		DrawQuad({ pos.x,pos.y, 0.0f }, size, rotation, texture, color);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
+	{
+		_sData->TextureShader->Bind();
+		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
+
+		glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), pos) *
+			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
+
+		_sData->TextureShader->UploadUniformMat4("u_Model", modelMat);
+
+		texture->Bind(0);
+		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
+
+		_sData->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
+
+		texture->Unbind();
 	}
 }

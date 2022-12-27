@@ -23,5 +23,7 @@ private:
 
 	glm::vec4 _color;
 
+	float _testRot = 35.0f;
+
 	Bagel::OrthographicCameraController _cameraController;
 };

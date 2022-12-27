@@ -41,6 +41,9 @@ namespace Bagel {
 		GLCall(glTextureParameteri(_rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR));
 		GLCall(glTextureParameteri(_rendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST));
 
+		GLCall(glTextureParameteri(_rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT));
+		GLCall(glTextureParameteri(_rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT));
+
 		GLCall(glTextureSubImage2D(_rendererID, 0, 0, 0, _width, _height, dataFormat, GL_UNSIGNED_BYTE, data));
 
 		//Deallocate memory assocaited with the image
@@ -55,5 +58,9 @@ namespace Bagel {
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
 		GLCall(glBindTextureUnit(slot, _rendererID));
+	}
+	void OpenGLTexture2D::Unbind() const
+	{
+		GLCall(glBindTextureUnit(0, 0));
 	}
 }

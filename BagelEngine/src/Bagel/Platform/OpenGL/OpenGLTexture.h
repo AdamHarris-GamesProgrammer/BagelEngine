@@ -13,6 +13,7 @@ namespace Bagel {
 		virtual uint32_t GetHeight() const override { return _height; }
 
 		virtual void Bind(uint32_t slot) const override;
+		virtual void Unbind() const override;
 
 	private: 
 		uint32_t _width, _height;
