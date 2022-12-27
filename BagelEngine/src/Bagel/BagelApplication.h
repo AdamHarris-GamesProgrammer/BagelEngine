@@ -34,9 +34,11 @@ namespace Bagel {
 		static BagelApplication* _instance;
 
 		bool OnWindowClosed(WindowCloseEvent& e);
+		bool OnWindowResize(WindowResizeEvent& e);
 
 		std::unique_ptr<Window> _pWindow;
 		bool _running = true;
+		bool _minimized = false;
 
 		
 		LayerStack _layerStack;

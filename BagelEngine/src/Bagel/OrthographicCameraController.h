@@ -20,6 +20,14 @@ namespace Bagel {
 		const OrthographicCamera& GetCamera() const {
 			return _camera;
 		}
+		
+		void SetZoomLevel(float level) {
+			_zoomLevel = level;
+		}
+
+		float GetZoomLevel() const {
+			return _zoomLevel;
+		}
 
 	private:
 		bool OnMouseScrolledEvent(MouseScrolledEvent& e);

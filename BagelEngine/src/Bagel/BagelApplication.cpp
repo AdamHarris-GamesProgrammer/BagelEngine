@@ -32,8 +32,10 @@ namespace Bagel {
 			Timestep timestep = time - _lastFrameTime;
 			_lastFrameTime = time;
 
-			for (Layer* layer : _layerStack) {
-				layer->OnUpdate(timestep);
+			if (!_minimized) {
+				for (Layer* layer : _layerStack) {
+					layer->OnUpdate(timestep);
+				}
 			}
 
 			_pImGuiLayer->Begin();
@@ -50,6 +52,7 @@ namespace Bagel {
 		EventDispatcher dispatcher(event);
 
 		dispatcher.Dispatch<WindowCloseEvent>(BG_BIND_EVENT_FN(BagelApplication::OnWindowClosed));
+		dispatcher.Dispatch<WindowResizeEvent>(BG_BIND_EVENT_FN(BagelApplication::OnWindowResize));
 
 		//Goes backwards through the layer stack, allows overlays to handle events before a layer can
 		for (auto it = _layerStack.end(); it != _layerStack.begin();) {
@@ -72,5 +75,19 @@ namespace Bagel {
 	{
 		_running = false;
 		return true;
+	}
+
+	bool BagelApplication::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0.0f || e.GetHeight() == 0.0f) {
+			_minimized = true;
+			return false;
+		}
+
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		_minimized = false;
+
+		return false;
 	}
 }

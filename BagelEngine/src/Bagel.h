@@ -7,6 +7,7 @@
 #include "Bagel/Log.h"
 #include "Bagel/Layer.h"
 #include "Bagel/ImGui/ImGuiLayer.h"
+#include "Bagel/Events/Event.h"
 
 //Input
 #include "Bagel/Input.h"

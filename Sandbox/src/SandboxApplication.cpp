@@ -29,7 +29,6 @@ public:
 			3,0,2
 		};
 
-		_pTexturedSquareVAO = Bagel::VertexArray::Create();
 		_pSquareVAO = Bagel::VertexArray::Create();
 
 		Bagel::Ref<Bagel::VertexBuffer> pSquareVertexBuffer;
@@ -66,17 +65,17 @@ public:
 		bool bIsAColor = false;
 		for (float y = 0.0f; y < 2.0f; y += 0.1f) {
 			for (float x = 0.0f; x < 2.0f; x += 0.1f) {
-
+				//Create the transform matrix for the square at this position
 				glm::vec3 pos = glm::vec3(x, y, 0.0f);
 				glm::mat4 transform = glm::translate(glm::mat4(1.0f), pos) * rotation * scale;
 
+				//Decide what colour we should use for this square and then swap colour
 				const glm::vec4& colorToUpload = bIsAColor ? _aColor : _bColor;
-
 				flatColor->UploadUniformFloat4("u_Color", colorToUpload);
-
-				Bagel::Renderer::Submit(flatColor, _pSquareVAO, transform, colorToUpload);
-
 				bIsAColor = !bIsAColor;
+
+				//Submit for render
+				Bagel::Renderer::Submit(flatColor, _pSquareVAO, transform, colorToUpload);
 			}
 		}
 
@@ -99,6 +98,13 @@ public:
 	
 		_cameraController.OnEvent(event);
 
+		if (event.GetEventType() == Bagel::EventType::WindowResize) {
+			auto& resize = (Bagel::WindowResizeEvent&)event;
+
+			//float zoom = (float)resize.GetWidth() / 1280.0f;
+			//_cameraController.SetZoomLevel(zoom)
+		}
+
 	}
 
 	bool OnKeyPressedEvent(Bagel::KeyPressedEvent& event) {
@@ -115,7 +121,6 @@ public:
 	}
 
 private:
-	Bagel::Ref<Bagel::VertexArray> _pTexturedSquareVAO;
 	Bagel::Ref<Bagel::VertexArray> _pSquareVAO;
 	Bagel::Ref<Bagel::Texture2D> _pCrateTexture;
 	Bagel::Ref<Bagel::Texture2D> _pBlendTexture;
