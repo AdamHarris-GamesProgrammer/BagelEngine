@@ -14,9 +14,6 @@
 #include "Bagel/Core/KeyCodes.h"
 #include "Bagel/Core/MouseButtonCodes.h"
 
-//Entry Point Logic
-#include "Bagel/Core/EntryPoint.h"
-
 //Renderer
 #include "Bagel/Renderer/Renderer.h"
 #include "Bagel/Renderer/RenderCommand.h"

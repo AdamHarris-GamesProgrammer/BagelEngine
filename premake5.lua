@@ -128,10 +128,7 @@ project "Sandbox"
 
 	filter "system:windows"
 		systemversion "latest"
-		
-		defines {
-			"BG_PLATFORM_WINDOWS"
-		}
+
 
 	filter "configurations:Debug" 
 		defines "BG_DEBUG"
