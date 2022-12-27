@@ -26,7 +26,7 @@ namespace Bagel {
 			glm::mat4 ViewProjection;
 		};
 
-		static SceneData* _sSceneData;
+		static Scope<SceneData> _sSceneData;
 	};
 
 }

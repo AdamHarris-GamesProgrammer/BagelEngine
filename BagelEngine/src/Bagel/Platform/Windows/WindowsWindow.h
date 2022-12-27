@@ -30,7 +30,7 @@ namespace Bagel {
 	private:
 		GLFWwindow* _pWindow;
 
-		GraphicsContext* _pContext;
+		Scope<GraphicsContext> _pContext;
 
 		struct WindowData {
 			std::string title;

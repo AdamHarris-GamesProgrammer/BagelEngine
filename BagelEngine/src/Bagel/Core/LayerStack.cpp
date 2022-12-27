@@ -11,6 +11,7 @@ namespace Bagel {
 	{
 		//Delete all layers
 		for (Layer* layer : _layers) {
+			layer->OnDetach();
 			delete layer;
 		}
 	}

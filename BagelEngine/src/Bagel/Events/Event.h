@@ -31,7 +31,7 @@ namespace Bagel {
 	};
 
 	//This macro creates all the overrides for each of the classes that derive from the the event class. Simplifies the code creation of each class
-#define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::##type;}\
+#define EVENT_CLASS_TYPE(type)	static EventType GetStaticType() { return EventType::type;}\
 								virtual EventType GetEventType() const override { return GetStaticType();}\
 								virtual const char* GetName() const override { return #type; }
 

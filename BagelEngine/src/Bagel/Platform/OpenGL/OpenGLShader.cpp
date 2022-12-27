@@ -133,6 +133,7 @@ namespace Bagel {
 
 			// Don't leak shaders either.
 			for (auto& id : glShaderIDs) {
+				GLCall(glDetachShader(_rendererID, id));
 				GLCall(glDeleteShader(id));
 			}
 

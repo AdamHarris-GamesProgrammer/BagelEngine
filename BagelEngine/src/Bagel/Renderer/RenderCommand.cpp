@@ -4,5 +4,5 @@
 #include "Bagel/Platform/OpenGL/OpenGLRendererAPI.h"
 
 namespace Bagel {
-	RendererAPI* RenderCommand::_sRendererAPI = new OpenGLRendererAPI;
+	Scope<RendererAPI> RenderCommand::_sRendererAPI = CreateScope<OpenGLRendererAPI>();
 }

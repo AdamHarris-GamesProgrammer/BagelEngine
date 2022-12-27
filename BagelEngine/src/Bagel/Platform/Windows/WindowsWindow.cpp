@@ -49,7 +49,7 @@ namespace Bagel {
 		}
 
 		_pWindow = glfwCreateWindow((int)props.width, (int)props.height, _data.title.c_str(), nullptr, nullptr);
-		_pContext = new OpenGLContext(_pWindow);
+		_pContext = CreateScope<OpenGLContext>(_pWindow);
 		_pContext->Init();
 
 		glfwSetWindowUserPointer(_pWindow, &_data);

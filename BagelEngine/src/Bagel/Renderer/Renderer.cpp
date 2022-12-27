@@ -2,7 +2,7 @@
 #include "Renderer.h"
 
 namespace Bagel {
-	Renderer::SceneData* Renderer::_sSceneData = new Renderer::SceneData;
+	Scope<Renderer::SceneData> Renderer::_sSceneData = CreateScope<Renderer::SceneData>();
 
 	void Renderer::Init()
 	{

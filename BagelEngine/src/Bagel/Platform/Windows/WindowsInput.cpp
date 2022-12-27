@@ -5,7 +5,7 @@
 #include <GLFW/glfw3.h>
 
 namespace Bagel {
-	Input* Input::_instance = new WindowsInput();
+	Scope<Input> Input::_instance = CreateScope<WindowsInput>();
 
 	bool WindowsInput::IsKeyPressImpl(int keycode)
 	{

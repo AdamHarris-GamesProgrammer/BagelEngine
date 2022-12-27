@@ -29,6 +29,6 @@ namespace Bagel {
 		 
 
 	private:
-		static RendererAPI* _sRendererAPI;
+		static Scope<RendererAPI> _sRendererAPI;
 	};
 }

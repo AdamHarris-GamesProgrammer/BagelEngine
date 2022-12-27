@@ -26,7 +26,7 @@ namespace Bagel {
 		virtual std::pair<float, float> GetMousePositionImpl() = 0;
 
 	private:
-		static Input* _instance;
+		static Scope<Input> _instance;
 
 	};
 }
