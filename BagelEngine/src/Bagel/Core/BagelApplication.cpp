@@ -14,6 +14,7 @@ namespace Bagel {
 
 		_pWindow = std::unique_ptr<Window>(Window::Create());
 		_pWindow->SetEventCallback(BG_BIND_EVENT_FN(BagelApplication::OnEvent));
+		//_pWindow->SetVSync(false);
 
 		Renderer::Init();
 
