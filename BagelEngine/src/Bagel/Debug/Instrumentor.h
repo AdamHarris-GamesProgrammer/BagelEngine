@@ -37,6 +37,10 @@ namespace Bagel {
         void BeginSession(const std::string& name, const std::string& filepath = "results.json")
         {
             m_OutputStream.open(filepath);
+            if (m_OutputStream.bad()) {
+                BG_CORE_ASSERT(false, "Failed to open profiler file")
+            }
+
             WriteHeader();
             m_CurrentSession = new InstrumentationSession{ name };
         }

@@ -28,20 +28,31 @@ namespace Bagel {
 
 	void BagelApplication::Run()
 	{
+		BG_PROFILE_FUNCTION();
+
 		while (_running) {
+			BG_PROFILE_SCOPE("Run Loop");
+
 			float time = (float)glfwGetTime();
 			Timestep timestep = time - _lastFrameTime;
 			_lastFrameTime = time;
 
 			if (!_minimized) {
-				for (Layer* layer : _layerStack) {
-					layer->OnUpdate(timestep);
+				{
+					BG_PROFILE_SCOPE("Application::Run(): Updating Layers")
+
+						for (Layer* layer : _layerStack) {
+							layer->OnUpdate(timestep);
+						}
 				}
 			}
 
 			_pImGuiLayer->Begin();
-			for (Layer* layer : _layerStack)
-				layer->OnImGuiRender();
+			{
+				BG_PROFILE_SCOPE("ImGUI Render");
+				for (Layer* layer : _layerStack)
+					layer->OnImGuiRender();
+			}
 			_pImGuiLayer->End();
 
 			_pWindow->OnUpdate();
@@ -50,6 +61,8 @@ namespace Bagel {
 
 	void BagelApplication::OnEvent(Event& event)
 	{
+		BG_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(event);
 
 		dispatcher.Dispatch<WindowCloseEvent>(BG_BIND_EVENT_FN(BagelApplication::OnWindowClosed));
@@ -64,12 +77,16 @@ namespace Bagel {
 
 	void BagelApplication::PushLayer(Layer* layer)
 	{
+		BG_PROFILE_FUNCTION();
 		_layerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
 	void BagelApplication::PushOverlay(Layer* layer)
 	{
+		BG_PROFILE_FUNCTION();
 		_layerStack.PushOverlay(layer);
+		layer->OnAttach();
 	}
 
 	bool BagelApplication::OnWindowClosed(WindowCloseEvent& e)
@@ -80,6 +97,8 @@ namespace Bagel {
 
 	bool BagelApplication::OnWindowResize(WindowResizeEvent& e)
 	{
+		BG_PROFILE_FUNCTION()
+
 		if (e.GetWidth() == 0.0f || e.GetHeight() == 0.0f) {
 			_minimized = true;
 			return false;

@@ -22,6 +22,7 @@ namespace Bagel {
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		BG_PROFILE_FUNCTION();
 		Init(props);
 	}
 
@@ -32,6 +33,7 @@ namespace Bagel {
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		BG_PROFILE_FUNCTION();
 		_data.title = props.title;
 		_data.width = props.width;
 		_data.height = props.height;
@@ -143,12 +145,14 @@ namespace Bagel {
 
 	void WindowsWindow::OnUpdate()
 	{
+		BG_PROFILE_FUNCTION();
 		glfwPollEvents();
 		_pContext->SwapBuffers();
 	}
 
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		BG_PROFILE_FUNCTION();
 		if (enabled) {
 			glfwSwapInterval(1);
 		}
@@ -161,6 +165,7 @@ namespace Bagel {
 
 	void WindowsWindow::Shutdown()
 	{
+		BG_PROFILE_FUNCTION();
 		glfwDestroyWindow(_pWindow);
 	}
 }

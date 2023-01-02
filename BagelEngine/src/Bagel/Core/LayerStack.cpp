@@ -21,14 +21,12 @@ namespace Bagel {
 		//Adds the layer to the back of the layer section of the layer stack
 		_layers.emplace(_layers.begin() + _layerInsertIndex , layer);
 		_layerInsertIndex++;
-		layer->OnAttach();
 	}
 
 	void LayerStack::PushOverlay(Layer* overlay)
 	{
 		//Adds overlay to back of the stack
 		_layers.emplace_back(overlay);
-		overlay->OnAttach();
 	}
 
 

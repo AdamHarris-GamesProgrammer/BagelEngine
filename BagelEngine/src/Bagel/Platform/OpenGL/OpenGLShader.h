@@ -40,7 +40,7 @@ namespace Bagel {
 
 		UniformData GetUniform(const std::string& uniformName);
 
-		bool DoesUniformExist(const std::string& unformName) const;
+		inline bool DoesUniformExist(const std::string& unformName) const;
 
 	private:
 		void Compile(std::unordered_map<GLenum, std::string> shaders);

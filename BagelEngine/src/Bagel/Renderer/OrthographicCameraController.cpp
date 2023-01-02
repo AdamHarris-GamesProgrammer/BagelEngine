@@ -13,6 +13,8 @@ namespace Bagel {
 
 	void OrthographicCameraController::OnUpdate(Timestep ts)
 	{
+		BG_PROFILE_FUNCTION();
+
 		float dt = ts;
 
 		if (Input::IsKeyPress(BG_KEY_A)) {
@@ -54,6 +56,8 @@ namespace Bagel {
 	}
 
 	void OrthographicCameraController::OnEvent(Event& e) {
+		BG_PROFILE_FUNCTION();
+
 		EventDispatcher dispatcher(e);
 
 		dispatcher.Dispatch<MouseScrolledEvent>(BG_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolledEvent));
@@ -61,6 +65,8 @@ namespace Bagel {
 	}
 
 	bool OrthographicCameraController::OnMouseScrolledEvent(MouseScrolledEvent& e) {
+		BG_PROFILE_FUNCTION();
+
 		_zoomLevel -= e.GetY() * 0.25f;
 		_zoomLevel = std::max(_zoomLevel, 0.25f);
 
@@ -72,6 +78,8 @@ namespace Bagel {
 	}
 
 	bool OrthographicCameraController::OnWindowResizedEvent(WindowResizeEvent& e) {
+		BG_PROFILE_FUNCTION();
+
 		_aspectRatio = (float)e.GetWidth() / (float)e.GetHeight();
 
 		_camera.SetProjection(-_aspectRatio * _zoomLevel, _aspectRatio * _zoomLevel, -_zoomLevel, _zoomLevel);

@@ -21,10 +21,7 @@ void Sandbox2D::OnUpdate(Bagel::Timestep timestep)
 {
 	BG_PROFILE_FUNCTION();
 
-	{
-		BG_PROFILE_SCOPE("CameraController::OnUpdate");
-		_cameraController.OnUpdate(timestep);
-	}
+	_cameraController.OnUpdate(timestep);
 
 	{
 		BG_PROFILE_SCOPE("Render Prep");
@@ -35,9 +32,16 @@ void Sandbox2D::OnUpdate(Bagel::Timestep timestep)
 
 	{
 		BG_PROFILE_SCOPE("Render Draw Calls");
-		Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f));
-		Bagel::Renderer2D::DrawQuad(glm::vec2(-0.7f, 0.7f), glm::vec2(0.3f), _testRot, _color);
-		Bagel::Renderer2D::DrawQuad(glm::vec3(0.0f, 0.0f, -0.3f), glm::vec2(10.0f), 90.0f, _pCrateTexture, glm::vec4(0.3f, 0.2f, 0.3f, 1.0f));
+
+		for (float y = 0.0f; y <= 5.0f; y += 0.25f) {
+			for (float x = 0.0f; x <= 5.0f; x += 0.25f) {
+				Bagel::Renderer2D::DrawQuad(glm::vec2(x, y), glm::vec2(0.2f), 0.0f, _pCrateTexture);
+			}
+
+			Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f));
+			Bagel::Renderer2D::DrawQuad(glm::vec2(-0.7f, 0.7f), glm::vec2(0.3f), _testRot, _color);
+			Bagel::Renderer2D::DrawQuad(glm::vec3(0.0f, 0.0f, -0.3f), glm::vec2(10.0f), 90.0f, _pCrateTexture, glm::vec4(0.3f, 0.2f, 0.3f, 1.0f));
+		}
 	}
 
 	Bagel::Renderer2D::EndScene();

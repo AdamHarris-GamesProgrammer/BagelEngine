@@ -20,6 +20,8 @@ namespace Bagel {
 
 	void Renderer2D::Init()
 	{
+		BG_PROFILE_FUNCTION();
+
 		_sData = new Renderer2DData();
 		_sData->TextureShader = Shader::Create("Assets/Shaders/TextureShader.glsl");
 
@@ -61,11 +63,13 @@ namespace Bagel {
 
 	void Renderer2D::Shutdown()
 	{
+		BG_PROFILE_FUNCTION();
 		delete _sData;
 	}
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
+		BG_PROFILE_FUNCTION();
 		_sData->TextureShader->Bind();
 		_sData->TextureShader->UploadUniformMat4("u_ViewProjection", camera.ViewProj());
 		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
@@ -83,12 +87,15 @@ namespace Bagel {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const glm::vec4& color)
 	{
+		BG_PROFILE_FUNCTION();
 		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
 		_sData->WhiteTexture->Bind(0);
 
-		glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), pos) * 
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
-			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
+		const static glm::mat4 baseMat = glm::mat4(1.0f);
+
+		glm::mat4 modelMat = glm::translate(baseMat, pos) *
+			glm::rotate(baseMat, glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+			glm::scale(baseMat, { size.x, size.y, 0.0f });
 
 		_sData->TextureShader->UploadUniformMat4("u_Model", modelMat);
 
@@ -103,13 +110,15 @@ namespace Bagel {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
 	{
+		BG_PROFILE_FUNCTION();
 		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
 		texture->Bind(0);
 		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
 
-		glm::mat4 modelMat = glm::translate(glm::mat4(1.0f), pos) *
-			glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
-			glm::scale(glm::mat4(1.0f), { size.x, size.y, 0.0f });
+		const static glm::mat4 baseMat = glm::mat4(1.0f);
+		glm::mat4 modelMat = glm::translate(baseMat, pos) *
+			glm::rotate(baseMat, glm::radians(rotation), { 0.0f, 0.0f, 1.0f }) *
+			glm::scale(baseMat, { size.x, size.y, 0.0f });
 
 		_sData->TextureShader->UploadUniformMat4("u_Model", modelMat);
 

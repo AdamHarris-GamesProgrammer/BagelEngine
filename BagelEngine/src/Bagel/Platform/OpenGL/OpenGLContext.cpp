@@ -12,6 +12,7 @@ namespace Bagel {
 	}
 	void OpenGLContext::Init()
 	{
+		BG_PROFILE_FUNCTION();
 		glfwMakeContextCurrent(_pWindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BG_CORE_ASSERT(status, "Failed to initialize Glad!");
@@ -23,6 +24,7 @@ namespace Bagel {
 
 	void OpenGLContext::SwapBuffers()
 	{
+		BG_PROFILE_FUNCTION();
 		glfwSwapBuffers(_pWindowHandle);
 	}
 }

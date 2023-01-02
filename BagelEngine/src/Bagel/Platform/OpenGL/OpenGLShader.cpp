@@ -27,6 +27,8 @@ namespace Bagel {
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: _name(name)
 	{
+		BG_PROFILE_FUNCTION();
+
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
@@ -39,6 +41,8 @@ namespace Bagel {
 
 	OpenGLShader::OpenGLShader(const std::string& shaderSrc)
 	{
+		BG_PROFILE_FUNCTION();
+
 		std::string shaderCode = ReadFile(shaderSrc);
 
 		std::unordered_map<GLenum, std::string> shaders = PreProcess(shaderCode);
@@ -53,21 +57,25 @@ namespace Bagel {
 
 	OpenGLShader::~OpenGLShader()
 	{
+		BG_PROFILE_FUNCTION();
 		GLCall(glDeleteProgram(_rendererID));
 	}
 
 	void OpenGLShader::Bind() const
 	{
+		BG_PROFILE_FUNCTION();
 		GLCall(glUseProgram(_rendererID));
 	}
 
 	void OpenGLShader::Unbind() const
 	{
+		BG_PROFILE_FUNCTION();
 		GLCall(glUseProgram(0));
 	}
 
 	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string> shaders)
 	{
+		BG_PROFILE_FUNCTION();
 		BG_CORE_ASSERT(shaders.size() <= 2, "Only two shaders are supported at this point in time");
 		
 		int glShaderIndex = 0;
@@ -150,6 +158,7 @@ namespace Bagel {
 
 	std::unordered_map<GLenum, std::string> OpenGLShader::PreProcess(const std::string& source)
 	{
+		BG_PROFILE_FUNCTION();
 		std::unordered_map<GLenum, std::string> shaderSources;
 
 		const char* typeToken = "#type";
@@ -176,6 +185,7 @@ namespace Bagel {
 	}
 
 	std::unordered_map<std::string, UniformData> OpenGLShader::FindUniforms(const std::string& source) {
+		BG_PROFILE_FUNCTION();
 		Bind();
 
 		std::unordered_map<std::string, UniformData> uniformMap;
@@ -217,6 +227,7 @@ namespace Bagel {
 	}
 
 	UniformData OpenGLShader::GetUniform(const std::string& name) {
+		BG_PROFILE_FUNCTION();
 		if (!DoesUniformExist(name)) {
 			BG_CORE_ASSERT(false, "Attempting to get non-existent uniform");
 		}
@@ -231,6 +242,7 @@ namespace Bagel {
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
+		BG_PROFILE_FUNCTION();
 		std::ifstream file(filepath, std::ios::in, std::ios::binary);
 
 		std::string result;
@@ -256,55 +268,37 @@ namespace Bagel {
 	void OpenGLShader::UploadUniformMat4(const std::string& uniformName, const glm::mat4& input)
 	{
 		UniformData data = GetUniform(uniformName);
-		if (data.type != ShaderDataType::Mat4) {
-			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
-		}
-
+		BG_CORE_ASSERT(data.type == ShaderDataType::Mat4, "Attempting to set incorrect data type");
 		GLCall(glUniformMatrix4fv(data.location, 1, GL_FALSE, glm::value_ptr(input)));
 	}
 	void OpenGLShader::UploadUniformFloat(const std::string& uniformName, const float& input)
 	{
 		UniformData data = GetUniform(uniformName);
-		if (data.type != ShaderDataType::Float) {
-			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
-		}
-
+		BG_CORE_ASSERT(data.type == ShaderDataType::Float, "Attempting to set incorrect data type");
 		GLCall(glUniform1fv(data.location, 1, &input));
 	}
 	void OpenGLShader::UploadUniformFloat2(const std::string& uniformName, const glm::vec2& input)
 	{
 		UniformData data = GetUniform(uniformName);
-		if (data.type != ShaderDataType::Float2) {
-			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
-		}
-
+		BG_CORE_ASSERT(data.type == ShaderDataType::Float2, "Attempting to set incorrect data type");
 		GLCall(glUniform2fv(data.location, 1, glm::value_ptr(input)));
 	}
 	void OpenGLShader::UploadUniformFloat3(const std::string& uniformName, const glm::vec3& input)
 	{
 		UniformData data = GetUniform(uniformName);
-		if (data.type != ShaderDataType::Float3) {
-			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
-		}
-
+		BG_CORE_ASSERT(data.type == ShaderDataType::Float3, "Attempting to set incorrect data type");
 		GLCall(glUniform3fv(data.location, 1, glm::value_ptr(input)));
 	}
 	void OpenGLShader::UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input)
 	{
 		UniformData data = GetUniform(uniformName);
-		if (data.type != ShaderDataType::Float4) {
-			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
-		}
-
+		BG_CORE_ASSERT(data.type == ShaderDataType::Float4, "Attempting to set incorrect data type");
 		GLCall(glUniform4fv(data.location, 1, glm::value_ptr(input)));
 	}
 	void OpenGLShader::UploadUniformInt(const std::string& uniformName, const int& input)
 	{
 		UniformData data = GetUniform(uniformName);
-		if (data.type != ShaderDataType::Int) {
-			BG_CORE_ASSERT(false, "Attempting to set incorrect data type");
-		}
-
+		BG_CORE_ASSERT(data.type == ShaderDataType::Int, "Attempting to set incorrect data type");
 		GLCall(glUniform1i(data.location, input));
 	}
 }

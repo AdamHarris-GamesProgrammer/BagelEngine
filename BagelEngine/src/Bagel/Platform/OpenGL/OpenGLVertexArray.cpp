@@ -30,6 +30,7 @@ namespace Bagel {
 
 	OpenGLVertexArray::OpenGLVertexArray()
 	{
+		BG_PROFILE_FUNCTION();
 		//Creates a vertex array
 		GLCall(glGenVertexArrays(1, &_rendererID));
 	}
@@ -45,6 +46,7 @@ namespace Bagel {
 
 	void OpenGLVertexArray::AddVertexBuffer(const Ref<VertexBuffer>& vertexBuffer)
 	{
+		BG_PROFILE_FUNCTION();
 		BG_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
 
 		GLCall(glBindVertexArray(_rendererID));

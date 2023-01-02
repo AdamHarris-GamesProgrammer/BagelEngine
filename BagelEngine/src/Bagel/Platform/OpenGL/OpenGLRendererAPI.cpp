@@ -8,6 +8,8 @@
 namespace Bagel {
 	void OpenGLRendererAPI::Init()
 	{
+		BG_PROFILE_FUNCTION();
+
 		GLCall(glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA));
 		GLCall(glEnable(GL_BLEND));
 
