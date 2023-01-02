@@ -25,12 +25,5 @@ private:
 
 	float _testRot = 35.0f;
 
-	struct ProfileResult {
-		const char* name;
-		float time;
-	};
-
-	std::vector<ProfileResult> _profilers;
-
 	Bagel::OrthographicCameraController _cameraController;
 };

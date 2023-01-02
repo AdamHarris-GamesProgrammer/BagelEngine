@@ -17,6 +17,9 @@
 
 #include "Bagel/Core/Log.h"
 
+
+#include "Bagel/Debug/Instrumentor.h"
+
 #ifdef BG_PLATFORM_WINDOWS 
 #include <Windows.h>
 #endif

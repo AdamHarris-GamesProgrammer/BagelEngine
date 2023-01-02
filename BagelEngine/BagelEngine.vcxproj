@@ -155,6 +155,7 @@
     <ClInclude Include="src\Bagel\Core\MouseButtonCodes.h" />
     <ClInclude Include="src\Bagel\Core\TimeStep.h" />
     <ClInclude Include="src\Bagel\Core\Window.h" />
+    <ClInclude Include="src\Bagel\Debug\Instrumentor.h" />
     <ClInclude Include="src\Bagel\Events\ApplicationEvent.h" />
     <ClInclude Include="src\Bagel\Events\Event.h" />
     <ClInclude Include="src\Bagel\Events\KeyEvent.h" />

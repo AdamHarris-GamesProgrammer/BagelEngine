@@ -8,13 +8,17 @@ int main(int argc, char** argv)
 {
 	Bagel::Log::Init();
 
-	BG_CORE_WARNING("Initalized Log!");
-	BG_WARNING("Initialized App");
-
+	BG_PROFILE_BEGIN_SESSION("Startup", "BagelProfile-Startup.json");
 	auto app = Bagel::CreateApplication();
+	BG_PROFILE_END_SESSION();
 
+	BG_PROFILE_BEGIN_SESSION("Runtime", "BagelProfile-Runtime.json");
 	app->Run();
+	BG_PROFILE_END_SESSION();
+
+	BG_PROFILE_BEGIN_SESSION("Shutdown", "BagelProfile-Shutdown.json");
 	delete app;
+	BG_PROFILE_END_SESSION();
 }
 #else
 
