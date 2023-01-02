@@ -100,12 +100,12 @@ namespace Bagel {
 
 	void OpenGLTexture2D::Bind(uint32_t slot) const
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		GLCall(glBindTextureUnit(slot, _rendererID));
 	}
 	void OpenGLTexture2D::Unbind() const
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		GLCall(glBindTextureUnit(0, 0));
 	}
 }

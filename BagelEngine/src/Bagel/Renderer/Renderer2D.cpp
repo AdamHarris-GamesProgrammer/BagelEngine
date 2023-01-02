@@ -69,7 +69,7 @@ namespace Bagel {
 
 	void Renderer2D::BeginScene(const OrthographicCamera& camera)
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		_sData->TextureShader->Bind();
 		_sData->TextureShader->UploadUniformMat4("u_ViewProjection", camera.ViewProj());
 		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
@@ -87,7 +87,7 @@ namespace Bagel {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const glm::vec4& color)
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
 		_sData->WhiteTexture->Bind(0);
 
@@ -110,7 +110,7 @@ namespace Bagel {
 
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
 		texture->Bind(0);
 		_sData->TextureShader->UploadUniformInt("u_Texture", 0);

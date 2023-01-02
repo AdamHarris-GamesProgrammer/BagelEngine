@@ -27,7 +27,7 @@ namespace Bagel {
 	OpenGLShader::OpenGLShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: _name(name)
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 
 		std::unordered_map<GLenum, std::string> sources;
 		sources[GL_VERTEX_SHADER] = vertexSrc;
@@ -63,19 +63,19 @@ namespace Bagel {
 
 	void OpenGLShader::Bind() const
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION()
 		GLCall(glUseProgram(_rendererID));
 	}
 
 	void OpenGLShader::Unbind() const
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		GLCall(glUseProgram(0));
 	}
 
 	void OpenGLShader::Compile(std::unordered_map<GLenum, std::string> shaders)
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		BG_CORE_ASSERT(shaders.size() <= 2, "Only two shaders are supported at this point in time");
 		
 		int glShaderIndex = 0;
@@ -227,7 +227,7 @@ namespace Bagel {
 	}
 
 	UniformData OpenGLShader::GetUniform(const std::string& name) {
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		if (!DoesUniformExist(name)) {
 			BG_CORE_ASSERT(false, "Attempting to get non-existent uniform");
 		}
@@ -242,7 +242,7 @@ namespace Bagel {
 
 	std::string OpenGLShader::ReadFile(const std::string& filepath)
 	{
-		BG_PROFILE_FUNCTION();
+		BG_PROFILE_RENDERER_FUNCTION();
 		std::ifstream file(filepath, std::ios::in, std::ios::binary);
 
 		std::string result;

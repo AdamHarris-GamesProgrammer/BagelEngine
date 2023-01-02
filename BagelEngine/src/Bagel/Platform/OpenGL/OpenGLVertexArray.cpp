@@ -86,11 +86,13 @@ namespace Bagel {
 
 	void OpenGLVertexArray::Bind() const
 	{
+		BG_PROFILE_RENDERER_FUNCTION();
 		GLCall(glBindVertexArray(_rendererID));
 	}
 
 	void OpenGLVertexArray::Unbind() const
 	{
+		BG_PROFILE_RENDERER_FUNCTION();
 		GLCall(glBindVertexArray(0));
 	}
 

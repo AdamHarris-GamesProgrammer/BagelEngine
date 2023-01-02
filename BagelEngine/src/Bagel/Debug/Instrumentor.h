@@ -129,6 +129,7 @@ namespace Bagel {
 }
 
 #define BG_PROFILE 1
+
 #if BG_PROFILE
 #define BG_PROFILE_BEGIN_SESSION(name, filepath) ::Bagel::Instrumentor::Get().BeginSession(name, filepath)
 #define BG_PROFILE_END_SESSION() ::Bagel::Instrumentor::Get().EndSession();
@@ -139,4 +140,18 @@ namespace Bagel {
 #define BG_PROFILE_END_SESSION()
 #define BG_PROFILE_FUNCTION()
 #define BG_PROFILE_SCOPE(name)
+#endif
+
+#define BG_PROFILE_RENDERER 0
+
+#if BG_PROFILE_RENDERER
+#define BG_PROFILE_RENDERER_BEGIN_SESSION(name, filepath) BG_PROFILE_BEGIN_SESSION(name,filepath)
+#define BG_PROFILE_RENDERER_END_SESSION() BG_PROFILE_END_SESSION()
+#define BG_PROFILE_RENDERER_SCOPE(name) BG_PROFILE_SCOPE(name);
+#define BG_PROFILE_RENDERER_FUNCTION() BG_PROFILE_SCOPE(__FUNCSIG__)
+#else
+#define BG_PROFILE_RENDERER_BEGIN_SESSION(name, filepath)
+#define BG_PROFILE_RENDERER_END_SESSION()
+#define BG_PROFILE_RENDERER_FUNCTION()
+#define BG_PROFILE_RENDERER_SCOPE(name)
 #endif
