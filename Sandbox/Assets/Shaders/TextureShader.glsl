@@ -7,6 +7,7 @@ layout(location = 1) in vec2 a_TextureCoordinate;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Model;
+
 			
 out vec2 v_TexCoord;
 	
@@ -27,7 +28,8 @@ layout(location = 0) out vec4 color;
 uniform vec4 u_Color;
 
 uniform sampler2D u_Texture;
+uniform float u_TextureScaling;
 
 void main() {
-	color = texture(u_Texture, v_TexCoord) * u_Color;
+	color = texture(u_Texture, v_TexCoord * u_TextureScaling) * u_Color;
 }

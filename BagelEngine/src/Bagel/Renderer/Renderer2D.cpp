@@ -85,6 +85,18 @@ namespace Bagel {
 		DrawQuad({ pos.x, pos.y, 0.0f }, size, rotation, color);
 	}
 
+	void Renderer2D::DrawQuad(const Transform& trans, const glm::vec4& color)
+	{
+		BG_PROFILE_RENDERER_FUNCTION();
+		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
+		_sData->WhiteTexture->Bind(0);
+		
+		_sData->TextureShader->UploadUniformMat4("u_Model", trans.transformMat);
+
+		_sData->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
+	}
+
 	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const glm::vec4& color)
 	{
 		BG_PROFILE_RENDERER_FUNCTION();
@@ -103,17 +115,33 @@ namespace Bagel {
 		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color, const float& textureScaling)
 	{
-		DrawQuad({ pos.x,pos.y, 0.0f }, size, rotation, texture, color);
+		DrawQuad({ pos.x,pos.y, 0.0f }, size, rotation, texture, color, textureScaling);
 	}
 
-	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color)
+	void Renderer2D::DrawQuad(const Transform& trans, const Ref<Texture2D>& texture, const glm::vec4& color, const float& textureScaling)
 	{
 		BG_PROFILE_RENDERER_FUNCTION();
+		_sData->TextureShader->UploadUniformMat4("u_Model", trans.transformMat);
+		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
+
+		texture->Bind(0);
+		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
+		_sData->TextureShader->UploadUniformFloat("u_TextureScaling", textureScaling);
+
+		_sData->QuadVertexArray->Bind();
+		RenderCommand::DrawIndexed(_sData->QuadVertexArray);
+	}
+
+	void Renderer2D::DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color, const float& textureScaling)
+	{
+		BG_PROFILE_RENDERER_FUNCTION();
+
 		_sData->TextureShader->UploadUniformFloat4("u_Color", color);
 		texture->Bind(0);
 		_sData->TextureShader->UploadUniformInt("u_Texture", 0);
+		_sData->TextureShader->UploadUniformFloat("u_TextureScaling", textureScaling);
 
 		const static glm::mat4 baseMat = glm::mat4(1.0f);
 		glm::mat4 modelMat = glm::translate(baseMat, pos) *

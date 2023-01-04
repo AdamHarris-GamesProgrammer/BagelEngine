@@ -125,7 +125,7 @@ namespace Bagel {
     };
 }
 
-#define BG_PROFILE 1
+#define BG_PROFILE 0
 
 #if BG_PROFILE
 #define BG_PROFILE_BEGIN_SESSION(name, filepath) ::Bagel::Instrumentor::Get().BeginSession(name, filepath)
