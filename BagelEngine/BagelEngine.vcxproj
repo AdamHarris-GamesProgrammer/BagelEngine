@@ -161,6 +161,7 @@
     <ClInclude Include="src\Bagel\Events\KeyEvent.h" />
     <ClInclude Include="src\Bagel\Events\MouseEvent.h" />
     <ClInclude Include="src\Bagel\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\Bagel\Math\Transform.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLBuffer.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="src\Bagel\Platform\OpenGL\OpenGLError.h" />

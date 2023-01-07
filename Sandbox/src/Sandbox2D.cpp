@@ -29,25 +29,32 @@ void Sandbox2D::OnUpdate(Bagel::Timestep timestep)
 		BG_PROFILE_SCOPE("Render Prep");
 		Bagel::RenderCommand::SetClearColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 		Bagel::RenderCommand::Clear();
+
 		Bagel::Renderer2D::BeginScene(_cameraController.GetCamera());
 	}
 
 	{
 		BG_PROFILE_SCOPE("Render Draw Calls");
 
+		//Bagel::DrawInfo drawInfo{
+		//	_pCrateTexture,
+		//	glm::vec4(1.0f),
+		//	1.0f
+		//};
+
 		float tScale = 1.0f;
 		for (float y = 0.0f; y <= 5.0f; y += 0.25f) {
 			for (float x = 0.0f; x <= 5.0f; x += 0.25f) {
-				tScale = (x == 0.5f) ? 10.0f : 1.0f;
-
-				Transform t(glm::vec3(x, y, 0.0f), glm::vec2(0.2f), 0.0f);
-				Bagel::Renderer2D::DrawQuad(t, _pCrateTexture, glm::vec4(1.0f), tScale);
+				//Transform t(glm::vec3(x, y, 0.0f), glm::vec2(0.2f), 0.0f);
+				//drawInfo.textureScale = (x == 0.5f) ? 10.0f : 1.0f;
+				//Bagel::Renderer2D::DrawQuad(t, drawInfo);
 			}
 
-			Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f));
-			Bagel::Renderer2D::DrawQuad(glm::vec2(-0.7f, 0.7f), glm::vec2(0.3f), _testRot, _color);
-			Bagel::Renderer2D::DrawQuad(Transform{glm::vec3(0.0f,0.0f,-0.3f), glm::vec2(10.0f), 90.0f}, _pCrateTexture, glm::vec4(0.3f, 0.2f, 0.3f, 1.0f));
+			//Bagel::Renderer2D::DrawQuad(Transform{glm::vec3(0.0f,0.0f,-0.3f), glm::vec2(10.0f), 90.0f}, _pCrateTexture, glm::vec4(0.3f, 0.2f, 0.3f, 1.0f));
 		}
+
+		Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f), 90.0f, _pCrateTexture, _color);
+		Bagel::Renderer2D::DrawQuad(glm::vec2(-0.7f, 0.7f), glm::vec2(0.3f), _testRot, _pCrateTexture, _color);
 	}
 
 	Bagel::Renderer2D::EndScene();

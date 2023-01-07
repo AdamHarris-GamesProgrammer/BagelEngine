@@ -1418,6 +1418,7 @@
     </ClInclude>
     <ClInclude Include="src\Bagel\Renderer\Renderer2D.h" />
     <ClInclude Include="src\Bagel\Debug\Instrumentor.h" />
+    <ClInclude Include="src\Bagel\Math\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Bagel\Core\BagelApplication.cpp">

@@ -5,8 +5,8 @@
 namespace Bagel {
 	class RenderCommand {
 	public:
-		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray) {
-			_sRendererAPI->DrawIndexed(vertexArray);
+		inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertexArray, uint32_t indexCount = 0) {
+			_sRendererAPI->DrawIndexed(vertexArray, indexCount);
 		}
 
 		inline static void Init() {

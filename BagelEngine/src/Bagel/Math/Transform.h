@@ -1,6 +1,7 @@
 #pragma once
 
 #include <glm/glm.hpp>
+#include <glm/ext/matrix_transform.hpp>
 
 struct Transform {
 	Transform(glm::vec3 pos = glm::vec3(1.0f), glm::vec2 size = glm::vec2(1.0f), float degrees = 0.0f) {

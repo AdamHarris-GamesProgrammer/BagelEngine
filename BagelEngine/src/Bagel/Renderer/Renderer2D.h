@@ -5,6 +5,14 @@
 #include "Bagel/Math/Transform.h"
 
 namespace Bagel {
+	//Would be ideal to have the texture set to a default white texture. 
+
+	struct DrawInfo {
+		Ref<Texture2D> texture;
+		glm::vec4 color = glm::vec4(1.0f);
+		float textureScale = 1.0f;
+	};
+
 	class Renderer2D {
 	public:
 		static void Init();
@@ -12,19 +20,22 @@ namespace Bagel {
 
 		static void BeginScene(const OrthographicCamera& camera);
 		static void EndScene();
+		static void Flush();
 
 		/* Improved RendererAPI Idea
 		
 		- Objects will not generate a transform matrix every frame, instead they will only generate the transform mat when their position, size, or rotation changes. 
 		  This will reduce the amount of matrices operations per frame
-		- Still need to implement a proper gameobject component system where every object has some form of transform.
+		- Still need to implement a proper gameobject component system where every object has a transform component.
 
 
 		struct Transform {
 			glm::mat4 transformMat = glm::mat4(1.0f);
-			glm::vec3 pos = glm::vec3(1.0f);
-			glm::vec2 scale = glm::vec2(1.0f);
-			float rot = 0.0f; //radians
+
+			//These will either be passed into a transform struct to calculate the actual transform matrix.
+			//glm::vec3 pos = glm::vec3(1.0f);
+			//glm::vec2 scale = glm::vec2(1.0f);
+			//float rot = 0.0f; //radians
 		}
 
 		- In the future the plan will be for the renderer to sort all objects before rendering them in order of shader usage, texture usage etc to minimise state changing on gpu.
@@ -50,8 +61,10 @@ namespace Bagel {
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation = 0.0f, const glm::vec4& color = glm::vec4(1.0f));
 		static void DrawQuad(const Transform& trans, const glm::vec4& color = glm::vec4(1.0f));
 		
+		
 		static void DrawQuad(const glm::vec2& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f), const float& textureScaling = 1.0f);
 		static void DrawQuad(const glm::vec3& pos, const glm::vec2& size, const float& rotation, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f), const float& textureScaling = 1.0f);
 		static void DrawQuad(const Transform& trans, const Ref<Texture2D>& texture, const glm::vec4& color = glm::vec4(1.0f), const float& textureScaling = 1.0f);
+		static void DrawQuad(const Transform& trans, const DrawInfo& drawInfo);
 	};
 }
