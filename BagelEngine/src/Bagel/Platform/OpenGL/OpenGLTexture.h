@@ -28,5 +28,8 @@ namespace Bagel {
 		GLenum _internalFormat, _dataFormat;
 
 		std::string _path;
+
+		// Inherited via Texture2D
+		virtual bool operator==(const Texture2D& other) const override;
 	};
 }

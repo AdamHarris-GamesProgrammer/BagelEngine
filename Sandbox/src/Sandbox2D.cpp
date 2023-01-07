@@ -53,7 +53,7 @@ void Sandbox2D::OnUpdate(Bagel::Timestep timestep)
 			//Bagel::Renderer2D::DrawQuad(Transform{glm::vec3(0.0f,0.0f,-0.3f), glm::vec2(10.0f), 90.0f}, _pCrateTexture, glm::vec4(0.3f, 0.2f, 0.3f, 1.0f));
 		}
 
-		Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f), 90.0f, _pCrateTexture, _color);
+		Bagel::Renderer2D::DrawQuad(glm::vec2(0.0f), glm::vec2(0.3f), 90.0f, _pCrateTexture, _color, 15.0f);
 		Bagel::Renderer2D::DrawQuad(glm::vec2(-0.7f, 0.7f), glm::vec2(0.3f), _testRot, _pCrateTexture, _color);
 	}
 

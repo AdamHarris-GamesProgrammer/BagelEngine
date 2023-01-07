@@ -20,5 +20,7 @@ namespace Bagel {
 		static Ref<Texture2D>Create(uint32_t width, uint32_t height);
 		static Ref<Texture2D> Create(const std::string& path);
 
+		virtual bool operator==(const Texture2D& other) const = 0;
+
 	};
 }

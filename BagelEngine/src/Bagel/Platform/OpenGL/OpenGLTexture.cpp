@@ -108,4 +108,8 @@ namespace Bagel {
 		BG_PROFILE_RENDERER_FUNCTION();
 		GLCall(glBindTextureUnit(0, 0));
 	}
+	bool OpenGLTexture2D::operator==(const Texture2D& other) const
+	{
+		return _rendererID == ((OpenGLTexture2D&)other)._rendererID;
+	}
 }

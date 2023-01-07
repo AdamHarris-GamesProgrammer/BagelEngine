@@ -207,6 +207,17 @@ namespace Bagel {
 
 			size_t spacePos = source.find(" ", begin);
 			std::string uniformName = source.substr(spacePos + 1, eol - spacePos - 1);
+
+			size_t squareBracketPos = uniformName.find("[");
+			if (squareBracketPos != std::string::npos) {
+				size_t lastSquareBracketPos = uniformName.find("]");
+
+				size_t count = lastSquareBracketPos - squareBracketPos;
+
+				uniformName.erase(squareBracketPos, count + 1);
+			}
+
+
 			BG_CORE_INFO("\tName: {0}", uniformName);
 
 			std::string uniformType = source.substr(begin, spacePos - begin);
@@ -300,5 +311,11 @@ namespace Bagel {
 		UniformData data = GetUniform(uniformName);
 		BG_CORE_ASSERT(data.type == ShaderDataType::Int, "Attempting to set incorrect data type");
 		GLCall(glUniform1i(data.location, input));
+	}
+	void OpenGLShader::UploadUniformIntArray(const std::string& uniformName, const int* input, const size_t size)
+	{
+		UniformData data = GetUniform(uniformName);
+		BG_CORE_ASSERT(data.type == ShaderDataType::Int, "Attempting to set incorrect data type");
+		GLCall(glUniform1iv(data.location,size, input));
 	}
 }

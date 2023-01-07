@@ -36,6 +36,7 @@ namespace Bagel {
 		virtual void UploadUniformFloat4(const std::string& uniformName, const glm::vec4& input) override;
 
 		virtual void UploadUniformInt(const std::string& uniformName, const int& input) override;
+		virtual void UploadUniformIntArray(const std::string& uniformName, const int* input, const size_t size) override;
 		virtual void UploadUniformMat4(const std::string& uniformName, const glm::mat4& input) override;
 
 		UniformData GetUniform(const std::string& uniformName);
